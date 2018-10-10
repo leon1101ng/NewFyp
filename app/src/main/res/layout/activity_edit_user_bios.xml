@@ -1,0 +1,245 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarEB"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/EditProfile"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Edit Profile" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/BackToMenu"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_back1" />
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                app:civ_border_color="#000"
+                app:civ_border_width="2dp" />
+
+            <TextView
+                android:id="@+id/changeProfilePhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_photo"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Change Photo"
+                android:textSize="16sp" />
+
+
+            <!-- username section -->
+            <RelativeLayout
+                android:id="@+id/relLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/changeProfilePhoto"
+                android:layout_marginTop="50dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/DisplayNamely"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    app:hintTextAppearance="@style/MyHintText">
+
+                    <EditText
+                        android:id="@+id/DisplayName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:hint="Display Name"
+                        android:theme="@style/MyEditText" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+
+            <!-- display_name section -->
+            <RelativeLayout
+                android:id="@+id/relLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout1"
+                android:layout_marginTop="15dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/UserAgely"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    app:hintTextAppearance="@style/MyHintText">
+
+                    <EditText
+                        android:id="@+id/UserAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:hint="Age"
+                        android:inputType="number"
+                        android:theme="@style/MyEditText" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+
+            <!-- website section -->
+            <RelativeLayout
+                android:id="@+id/relLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/relLayout2"
+                android:layout_marginTop="15dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_gender" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Gender"
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:textColor="#B0B0B0"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/GenderView"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-smallcaps"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioGroup
+                        android:id="@+id/User_Genders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp">
+
+                        <RadioButton
+                            android:id="@+id/radioButton_Male"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Male"
+                            android:fontFamily="sans-serif-smallcaps"
+                            android:textColor="#B0B0B0"
+                            android:onClick="onRadioButtonClicked"/>
+
+                        <RadioButton
+                            android:id="@+id/radioButton_Female"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-smallcaps"
+                            android:text="Female"
+                            android:textColor="#B0B0B0"
+                            android:onClick="onRadioButtonClicked"/>
+
+                    </RadioGroup>
+
+
+                </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <!-- description section -->
+            <RelativeLayout
+                android:id="@+id/relLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relLayout3"
+                android:layout_marginTop="15dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/AboutUserly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    app:hintTextAppearance="@style/MyHintText">
+
+                    <EditText
+                        android:id="@+id/About_User"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:hint="About"
+                        android:theme="@style/MyEditText" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+</merge>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ProfileBio"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_assignment_black_24dp"
+        android:title="Bio"
+         />
+
+    <item
+        android:id="@+id/Profileimage"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_image"
+        android:title="Image" />
+
+    <item
+        android:id="@+id/ProfilePost"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_profile"
+        android:title="Status Post"
+        />
+
+    <item
+        android:id="@+id/Profilevideo"
+        android:checkable="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_video_player"
+        android:title="Video" />
+</menu>

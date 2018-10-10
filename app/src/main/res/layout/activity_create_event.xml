@@ -1,0 +1,273 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/CreateEventTitle"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Create Event" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/BackToMenu"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_back1" />
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+
+
+            <!-- username section -->
+            <RelativeLayout
+                android:id="@+id/relLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/changeProfilePhoto"
+                android:layout_marginTop="80dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/EventTitlelY"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    app:hintTextAppearance="@style/MyHintText">
+
+                    <EditText
+                        android:id="@+id/EventTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:hint="Title"
+                        android:theme="@style/MyEditText" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+
+            <!-- display_name section -->
+            <RelativeLayout
+                android:id="@+id/relLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout1"
+                android:layout_marginTop="15dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/EventDesply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    app:hintTextAppearance="@style/MyHintText">
+
+                    <EditText
+                        android:id="@+id/EventDesp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:hint="Description"
+                        android:theme="@style/MyEditText" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+
+            <!-- website section -->
+            <RelativeLayout
+                android:id="@+id/relLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout2"
+                android:layout_marginTop="15dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/EventNumberOfPeoplely"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    app:hintTextAppearance="@style/MyHintText">
+
+                    <EditText
+                        android:id="@+id/EventNumberOfPeople"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:hint="Number Of People "
+                        android:inputType="number"
+                        android:theme="@style/MyEditText" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+
+            <!-- description section -->
+            <RelativeLayout
+                android:id="@+id/relLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout3"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="Start"
+                    android:textColor="#B0AFAF" />
+
+                <TextView
+                    android:id="@+id/DateStart"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/layer1"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="Select Date"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/TimeStart"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/DateStart"
+                    android:layout_marginLeft="170dp"
+                    android:background="@drawable/layer1"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="Select Time"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+
+            <!-- email section -->
+            <RelativeLayout
+                android:id="@+id/relLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout4"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End"
+                    android:textColor="#B0AFAF" />
+
+                <TextView
+                    android:id="@+id/DateEnd"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/layer1"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="Select Date"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/TimeEnd"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/DateEnd"
+                    android:layout_marginLeft="170dp"
+                    android:background="@drawable/layer1"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="Select Time"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+            <!-- phone number section -->
+            <RelativeLayout
+                android:id="@+id/relLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/relLayout5"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Event Location"
+                    android:textColor="#B0AFAF" />
+
+                <TextView
+                    android:id="@+id/EventLocation"
+                    android:layout_width="363dp"
+                    android:layout_height="84dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/layer1"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:onClick="goPlacePicker"
+                    android:text="Select Location"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/relLayout6">
+
+                <Button
+                    android:id="@+id/Create_Event"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="39dp"
+                    android:layout_marginEnd="-191dp"
+                    android:background="@drawable/registerbutton"
+                    android:text="Create Event" />
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
+
+
+
+    </ScrollView>
+</merge>

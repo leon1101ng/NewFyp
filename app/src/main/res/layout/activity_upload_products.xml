@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProductMgnt.UploadProducts">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/CreateEventTitle"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Upload Products" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/BackToMenu"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_back1" />
+
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ImageButton
+        android:id="@+id/ProductsImage1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="27dp"
+        android:background="@drawable/ic_productsimg"
+        android:layout_marginTop="73dp" />
+
+    <ImageButton
+        android:id="@+id/ProductsImage2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/ProductsImage1"
+        android:layout_marginEnd="131dp"
+        android:background="@drawable/ic_productsimg" />
+
+    <EditText
+        android:id="@+id/productname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="194dp"
+        android:background="#ffffff"
+        android:hint="Product Name"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/productdesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="238dp"
+        android:background="#ffffff"
+        android:hint="Product Description"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/ProductsPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="185dp"
+        android:background="#ffffff"
+        android:ems="10"
+        android:hint="Price"
+        android:inputType="numberDecimal"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/ProductsQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="138dp"
+        android:background="#ffffff"
+        android:ems="10"
+        android:hint="Products Quantity"
+        android:inputType="numberDecimal"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+    <Spinner
+        android:id="@+id/ProductsCategoryItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ProductsCategory"
+        android:layout_marginTop="-260dp" />
+
+    <TextView
+        android:id="@+id/ProductsCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="260dp"
+        android:padding="8dp"
+        android:text="Products Category" />
+
+    <Button
+        android:id="@+id/uploadproducts"
+        android:layout_width="351dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62dp"
+        android:background="@drawable/registerbutton"
+        android:text="Upload" />
+
+
+</RelativeLayout>

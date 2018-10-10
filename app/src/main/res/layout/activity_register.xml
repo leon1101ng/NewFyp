@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shadow"
+    tools:context=".UserAccount.Register">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="96dp"
+        android:fontFamily="serif"
+        android:text="Sign Up"
+        android:textColor="#ffffff"
+        android:textSize="50sp" />
+
+    <EditText
+        android:id="@+id/RegEmail"
+        android:layout_width="300dp"
+        android:layout_height="47dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/inputid"
+        android:drawableLeft="@drawable/ic_email_black_24dp"
+        android:ems="10"
+        android:fontFamily="cursive"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:padding="15dp"
+        android:textColorHint="#D7467D" />
+    <EditText
+        android:id="@+id/RegPass"
+        android:layout_width="300dp"
+        android:layout_height="47dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/RegEmail"
+        android:layout_marginBottom="201dp"
+        android:textColorHint="#D7467D"
+        android:background="@drawable/inputid"
+        android:ems="10"
+        android:hint="Password"
+        android:padding="15dp"
+        android:fontFamily="cursive"
+        android:inputType="textPassword"
+        android:drawableLeft="@drawable/ic_locked_padlock"
+        />
+
+    <EditText
+        android:id="@+id/RegCPass"
+        android:layout_width="300dp"
+        android:layout_height="47dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/RegPass"
+        android:textColorHint="#D7467D"
+        android:layout_marginBottom="144dp"
+        android:background="@drawable/inputid"
+        android:ems="10"
+        android:hint="Comfirm Password"
+        android:padding="15dp"
+        android:fontFamily="cursive"
+        android:inputType="textPassword"
+        android:drawableLeft="@drawable/ic_locked_padlock"
+        />
+
+    <Button
+        android:id="@+id/Regbtn"
+        android:layout_width="300dp"
+        android:layout_height="47dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/RegCPass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="81dp"
+        android:background="@drawable/registerbutton"
+        android:text="Create Account"
+        android:textColor="#000000"/>
+</RelativeLayout>

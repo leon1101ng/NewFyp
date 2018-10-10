@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFA5C8"
+    tools:context=".UserAccount.UserSetup">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/Userprofile"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/userprofile" />
+
+    <EditText
+        android:id="@+id/Setupusername"
+        android:layout_width="300dp"
+        android:layout_height="47dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/inputid"
+        android:drawableLeft="@drawable/ic_assignment_black_24dp"
+        android:ems="10"
+        android:fontFamily="cursive"
+        android:hint="Username"
+        android:inputType="text"
+        android:padding="15dp"
+        android:textColorHint="#D7467D" />
+    <EditText
+        android:id="@+id/Setupname"
+        android:layout_width="300dp"
+        android:layout_height="47dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/Setupusername"
+        android:layout_marginBottom="201dp"
+        android:textColorHint="#D7467D"
+        android:background="@drawable/inputid"
+        android:ems="10"
+        android:hint="Name"
+        android:padding="15dp"
+        android:fontFamily="cursive"
+        android:inputType="text"
+        android:drawableLeft="@drawable/ic_name"
+        />
+
+    <EditText
+        android:id="@+id/Setupcountry"
+        android:layout_width="300dp"
+        android:layout_height="47dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/Setupname"
+        android:textColorHint="#D7467D"
+        android:layout_marginBottom="144dp"
+        android:background="@drawable/inputid"
+        android:ems="10"
+        android:hint="Country"
+        android:padding="15dp"
+        android:fontFamily="cursive"
+        android:inputType="text"
+        android:drawableLeft="@drawable/ic_country"
+        />
+
+    <Button
+        android:id="@+id/Setupsubmit"
+        android:layout_width="300dp"
+        android:layout_height="47dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/Setupcountry"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="81dp"
+        android:background="@drawable/registerbutton"
+        android:text="Submit"
+        android:textColor="#000000"/>
+</RelativeLayout>

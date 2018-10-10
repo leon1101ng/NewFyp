@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/Tag_People"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_tagpeople"
+        android:title="Tag People"
+        />
+
+    <item
+        android:id="@+id/Add_location"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_addlocation"
+        android:title="Add Location" />
+    <item
+        android:id="@+id/SubmitImagePost"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_submit"
+        android:title="Post Image" />
+
+
+</menu>

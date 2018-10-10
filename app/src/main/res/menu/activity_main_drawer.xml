@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_profile1"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_event"
+            android:icon="@drawable/ic_event"
+            android:title="Event" />
+        <item
+            android:id="@+id/nav_fanclub"
+            android:icon="@drawable/ic_fan_club"
+            android:title="Fan Club" />
+        <item
+            android:id="@+id/nav_message"
+            android:icon="@drawable/ic_message"
+            android:title="Message" />
+        <item
+            android:id="@+id/nav_vipsubscription"
+            android:icon="@drawable/ic_vip"
+            android:title="Vip Subscription" />
+
+        <item
+            android:id="@+id/nav_uploadproducts"
+            android:icon="@drawable/ic_for_sale_post"
+            android:title="Sell Products" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Tools"
+            />
+        <item
+            android:id="@+id/Logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+    </group>
+
+
+
+
+
+
+</menu>
