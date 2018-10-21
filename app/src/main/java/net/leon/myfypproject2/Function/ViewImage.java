@@ -1,20 +1,25 @@
 package net.leon.myfypproject2.Function;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -27,9 +32,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import net.leon.myfypproject2.Comment.ImageComment;
+import net.leon.myfypproject2.MainActivity;
+import net.leon.myfypproject2.Model.Following;
 import net.leon.myfypproject2.R;
 import net.leon.myfypproject2.Model.UserPostsImage;
 import net.leon.myfypproject2.UserInterface.UserInterface;
+import net.leon.myfypproject2.UserInterface.ViewUserProfile;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -40,19 +48,11 @@ public class ViewImage extends Fragment {
 
 
     private RecyclerView imagepostlist;
-    private DatabaseReference UserPostedImgRef, LikePostRef ;
+    private DatabaseReference UserPostedImgRef, LikePostRef, FollowingRef , UserRef;
     private FirebaseAuth mAuth;
-    String current_UserID;
-
+    private String current_UserID, username;
     Boolean CheckLike = false;
 
-
-
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,23 +61,34 @@ public class ViewImage extends Fragment {
         current_UserID = mAuth.getCurrentUser().getUid();
         UserPostedImgRef = FirebaseDatabase.getInstance().getReference().child("Post").child("Image_Posts");
         LikePostRef = FirebaseDatabase.getInstance().getReference().child("Likes");
+        FollowingRef = FirebaseDatabase.getInstance().getReference().child("Followings").child(current_UserID);
+        UserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(current_UserID);
 
+        UserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    username = dataSnapshot.child("username").getValue().toString();
 
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
 
 
         View view = inflater.inflate(R.layout.fragment_view_image, container, false);
         imagepostlist = (RecyclerView)view.findViewById(R.id.Image_post_list2);
         imagepostlist.setHasFixedSize(true);
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         imagepostlist.setLayoutManager(linearLayoutManager);
         displayresult();
-
 
 
         return view;
@@ -87,9 +98,7 @@ public class ViewImage extends Fragment {
 
     }
 
-    private void delete() {
 
-    }
 
     private void displayresult() {
         FirebaseRecyclerAdapter<UserPostsImage, ViewImage.PostedImageHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<UserPostsImage, ViewImage.PostedImageHolder>(
@@ -99,19 +108,40 @@ public class ViewImage extends Fragment {
                 UserPostedImgRef
         ) {
             @Override
-            protected void populateViewHolder(ViewImage.PostedImageHolder viewHolder, UserPostsImage model, int position) {
+            protected void populateViewHolder(final ViewImage.PostedImageHolder viewHolder, UserPostsImage model, int position) {
 
-                final String postkey = getRef(position).getKey();
+
+                final String userid = model.getUserID();
+
                 viewHolder.setpostimage(getContext(), model.getImageUrl());
                 viewHolder.setuserprofile(getContext(), model.getPostImage());
                 viewHolder.setdate(model.getDate() + " "+ model.getTime());
-                viewHolder.setusername(model.getUsername());
+                viewHolder.setusername(model.getFullname());
                 viewHolder.setimagecaption(model.getImageCaption());
+                viewHolder.setImagePostlocation(model.getImagePostLocation());
+
+                final String postkey = getRef(position).getKey();
+                final String User_ID = model.getUserID();
+
+
                 viewHolder.setLikeButtonStatus(postkey);
+
                 viewHolder.username.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent i = new Intent(getActivity(),UserInterface.class);
+                        if (userid.equals(current_UserID)) {
+                            Intent i = new Intent(getActivity(), UserInterface.class);
+                            startActivity(i);
+                        }else {
+                            goViewUserProfile();
+
+
+                        }
+                    }
+
+                    private void goViewUserProfile() {
+                        Intent i = new Intent(getActivity(), ViewUserProfile.class);
+                        i.putExtra("UserID", User_ID);
                         startActivity(i);
                     }
                 });
@@ -238,6 +268,10 @@ public class ViewImage extends Fragment {
             TextView caption = (TextView)mView.findViewById(R.id.allpostimagedesp);
             caption.setText(Caption);
         }
+        public void setImagePostlocation(String imagePostlocation) {
+           TextView location = (TextView)mView.findViewById(R.id.allpostlocation);
+           location.setText(imagePostlocation);
+        }
 
 
 
@@ -253,7 +287,8 @@ public class ViewImage extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getActivity().setTitle("Image");
+
+        getActivity().setTitle("The Starry");
     }
 
 }

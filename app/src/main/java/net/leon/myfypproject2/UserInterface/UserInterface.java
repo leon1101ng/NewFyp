@@ -1,5 +1,6 @@
 package net.leon.myfypproject2.UserInterface;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -26,10 +27,12 @@ import com.squareup.picasso.Picasso;
 
 import net.leon.myfypproject2.MainActivity;
 import net.leon.myfypproject2.ProfileFragment.BioFragment;
+import net.leon.myfypproject2.ProfileFragment.FanMessageFragment;
 import net.leon.myfypproject2.ProfileFragment.ImagePostFragment;
 import net.leon.myfypproject2.ProfileFragment.PostFragment;
 import net.leon.myfypproject2.ProfileFragment.VideoFragment;
 import net.leon.myfypproject2.R;
+import net.leon.myfypproject2.VipSubscription.VipMenu;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,12 +40,13 @@ public class UserInterface extends AppCompatActivity {
     private static final String TAG = "UserInterface";
     private CircleImageView userprofile;
     private ImageView profilebgi;
-    private TextView DisplayNameTv,AgeTV,GenderTV,FollowerTV,FollowingTV,AboutTV,test;
+    private TextView DisplayNameTv,AgeTV,GenderTV,FollowerTV,FollowingTV,AboutTV,test,UserMoney,vipstatus;
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef,UserProfileRef;
     private CircleImageView HomeBtn;
     private String currentUser_ID;
     private String User_ID;
+    private Dialog myDialog;
 
     private int mFollowingCount = 0;
     private int mFollowersCount = 0;
@@ -54,6 +58,7 @@ public class UserInterface extends AppCompatActivity {
         setContentView(R.layout.activity_user_interface);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         final TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        myDialog = new Dialog(this);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -70,7 +75,8 @@ public class UserInterface extends AppCompatActivity {
         FollowerTV = (TextView)findViewById(R.id.FollowerView);
         FollowingTV = (TextView)findViewById(R.id.FollowingView);
         AboutTV = (TextView)findViewById(R.id.AboutView);
-        test = (TextView)findViewById(R.id.Test);
+        UserMoney = (TextView)findViewById(R.id.UserMoney);
+        vipstatus = (TextView)findViewById(R.id.vipstatus);
 
 
         HomeBtn = (CircleImageView)findViewById(R.id.ImagePOSTHome);
@@ -102,7 +108,7 @@ public class UserInterface extends AppCompatActivity {
                     }
                     if(dataSnapshot.hasChild("Age")){
                         String age = dataSnapshot.child("Age").getValue().toString();
-                        AgeTV.setText(age);
+                        AgeTV.setText(age + "y");
                     }
                     if(dataSnapshot.hasChild("Country")){
                         String country = dataSnapshot.child("Country").getValue().toString();
@@ -126,6 +132,7 @@ public class UserInterface extends AppCompatActivity {
                         GenderTV.setText(gender);
                     }
 
+
                 }
             }
 
@@ -148,12 +155,18 @@ public class UserInterface extends AppCompatActivity {
                     }if(dataSnapshot.hasChild("username")){
                         String username = dataSnapshot.child("username").getValue().toString();
                         mTitle.setText(username);
+                    }if(dataSnapshot.hasChild("InAppCredit")){
+                        int credit =  dataSnapshot.child("InAppCredit").getValue(Integer.class);
+                        UserMoney.setText(String.valueOf(credit));
+                    }if(dataSnapshot.hasChild("Vip")){
+                        int vip = dataSnapshot.child("Vip").getValue(Integer.class);
+                        if(vip != 1){
+                            vipstatus.setText("Not VIP");
+                        }else {
+                            vipstatus.setText("VIP");
+                        }
                     }
 
-                    if(dataSnapshot.hasChild("InAppCredit")){
-                        int AppCredit=  dataSnapshot.child("InAppCredit").getValue(Integer.class);
-                        test.setText(String.valueOf(AppCredit));
-                    }
 
 
                 }else {
@@ -190,6 +203,9 @@ public class UserInterface extends AppCompatActivity {
                     break;
                 case R.id.Profilevideo:
                     selectedfragment = new VideoFragment();
+                    break;
+                case R.id.FanMessage:
+                    selectedfragment = new FanMessageFragment();
                     break;
 
             }
@@ -268,4 +284,28 @@ public class UserInterface extends AppCompatActivity {
     }
 
 
+    public void UserPagepopout(MenuItem item) {
+        TextView editprofit,buyvip;
+        myDialog.setContentView(R.layout.userinterfacedialog);
+        editprofit = (TextView)myDialog.findViewById(R.id.editUserProfile);
+        buyvip = (TextView)myDialog.findViewById(R.id.userPurchasVip);
+
+        editprofit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(UserInterface.this, EditUserBios.class);
+                startActivity(i);
+            }
+        });
+        buyvip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(UserInterface.this, VipMenu.class);
+                startActivity(i);
+            }
+        });
+
+        myDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        myDialog.show();
+    }
 }

@@ -18,6 +18,14 @@
         android:title="Image" />
 
     <item
+        android:id="@+id/FanMessage"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_fanpost"
+        android:title="Fan Message" />
+
+    <item
         android:id="@+id/ProfilePost"
         android:checkable="false"
         android:checked="false"

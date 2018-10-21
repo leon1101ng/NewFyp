@@ -139,7 +139,7 @@ public class ImageComment extends AppCompatActivity {
             final String CurrentDate = currentdate.format(caldate.getTime());
 
             Calendar caltime = Calendar.getInstance();
-            SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
             final String CurrentTime = currenttime.format(caltime.getTime());
 
             final String RandomKey = currentUserID+CurrentDate + CurrentTime;

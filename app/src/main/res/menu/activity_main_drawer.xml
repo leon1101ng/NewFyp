@@ -6,28 +6,34 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_profile1"
-            android:title="Profile" />
+            android:icon="@drawable/ic_pfile"
+            android:title="My Profile" />
         <item
             android:id="@+id/nav_event"
-            android:icon="@drawable/ic_event"
+            android:icon="@drawable/ic_calendar"
             android:title="Event" />
         <item
             android:id="@+id/nav_fanclub"
-            android:icon="@drawable/ic_fan_club"
+            android:icon="@drawable/ic_kelab"
             android:title="Fan Club" />
         <item
             android:id="@+id/nav_message"
-            android:icon="@drawable/ic_message"
+            android:icon="@drawable/ic_conversation"
             android:title="Message" />
         <item
             android:id="@+id/nav_vipsubscription"
-            android:icon="@drawable/ic_vip"
-            android:title="Vip Subscription" />
+            android:icon="@drawable/ic_wallet"
+            android:title="Topup Credit" />
+
+        <item
+            android:id="@+id/nav_addcart"
+            android:icon="@drawable/ic_cart1"
+            android:title="My Cart" />
+
 
         <item
             android:id="@+id/nav_uploadproducts"
-            android:icon="@drawable/ic_for_sale_post"
+            android:icon="@drawable/ic_sale1"
             android:title="Sell Products" />
         <item
             android:id="@+id/nav_manage"
@@ -36,7 +42,7 @@
             />
         <item
             android:id="@+id/Logout"
-            android:icon="@drawable/ic_logout"
+            android:icon="@drawable/ic_exit1"
             android:title="Logout" />
     </group>
 

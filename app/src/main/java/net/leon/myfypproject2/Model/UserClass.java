@@ -1,25 +1,8 @@
 package net.leon.myfypproject2.Model;
 
 public class UserClass {
-    private String username;
-    private String ProfilePicture;
-    private String Fullname;
-    private String UserID;
+    private String username,ProfilePicture,Fullname,UserID;
 
-    public String getInAppCredit() {
-        return InAppCredit;
-    }
-
-    public void setInAppCredit(String inAppCredit) {
-        InAppCredit = inAppCredit;
-    }
-
-    private String InAppCredit;
-
-
-
-
-    public UserClass(){}
     public String getUsername() {
         return username;
     }
@@ -44,16 +27,6 @@ public class UserClass {
         Fullname = fullname;
     }
 
-    public UserClass(String username, String profilePicture, String fullname, String userID, String inAppCredit) {
-        this.username = username;
-        ProfilePicture = profilePicture;
-        Fullname = fullname;
-        UserID = userID;
-
-        InAppCredit = inAppCredit;
-    }
-
-
     public String getUserID() {
         return UserID;
     }
@@ -61,4 +34,14 @@ public class UserClass {
     public void setUserID(String userID) {
         UserID = userID;
     }
+
+    public UserClass(String username, String profilePicture, String fullname, String userID) {
+        this.username = username;
+        ProfilePicture = profilePicture;
+        Fullname = fullname;
+        UserID = userID;
+    }
+
+    public UserClass(){}
+
 }

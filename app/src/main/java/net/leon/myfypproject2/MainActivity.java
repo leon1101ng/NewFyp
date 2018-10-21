@@ -1,5 +1,6 @@
 package net.leon.myfypproject2;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -14,15 +15,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,24 +35,25 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import net.leon.myfypproject2.Event.CreateEvent;
-import net.leon.myfypproject2.FanClub.CreateClub;
+import net.leon.myfypproject2.Event.EventMenu;
 import net.leon.myfypproject2.FanClub.FanClubMainMenu;
 import net.leon.myfypproject2.Function.VIewVideo;
 import net.leon.myfypproject2.Function.ViewImage;
+import net.leon.myfypproject2.LiveStream.CameraActivity;
 import net.leon.myfypproject2.ProductMgnt.MyProductsView;
-import net.leon.myfypproject2.ProductMgnt.ViewProduct;
+import net.leon.myfypproject2.Function.ViewProduct;
 import net.leon.myfypproject2.Function.ViewStream;
 import net.leon.myfypproject2.Function.homefragment;
 import net.leon.myfypproject2.ProductMgnt.UploadProducts;
-import net.leon.myfypproject2.Purchase_in_app_credit.Payment;
+import net.leon.myfypproject2.ProductMgnt.UserCart;
 import net.leon.myfypproject2.Purchase_in_app_credit.PurchaseCredit;
 import net.leon.myfypproject2.UserAccount.Login;
 import net.leon.myfypproject2.UserAccount.UserSetup;
+import net.leon.myfypproject2.UserInterface.Imagepost;
+import net.leon.myfypproject2.UserInterface.StatusPost;
 import net.leon.myfypproject2.UserInterface.UserInterface;
+import net.leon.myfypproject2.UserInterface.VideoPost;
 import net.leon.myfypproject2.VipSubscription.VipMenu;
-
-import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -60,6 +64,10 @@ public class MainActivity extends AppCompatActivity
     private Button ProfileEdit,UserInterface;
     private CircleImageView NavProfileImg;
     private TextView NavProfileUsername,NavProfilename;
+    private BottomNavigationView bnv;
+    private Dialog myDialog,myDialog2;
+
+
 
 
 
@@ -78,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         currentUserID = mAuth.getCurrentUser().getUid();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        BottomNavigationView bnv = (BottomNavigationView) findViewById(R.id.nav_btn);
+        bnv = (BottomNavigationView) findViewById(R.id.nav_btn);
         bnv.setOnNavigationItemSelectedListener(navlistener);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -88,11 +96,19 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        bnv.setItemIconTintList(null);
+        bnv.getMenu().findItem(R.id.stream).setChecked(true);
+        myDialog = new Dialog(MainActivity.this);
+         myDialog2 = new Dialog(MainActivity.this);
+
+
+
         View navView = navigationView.inflateHeaderView(R.layout.nav_header_main);
         NavProfileImg = (CircleImageView)navView.findViewById(R.id.NavUserImage);
         NavProfileUsername = (TextView)navView.findViewById(R.id.Navprofileusername);
         NavProfilename = (TextView) navView.findViewById(R.id.Navprofilename);
         ProfileEdit = (Button)navView.findViewById(R.id.ProfileEdit);
+        navigationView.setItemIconTintList(null);
         ProfileEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,7 +148,73 @@ public class MainActivity extends AppCompatActivity
             }
         });
         unCheckAllMenuItems(navigationView.getMenu());
+        
 
+
+    }
+    public void ShowPopup(MenuItem item){
+        ImageView stream,imagepost,videopost,statuspost;
+        myDialog.setContentView(R.layout.popoutfunction);
+        stream = (ImageView)myDialog.findViewById(R.id.gotostream);
+        imagepost = (ImageView)myDialog.findViewById(R.id.gotopostimage);
+        videopost = (ImageView)myDialog.findViewById(R.id.gotovideo);
+        statuspost = (ImageView)myDialog.findViewById(R.id.gotostatus);
+        stream.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(MainActivity.this, "Live Stream", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+        imagepost.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(MainActivity.this, "Post Image", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+        videopost.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(MainActivity.this, "Post Video", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+        statuspost.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(MainActivity.this, "Post Status", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+
+        imagepost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, Imagepost.class);
+                startActivity(i);
+            }
+        });
+        videopost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, VideoPost.class);
+                startActivity(i);
+            }
+        });
+        statuspost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, StatusPost.class);
+                startActivity(i);
+            }
+        });
+
+
+
+        myDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        myDialog.show();
     }
 
 
@@ -141,6 +223,12 @@ public class MainActivity extends AppCompatActivity
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment selectedfragment = null;
+            final int mMenuId = item.getItemId();
+            for (int i = 0; i < bnv.getMenu().size(); i++) {
+                MenuItem menuItem = bnv.getMenu().getItem(i);
+                boolean isChecked = menuItem.getItemId() == item.getItemId();
+                menuItem.setChecked(isChecked);
+            }
 
             switch (item.getItemId()) {
                 case R.id.image:
@@ -161,6 +249,7 @@ public class MainActivity extends AppCompatActivity
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.drawer_layout3, selectedfragment).addToBackStack(null).commit();
             return true;
+
         }
 
     };
@@ -180,12 +269,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+
     }
 
     @Override
@@ -247,15 +331,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.User_profile_Interface) {
-            Intent i = new Intent(MainActivity.this, UserInterface.class);
-            startActivity(i);
-            return true;
-        } else if (id == R.id.Search_User){
+       if (id == R.id.Search_User){
             Intent i = new Intent(MainActivity.this, FindUserActivity.class);
             startActivity(i);
             return true;
-        }
+        } else if(id == R.id.Function){
+
+       }
 
         return super.onOptionsItemSelected(item);
     }
@@ -267,17 +349,23 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_event) {
-            Intent i = new Intent(MainActivity.this, CreateEvent.class);
+            Intent i = new Intent(MainActivity.this, EventMenu.class);
             startActivity(i);
             // Handle the camera action
         } else if (id == R.id.nav_fanclub) {
-            Intent i = new Intent(MainActivity.this, PurchaseCredit.class);
+            Intent i = new Intent(MainActivity.this, FanClubMainMenu.class);
             startActivity(i);
 
         } else if (id == R.id.nav_message) {
 
-        } else if (id == R.id.nav_vipsubscription){
-            Intent i = new Intent( MainActivity.this , VipMenu.class);
+        } else if(id == R.id.nav_addcart){
+            Intent i = new Intent( MainActivity.this , UserCart.class);
+            startActivity(i);
+
+        }
+
+                else if (id == R.id.nav_vipsubscription){
+            Intent i = new Intent( MainActivity.this , PurchaseCredit.class);
             startActivity(i);
 
         }else if (id == R.id.nav_profile) {
@@ -288,7 +376,7 @@ public class MainActivity extends AppCompatActivity
             Logout();
 
         }else if (id == R.id.nav_uploadproducts){
-            Intent i = new Intent( MainActivity.this , MyProductsView.class);
+            Intent i = new Intent( MainActivity.this , UploadProducts.class);
             startActivity(i);
         }
 
@@ -327,6 +415,37 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
+    public void Streampopup(View view) {
+        Button ToLive;
+        myDialog2.setContentView(R.layout.streamtitledialog);
+        ToLive = (Button)myDialog2.findViewById(R.id.NexttoStream);
+
+        ToLive.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   EditText livetitle  = (EditText)myDialog2.findViewById(R.id.LiveTitle);
+                    String livetext = livetitle.getText().toString();;
+                    if(TextUtils.isEmpty(livetext)){
+                        Toast.makeText(MainActivity.this, "Please Enter Live Title", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Intent i = new Intent(MainActivity.this, CameraActivity.class);
+                        i.putExtra("LiveTitle", livetext);
+                        startActivity(i);
+                    }
+
+                }
+
+
+            });
+
+        myDialog2.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        myDialog2.show();
+
+    }
+
+
 
 
 }

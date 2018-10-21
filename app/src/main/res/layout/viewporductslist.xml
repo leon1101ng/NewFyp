@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="200dp"
+    android:layout_height="280dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ProductImageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="center"
+            android:src="@drawable/dollar1" />
+
+        <TextView
+            android:id="@+id/ProductsNameView"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="1dp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/ProductPriceView"
+            android:layout_width="match_parent"
+            android:textSize="10sp"
+            android:textColor="#FF0000"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="1dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_height="wrap_content" />
+
+        <RatingBar
+            android:id="@+id/ProductRatingView"
+            android:layout_marginLeft="10dp"
+            style="@style/foodRatingBar"
+            android:layout_marginBottom="1dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="false"
+            android:numStars="5"
+            android:rating="5" />
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

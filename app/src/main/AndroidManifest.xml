@@ -43,7 +43,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="The Macaroon"
+            android:label="The Starry"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,7 +58,7 @@
         <activity android:name=".UserAccount.Register" />
         <activity
             android:name=".UserAccount.Login"
-            android:label="The Macaroon">
+            android:label="The Starry">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -82,6 +82,7 @@
         <activity android:name=".FindUserActivity" />
         <activity android:name=".Event.EventMenu" />
         <activity android:name=".MapsActivity" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -109,7 +110,11 @@
         <activity android:name=".UserInterface.ViewUserProfile" />
         <activity android:name=".VipSubscription.VipMenu" />
         <activity android:name=".LiveStream.CameraActivity" />
-        <activity android:name=".LiveStream.PlayStreamVideo"></activity>
+        <activity android:name=".LiveStream.PlayStreamVideo" />
+        <activity android:name=".CompanyModule.CompanyMenu" />
+        <activity android:name=".ProductMgnt.AddCartProducts" />
+        <activity android:name=".ProductMgnt.UserCart" />
+        <activity android:name=".Message.MessageUI"></activity>
     </application>
 
 </manifest>

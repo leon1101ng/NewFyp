@@ -9,13 +9,13 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+
     <RelativeLayout
         android:id="@+id/drawer_layout3"
         android:layout_width="match_parent"
-        android:layout_height="455dp">
+        android:layout_height="547dp">
 
     </RelativeLayout>
-
 
     <FrameLayout
         android:id="@+id/fragment_container1"

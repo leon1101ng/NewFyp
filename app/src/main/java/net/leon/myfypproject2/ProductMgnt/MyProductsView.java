@@ -80,7 +80,6 @@ public class MyProductsView extends AppCompatActivity {
             super(itemView);
             mView = itemView;
 
-
         }
         public void setProductsImage(Context ctx,String productsImage) {
             ImageView myproductpic = (ImageView) mView.findViewById(R.id.MyProduct_Picture);

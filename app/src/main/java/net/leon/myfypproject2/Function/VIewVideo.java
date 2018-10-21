@@ -30,7 +30,7 @@ public class VIewVideo extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getActivity().setTitle("Video");
+        getActivity().setTitle("The Starry");
     }
 
 }

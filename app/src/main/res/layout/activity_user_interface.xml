@@ -108,29 +108,45 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="vertical">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_follow"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/dollar2"/>
 
-                    android:clickable="true"
+                    <TextView
+                        android:id="@+id/UserMoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100000"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="16sp"/>
 
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:text=" | "/>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_mail"
-                    android:clickable="true"
-                    />
+                    <TextView
+                        android:id="@+id/vipstatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:text="Vip"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+
 
 
             </LinearLayout>
@@ -156,9 +172,9 @@
     <RelativeLayout
         android:id="@+id/drawer_layout_profile"
         android:layout_width="match_parent"
-        android:layout_height="258dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="342dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/userprofile_nav">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -168,16 +184,16 @@
             android:background="@drawable/layer3">
 
             <LinearLayout
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_marginRight="50dp"
-
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -192,9 +208,9 @@
 
                     <TextView
 
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:text="Follower"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -207,9 +223,9 @@
                     android:textSize="20sp" />
 
                 <LinearLayout
-                    android:layout_marginLeft="50dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -223,10 +239,10 @@
                         android:textSize="20sp" />
 
                     <TextView
-                        android:fontFamily="serif"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="serif"
                         android:text="Following"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -248,26 +264,13 @@
             android:id="@+id/AboutView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:text="About"
             android:layout_below="@+id/AboutText"
-            android:textColor="#808080"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/Test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/AboutText"
-            android:layout_marginBottom="94dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             android:text="About"
             android:textColor="#808080"
             android:textSize="18sp" />
-
-
 
 
     </RelativeLayout>

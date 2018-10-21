@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/shadow"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
 
     tools:context=".UserAccount.Login">
 
@@ -18,7 +20,7 @@
         android:background="@drawable/inputid"
         android:drawableLeft="@drawable/ic_email_black_24dp"
         android:ems="10"
-        android:fontFamily="cursive"
+        android:fontFamily="sans-serif-smallcaps"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:padding="15dp"
@@ -32,7 +34,7 @@
         android:background="@drawable/inputid"
         android:drawableLeft="@drawable/ic_locked_padlock"
         android:ems="10"
-        android:fontFamily="cursive"
+        android:fontFamily="sans-serif-smallcaps"
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="15dp"
@@ -59,7 +61,7 @@
         android:layout_marginBottom="141dp"
         android:textSize="12dp"
         android:text="Or Login With"
-        android:fontFamily="serif"
+        android:fontFamily="sans-serif-smallcaps"
         android:textColor="#ffffff"/>
 
     <TextView
@@ -71,7 +73,7 @@
         android:layout_marginBottom="169dp"
         android:textColor="#ffffff"
         android:textSize="12dp"
-        android:fontFamily="serif"
+        android:fontFamily="sans-serif-smallcaps"
         android:text="Dont't Have An Account? Sign Up" />
 
     <LinearLayout

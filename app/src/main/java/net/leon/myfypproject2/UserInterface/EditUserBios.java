@@ -40,7 +40,7 @@ public class EditUserBios extends AppCompatActivity {
     private TextView genderview;
     private EditText AgeET,DisplayNameET,AboutET;
     private FirebaseAuth mAuth;
-    private CircleImageView Profile_photo;
+    private CircleImageView Profile_photo,backbtn;
     private DatabaseReference UserRef, UserProfileRef;
     private StorageReference UserProfileImageRef;
     private String This_User,UserAge,UserGender,AboutUser,UserDisplayName;
@@ -74,7 +74,13 @@ public class EditUserBios extends AppCompatActivity {
                 startActivityForResult(gallery,Gallery_Pick);
             }
         });
-
+        backbtn = (CircleImageView)findViewById(R.id.BackToMenu);
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         UserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -82,8 +88,6 @@ public class EditUserBios extends AppCompatActivity {
                     if(dataSnapshot.hasChild("ProfilePicture")) {
                         String image = dataSnapshot.child("ProfilePicture").getValue().toString();
                         Picasso.get().load(image).placeholder(R.drawable.userprofile).into(Profile_photo);
-                    }else {
-                        Toast.makeText(EditUserBios.this,"Please select profile picture first",Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -107,6 +111,31 @@ public class EditUserBios extends AppCompatActivity {
                     }
 
 
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        UserProfileRef.child(This_User).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    if(dataSnapshot.hasChild("DisplayName")){
+                        String disname = dataSnapshot.child("DisplayName").getValue().toString();
+                        DisplayNameET.setText(disname);
+                    }if(dataSnapshot.hasChild("Age")){
+                        String age = dataSnapshot.child("Age").getValue().toString();
+                        AgeET.setText(age);
+                    }if(dataSnapshot.hasChild("Gender")){
+                        String gender = dataSnapshot.child("Gender").getValue().toString();
+                        genderview.setText(gender);
+                    }if(dataSnapshot.hasChild("About")){
+                        String about = dataSnapshot.child("About").getValue().toString();
+                        AboutET.setText(about);
+                    }
                 }
             }
 

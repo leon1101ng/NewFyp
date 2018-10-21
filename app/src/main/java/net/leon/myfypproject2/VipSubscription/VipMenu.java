@@ -91,7 +91,7 @@ public class VipMenu extends AppCompatActivity {
 
     private void CheckVip() {
 
-        UserRef.addValueEventListener(new ValueEventListener() {
+        UserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -101,12 +101,14 @@ public class VipMenu extends AppCompatActivity {
                         int UserVip =  dataSnapshot.child("Vip").getValue(Integer.class);
                         if(UserVip != vip){
                             if(dataSnapshot.hasChild("InAppCredit")){
-                                int VipPrice = 200000;
+                                int VipPrice = 42000;
                                 int credit =  dataSnapshot.child("InAppCredit").getValue(Integer.class);
+                                int EndCredit = 0;
                                 if(credit < VipPrice){
                                     Toast.makeText(VipMenu.this,"Insufficient Credit", Toast.LENGTH_SHORT).show();
                                 }else {
-                                    PurchaseVip();
+                                    EndCredit = credit - VipPrice;
+                                    PurchaseVip(EndCredit);
                                 }
                             }
 
@@ -129,9 +131,10 @@ public class VipMenu extends AppCompatActivity {
         });
     }
 
-    private void PurchaseVip() {
+    private void PurchaseVip(int EndCredit) {
         int vip = 1;
         HashMap userMap = new HashMap();
+        userMap.put("InAppCredit", EndCredit);
         userMap.put("Vip", vip);
         UserRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
             @Override
@@ -139,8 +142,6 @@ public class VipMenu extends AppCompatActivity {
                 if(task.isSuccessful()){
                     BackToVipMenu();
                     Toast.makeText(VipMenu.this, "Your Are Vip now", Toast.LENGTH_SHORT).show();
-
-
                 }else {
                     String message = task.getException().getMessage();
                     Toast.makeText(VipMenu.this,"Failed To Purchase"+message,Toast.LENGTH_SHORT).show();

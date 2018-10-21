@@ -41,6 +41,7 @@ public class UserSetup extends AppCompatActivity {
     private Button setupsubmit;
     private CircleImageView userprofile;
     private ProgressDialog loadingprofile;
+    private Uri ImageUrl;
 
     private FirebaseAuth mAuth;
     private DatabaseReference userref;
@@ -120,7 +121,7 @@ public class UserSetup extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode ==Gallery_Pick && resultCode==RESULT_OK && data!=null){
-            Uri ImageUrl = data.getData();
+            ImageUrl = data.getData();
 
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
@@ -174,6 +175,8 @@ public class UserSetup extends AppCompatActivity {
             Toast.makeText(this,"Please Enter Your Name",Toast.LENGTH_SHORT).show();
         }else if (TextUtils.isEmpty(country)){
             Toast.makeText(this,"Please Enter Your Country",Toast.LENGTH_SHORT).show();
+        }else if (ImageUrl == null){
+            Toast.makeText(this,"Please Enter Enter You Profile Image",Toast.LENGTH_SHORT).show();
         }else {
             loadingprofile.setTitle("Creating User Profile");
             loadingprofile.setMessage("Please Wait!");
@@ -185,6 +188,7 @@ public class UserSetup extends AppCompatActivity {
             userMap.put("Country", country);
             userMap.put("InAppCredit", Balance);
             userMap.put("Vip", vip);
+            userMap.put("UserID",currentUserID);
             userref.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {

@@ -38,7 +38,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Fan Club" />
+                    android:text="Fan Club"
+                    android:fontFamily="sans-serif-smallcaps"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/BackToMenu_FanclubPage"
@@ -65,7 +66,7 @@
         <FrameLayout
             android:id="@+id/fanclubcreated2"
             android:layout_width="match_parent"
-            android:layout_height="511dp"
+            android:layout_height="603dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/appBarLayout"
             android:background="@drawable/layer1">
@@ -73,7 +74,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/Fanclubcreatedlist"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/appBarLayout"></android.support.v7.widget.RecyclerView>
         </FrameLayout>
     </RelativeLayout>
 

@@ -18,6 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,6 +62,8 @@ public class Imagepost extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String current_user_id;
     private String imagecap;
+    private int PLACE_PICKER_REQUEST = 2;
+    private String location;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +115,7 @@ public class Imagepost extends AppCompatActivity {
 
                     break;
                 case R.id.Add_location:
+                    PickLocation();
 
                     break;
                 case R.id.SubmitImagePost:
@@ -122,6 +129,18 @@ public class Imagepost extends AppCompatActivity {
         }
 
     };
+
+    private void PickLocation() {
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try{
+            startActivityForResult(builder.build(Imagepost.this),PLACE_PICKER_REQUEST);
+        }catch (GooglePlayServicesRepairableException e ){
+            e.printStackTrace();
+        }catch (GooglePlayServicesNotAvailableException e){
+            e.printStackTrace();
+        }
+    }
+
 
     private void ValidationImagePost() {
         imagecap = imagecaption.getText().toString();
@@ -179,6 +198,7 @@ public class Imagepost extends AppCompatActivity {
                     ImagepostsMap.put("PostImage", userprofilepicture);
                     ImagepostsMap.put("Fullname", userfullname);
                     ImagepostsMap.put("Username", username);
+                    ImagepostsMap.put("ImagePostLocation", location);
                     ImagePostRef.child(current_user_id + Postrandomname).updateChildren(ImagepostsMap)
                         .addOnCompleteListener(new OnCompleteListener() {
                         @Override
@@ -217,10 +237,20 @@ public class Imagepost extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if(requestCode == PLACE_PICKER_REQUEST){
+            if(resultCode ==RESULT_OK){
+                Place place = PlacePicker.getPlace(Imagepost.this, data);
+                location = "" + (place.getAddress());
+
+            }
+        }
+
         if(requestCode==Gallery_Pick && resultCode==RESULT_OK && data!=null){
             uriImage = data.getData();
             selectimage.setImageURI(uriImage);
         }
+
+
 
     }
 }

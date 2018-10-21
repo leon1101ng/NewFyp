@@ -20,6 +20,6 @@ public class homefragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getActivity().setTitle("Home");
+        getActivity().setTitle("The Starry");
     }
 }

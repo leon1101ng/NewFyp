@@ -58,9 +58,17 @@
         android:id="@+id/ProductsImage2"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_alignTop="@+id/ProductsImage1"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_productsimg" />
+
+    <ImageButton
+        android:id="@+id/ProductsImage3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/ProductsImage1"
-        android:layout_marginEnd="131dp"
+        android:layout_marginEnd="23dp"
         android:background="@drawable/ic_productsimg" />
 
     <EditText
@@ -93,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="185dp"
+        android:layout_marginBottom="253dp"
         android:background="#ffffff"
         android:ems="10"
         android:hint="Price"
@@ -107,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="138dp"
+        android:layout_marginBottom="203dp"
         android:background="#ffffff"
         android:ems="10"
         android:hint="Products Quantity"
@@ -119,17 +127,17 @@
         android:id="@+id/ProductsCategoryItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/ProductsCategory"
-        android:layout_marginTop="-260dp" />
+        android:layout_marginBottom="303dp" />
 
     <TextView
         android:id="@+id/ProductsCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="260dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="288dp"
         android:padding="8dp"
         android:text="Products Category" />
 
@@ -139,7 +147,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62dp"
+        android:layout_marginBottom="78dp"
         android:background="@drawable/registerbutton"
         android:text="Upload" />
 

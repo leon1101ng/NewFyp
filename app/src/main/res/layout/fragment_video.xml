@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:elevation="20dp"
+    android:background="#FAFAFA"
     tools:context=".ProfileFragment.VideoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:id="@+id/videofragRL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <FrameLayout
+            android:id="@+id/videofragFL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/video_post_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        </FrameLayout>
 
 
-</FrameLayout>
+    </RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>

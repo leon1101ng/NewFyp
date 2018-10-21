@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:elevation="20dp"
-    android:background="#ffffff"
+    android:background="#FAFAFA"
     tools:context=".ProfileFragment.ImagePostFragment">
 
     <RelativeLayout
@@ -24,6 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
         </FrameLayout>
+
+
     </RelativeLayout>
+
 
 </android.support.v4.widget.DrawerLayout>

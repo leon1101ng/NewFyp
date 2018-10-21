@@ -4,23 +4,35 @@ public class UserPostsImage {
     private String Date;
     private String Fullname;
     private String ImageCaption;
+    private String ImagePostLocation;
+
+    public String getImagePostLocation() {
+        return ImagePostLocation;
+    }
+
+    public void setImagePostLocation(String imagePostLocation) {
+        ImagePostLocation = imagePostLocation;
+    }
+
     private String ImageUrl;
     private String PostImage;
     private String Time;
     private String UserID;
     private String Username;
 
-    public UserPostsImage(){}
-    public UserPostsImage(String date, String fullname, String imageCaption, String imageUrl, String postImage, String time, String userID, String username) {
+    public UserPostsImage(String date, String fullname, String imageCaption, String imagePostLocation, String imageUrl, String postImage, String time, String userID, String username) {
         Date = date;
         Fullname = fullname;
         ImageCaption = imageCaption;
+        ImagePostLocation = imagePostLocation;
         ImageUrl = imageUrl;
         PostImage = postImage;
         Time = time;
         UserID = userID;
         Username = username;
     }
+
+    public UserPostsImage(){}
 
     public String getDate() {
         return Date;

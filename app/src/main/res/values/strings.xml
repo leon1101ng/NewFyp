@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MYFypProject2</string>
+    <string name="app_name">The Starry</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -15,10 +15,11 @@
     <string name="title_activity_maps">Map</string>
 
     <string-array name="name">
-        <item>1</item>
-        <item>1</item>
-        <item>1</item>
-        <item>1</item>
-        <item>1</item>
+        <item>Select Category</item>
+        <item>Beauty and Health</item>
+        <item>Computer Accessories</item>
+        <item>Clothing</item>
+        <item>Cell Phones and Accessories</item>
+        <item>Party Items</item>
     </string-array>
 </resources>

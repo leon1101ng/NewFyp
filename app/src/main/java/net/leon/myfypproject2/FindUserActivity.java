@@ -15,9 +15,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import net.leon.myfypproject2.Model.UserClass;
 import net.leon.myfypproject2.UserInterface.ViewUserProfile;
@@ -29,6 +33,9 @@ public class FindUserActivity extends AppCompatActivity {
     private TextView findfriend;
     private RecyclerView userlist;
     private DatabaseReference AllUserRef;
+    private FirebaseAuth mAuth;
+    private String currentUser;
+    private CircleImageView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,62 +43,93 @@ public class FindUserActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.FindUser_Toolbar);
         setSupportActionBar(toolbar);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        mTitle.setText("Find Friend");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         AllUserRef = FirebaseDatabase.getInstance().getReference().child("Users");
-
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser().getUid();
         userlist = (RecyclerView)findViewById(R.id.RV_FindUserList);
         userlist.setLayoutManager(new LinearLayoutManager(this));
 
         findfriend = (TextView)findViewById(R.id.fin_friend);
         searchUser = (EditText)findViewById(R.id.Search_UserID);
+        back = (CircleImageView)findViewById(R.id.BackToMenu);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         findfriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String inputUsername = searchUser.getText().toString();
-                if(TextUtils.isEmpty(inputUsername)){
+                final String inputUsername = searchUser.getText().toString();
+                if(TextUtils.isEmpty(inputUsername)) {
                     Toast.makeText(FindUserActivity.this, "Please Enter A Usernaame", Toast.LENGTH_SHORT).show();
                 }else {
-                SearchOtherUser(inputUsername);
+                    AllUserRef.child(currentUser).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                if (dataSnapshot.hasChild("username")) {
+                                    String usern = dataSnapshot.child("username").getValue().toString();
+                                    if (inputUsername.equals(usern)) {
+                                        Toast.makeText(FindUserActivity.this,"Cant find yourself", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        SearchOtherUser(inputUsername);
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
+
 
             }
         });
     }
 
-    private void SearchOtherUser(String inputUsername) {
-        Toast.makeText(this, "Searching", Toast.LENGTH_LONG).show();
+            private void SearchOtherUser(String inputUsername) {
+                Toast.makeText(this, "Searching", Toast.LENGTH_LONG).show();
 
-        Query searchuserquery = AllUserRef.orderByChild("username")
-                .startAt(inputUsername).endAt(inputUsername + "\uf8ff");
-        FirebaseRecyclerAdapter<UserClass, FindUserActivity.FindUserViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<UserClass, FindUserActivity.FindUserViewHolder>(
-                UserClass.class,
-                R.layout.user_friend_layout,
-                FindUserActivity.FindUserViewHolder.class,
-                searchuserquery
-        ) {
-            @Override
-            protected void populateViewHolder(FindUserViewHolder viewHolder, UserClass model, int position) {
-                viewHolder.setProfileimage(getApplication(), model.getProfilePicture());
-                viewHolder.setFindUsername(model.getUsername());
-                viewHolder.setFindname(model.getFullname());
-                final String User_ID = getRef(position).getKey();
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                Query searchuserquery = AllUserRef.orderByChild("username")
+                        .startAt(inputUsername).endAt(inputUsername + "\uf8ff");
+                FirebaseRecyclerAdapter<UserClass, FindUserActivity.FindUserViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<UserClass, FindUserActivity.FindUserViewHolder>(
+                        UserClass.class,
+                        R.layout.user_friend_layout,
+                        FindUserActivity.FindUserViewHolder.class,
+                        searchuserquery
+                ) {
                     @Override
-                    public void onClick(View view) {
-                        Intent userprofile = new Intent(FindUserActivity.this, ViewUserProfile.class);
-                        userprofile.putExtra("UserID", User_ID);
-                        startActivity(userprofile);
-                    }
-                });
+                    protected void populateViewHolder(FindUserViewHolder viewHolder, UserClass model, int position) {
+                        viewHolder.setProfileimage(getApplication(), model.getProfilePicture());
+                        viewHolder.setFindUsername(model.getUsername());
+                        viewHolder.setFindname(model.getFullname());
+                        final String User_ID = getRef(position).getKey();
+                        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent userprofile = new Intent(FindUserActivity.this, ViewUserProfile.class);
+                                userprofile.putExtra("UserID", User_ID);
+                                startActivity(userprofile);
+                            }
+                        });
 
+                    }
+
+                };
+                userlist.setAdapter(firebaseRecyclerAdapter);
             }
 
-        };
-        userlist.setAdapter(firebaseRecyclerAdapter);
-    }
+
+
+
     public static class FindUserViewHolder extends RecyclerView.ViewHolder{
         View mView;
 

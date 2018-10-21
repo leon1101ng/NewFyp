@@ -48,7 +48,6 @@
             android:padding="20dp">
 
 
-
             <!-- username section -->
             <RelativeLayout
                 android:id="@+id/relLayout1"
@@ -207,9 +206,9 @@
                     android:id="@+id/TimeEnd"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignTop="@+id/DateEnd"
-                    android:layout_marginLeft="170dp"
+                    android:layout_marginEnd="48dp"
                     android:background="@drawable/layer1"
                     android:fontFamily="sans-serif-smallcaps"
                     android:text="Select Time"
@@ -240,6 +239,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
                     android:background="@drawable/layer1"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="sans-serif-smallcaps"
                     android:onClick="goPlacePicker"
                     android:text="Select Location"
@@ -248,25 +248,87 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relLayout7"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/relLayout6"
+                android:layout_marginTop="10dp"
+                android:layout_height="80dp">
+
+                <TextView
+                    android:id="@+id/paymently"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Payment"
+                    android:textColor="#B0AFAF" />
+
+                <RadioGroup
+                    android:layout_below="@+id/paymently"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/freeevent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Free"
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:onClick="onRadioButtonClicked1"/>
+
+                    <RadioButton
+                        android:id="@+id/paidevent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Paid"
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:onClick="onRadioButtonClicked1"/>
+                </RadioGroup>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/EventPricely"
+                    android:layout_width="112dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="112dp"
+                    app:hintTextAppearance="@style/MyHintText">
+
+                    <EditText
+                        android:id="@+id/EventPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:hint="Price"
+                        android:inputType="number"
+                        android:theme="@style/MyEditText" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relLayout8"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_below="@+id/relLayout6">
+                android:layout_below="@+id/relLayout7">
 
                 <Button
                     android:id="@+id/Create_Event"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="39dp"
-                    android:layout_marginEnd="-191dp"
+
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp"
                     android:background="@drawable/registerbutton"
                     android:text="Create Event" />
             </RelativeLayout>
 
 
-
         </RelativeLayout>
-
 
 
     </ScrollView>

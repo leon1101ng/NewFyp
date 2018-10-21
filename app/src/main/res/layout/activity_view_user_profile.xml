@@ -122,22 +122,13 @@
                         android:src="@drawable/ic_follow" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/UnFollow"
+                        android:id="@+id/uMessage"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="15dp"
-                        android:clickable="true"
-                        android:src="@drawable/ic_unfollow" />
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_marginTop="15dp"
                         android:layout_marginLeft="50dp"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/ic_mail"
+                        android:layout_marginTop="15dp"
                         android:clickable="true"
-                        />
+                        android:src="@drawable/ic_mail" />
 
 
                 </LinearLayout>
@@ -163,9 +154,9 @@
     <RelativeLayout
         android:id="@+id/drawer_layout_profile1"
         android:layout_width="match_parent"
-        android:layout_height="258dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="342dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/userprofile_nav1">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -175,16 +166,16 @@
             android:background="@drawable/layer3">
 
             <LinearLayout
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_marginRight="50dp"
-
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -199,9 +190,9 @@
 
                     <TextView
 
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:text="Follower"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -214,9 +205,9 @@
                     android:textSize="20sp" />
 
                 <LinearLayout
-                    android:layout_marginLeft="50dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -230,10 +221,10 @@
                         android:textSize="20sp" />
 
                     <TextView
-                        android:fontFamily="serif"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="serif"
                         android:text="Following"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -255,26 +246,13 @@
             android:id="@+id/AboutView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:text="About"
             android:layout_below="@+id/AboutText1"
-            android:textColor="#808080"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/Test1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/AboutText1"
-            android:layout_marginBottom="94dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             android:text="About"
             android:textColor="#808080"
             android:textSize="18sp" />
-
-
 
 
     </RelativeLayout>

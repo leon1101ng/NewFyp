@@ -24,7 +24,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import net.leon.myfypproject2.FanPost;
 import net.leon.myfypproject2.MainActivity;
+import net.leon.myfypproject2.Message.MessageUI;
 import net.leon.myfypproject2.ProfileFragment.BioFragment;
 import net.leon.myfypproject2.R;
 
@@ -32,7 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ViewUserProfile extends AppCompatActivity {
     private static final String TAG = "ViewUserProfile";
-    private CircleImageView userprofile, ufollow;
+    private CircleImageView userprofile, ufollow, uMessage;
     private ImageView profilebgi;
     private TextView DisplayNameTv,AgeTV,GenderTV,FollowerTV,FollowingTV,AboutTV,test;
     private FirebaseAuth mAuth;
@@ -68,8 +70,20 @@ public class ViewUserProfile extends AppCompatActivity {
         FollowerTV = (TextView)findViewById(R.id.FollowerView1);
         FollowingTV = (TextView)findViewById(R.id.FollowingView1);
         AboutTV = (TextView)findViewById(R.id.AboutView1);
-        test = (TextView)findViewById(R.id.Test1);
+
         ufollow = (CircleImageView)findViewById(R.id.UFollow);
+        uMessage = (CircleImageView)findViewById(R.id.uMessage);
+
+        uMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ViewUserProfile.this, MessageUI.class);
+                i.putExtra("UserID", User_ID);
+                startActivity(i);
+            }
+        });
+
+
 
 
 
@@ -83,6 +97,9 @@ public class ViewUserProfile extends AppCompatActivity {
                 FollowingRef.child(currentUser_ID).child(User_ID).child(getString(R.string.field_user_id)).setValue(User_ID);
                 FollowerRef.child(User_ID).child(currentUser_ID).child(getString(R.string.field_user_id)).setValue(currentUser_ID);
                 ufollow.setVisibility(view.INVISIBLE);
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
 
             }
         });
@@ -163,14 +180,6 @@ public class ViewUserProfile extends AppCompatActivity {
                         mTitle.setText(username);
                     }
 
-                    if(dataSnapshot.hasChild("InAppCredit")){
-                        Double total;
-                        Double AddMoney = 20.0;
-                        Double credit = (Double) dataSnapshot.child("InAppCredit").getValue();
-                        total = AddMoney + credit;
-                        test.setText(String.valueOf(total));
-                    }
-
 
                 }else {
 
@@ -193,11 +202,17 @@ public class ViewUserProfile extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedfragment = null;
+            Fragment selectedfragment = new Fragment();
 
             switch (item.getItemId()) {
                 case R.id.ProfileBio1:
                     selectedfragment = new BioFragment();
+                    break;
+                case  R.id.ProfileFanPost:
+                    selectedfragment = new FanPost();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("UserID", User_ID);
+                    selectedfragment.setArguments(bundle);
                     break;
 
 
@@ -208,25 +223,6 @@ public class ViewUserProfile extends AppCompatActivity {
 
     };
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.userinterfacemenu, menu);
-        return true;
-
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.User_Setting) {
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     private void getFollowersCount(){
         mFollowersCount = 0;

@@ -25,8 +25,10 @@
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-smallcaps"
                 android:layout_gravity="center"
                 android:text="Comments"/>
+
         </android.support.v7.widget.Toolbar>
 
 
@@ -40,26 +42,42 @@
         android:layout_below="@+id/appBarLayout"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/layer6"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/input_cm"
-            android:layout_width="330dp"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_margin="5dp"
-            android:hint="Add A Comment Here..."
+            android:fontFamily="sans-serif-smallcaps"
+            android:hint=""
+            android:background="@drawable/layer1"
             android:padding="5dp" />
 
-    <TextView
-        android:id="@+id/postComment"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/input_cm"
-        android:padding="5dp"
-        android:text="Post"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/postComment"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/input_cm"
+            android:padding="5dp"
+            android:text="Post"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+
+
 
 
 

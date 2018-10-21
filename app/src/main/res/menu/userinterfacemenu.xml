@@ -8,6 +8,7 @@
         android:icon="@drawable/ic_controls"
         android:orderInCategory="100"
         android:title="Settings"
+        android:onClick="UserPagepopout"
         app:showAsAction="always"
         app:itemTextColor="#ffffff"/>
 

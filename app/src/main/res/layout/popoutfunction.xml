@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:layout_gravity="center"
+    android:background="@drawable/bgcolor1"
+    android:alpha="0.7">
+
+    <ImageView
+        android:id="@+id/gotostream"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:onClick="Streampopup"
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="54dp"
+        android:src="@drawable/live2" />
+
+    <ImageView
+        android:id="@+id/gotopostimage"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/gotostream"
+        android:layout_marginEnd="54dp"
+        android:src="@drawable/camera" />
+
+    <ImageView
+        android:id="@+id/gotovideo"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/gotostream"
+        android:layout_marginBottom="54dp"
+        android:src="@drawable/domestic" />
+
+    <ImageView
+        android:id="@+id/gotostatus"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+
+        android:layout_alignStart="@+id/gotopostimage"
+        android:layout_alignTop="@+id/gotovideo"
+        android:src="@drawable/statusp" />
+
+</RelativeLayout>

@@ -24,23 +24,7 @@ public class MainMenu extends AppCompatActivity {
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText("大象直播");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        userprofile = (ImageButton)findViewById(R.id.UserProfile2);
-        userprofile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent Userprofile = new Intent(MainMenu.this, UserInterface.class);
-                startActivity(Userprofile);
-            }
-        });
-        userhome = (ImageButton)findViewById(R.id.UserHome);
-        userhome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent Userhome = new Intent(MainMenu.this, MainActivity.class);
-                startActivity(Userhome);
-            }
-        });
-        dailynews = (ImageButton)findViewById(R.id.news);
+
 
 
     }

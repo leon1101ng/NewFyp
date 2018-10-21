@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/User_profile_Interface"
-        android:icon="@drawable/ic_user"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="always" />
 
     <item
         android:id="@+id/Search_User"
-        android:icon="@drawable/ic_search_black_24dp"
+        android:icon="@drawable/ic_findf"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Search"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/Function"
+        android:onClick="ShowPopup"
+        android:icon="@drawable/ic_customer_review"
+        android:orderInCategory="100"
+        android:title="Function"
+        app:showAsAction="always"/>
 </menu>

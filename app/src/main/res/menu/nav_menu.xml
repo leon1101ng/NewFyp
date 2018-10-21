@@ -8,7 +8,7 @@
         android:checked="false"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-        android:title="home"
+        android:title="Home"
         app:showAsAction="ifRoom" />
 
     <item
@@ -17,21 +17,23 @@
         android:checked="false"
         android:enabled="true"
         android:icon="@drawable/ic_image"
-        android:title="image" />
+        android:title="Feedback"
+        />
 
     <item
         android:id="@+id/stream"
         android:checked="false"
         android:enabled="true"
-        android:icon="@drawable/ic_stream"
-        android:title="Stream" />
+        android:icon="@drawable/ic_live"
+        android:title="Live"/>
 
     <item
         android:id="@+id/video"
         android:checkable="false"
         android:enabled="true"
         android:icon="@drawable/ic_video_player"
-        android:title="Video" />
+        android:title="Videos"
+        />
     <item
         android:id="@+id/shop"
         android:checkable="false"

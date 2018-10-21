@@ -1,16 +1,22 @@
 package net.leon.myfypproject2.Model;
 
 public class ProductsClass {
-    private String ProductsCategorys,ProductsDescription,ProductsImage,ProductsName,ProductsPrice,ProductsQuantity;
+    private String ProductsCategorys,ProductsDescription,ProductsImage,ProductsImage2,ProductsImage3,ProductsName,ProductsUser,UserImage;
 
-    public ProductsClass(String productsCategorys, String productsDescription, String productsImage, String productsName, String productsPrice, String productsQuantity) {
+    public ProductsClass(String productsCategorys, String productsDescription, String productsImage, String productsImage2, String productsImage3, String productsName, String productsUser, String userImage, int productsPrice, int productsQuantity) {
         ProductsCategorys = productsCategorys;
         ProductsDescription = productsDescription;
         ProductsImage = productsImage;
+        ProductsImage2 = productsImage2;
+        ProductsImage3 = productsImage3;
         ProductsName = productsName;
+        ProductsUser = productsUser;
+        UserImage = userImage;
         ProductsPrice = productsPrice;
         ProductsQuantity = productsQuantity;
     }
+
+    private int ProductsPrice,ProductsQuantity;
 
     public String getProductsCategorys() {
         return ProductsCategorys;
@@ -36,6 +42,22 @@ public class ProductsClass {
         ProductsImage = productsImage;
     }
 
+    public String getProductsImage2() {
+        return ProductsImage2;
+    }
+
+    public void setProductsImage2(String productsImage2) {
+        ProductsImage2 = productsImage2;
+    }
+
+    public String getProductsImage3() {
+        return ProductsImage3;
+    }
+
+    public void setProductsImage3(String productsImage3) {
+        ProductsImage3 = productsImage3;
+    }
+
     public String getProductsName() {
         return ProductsName;
     }
@@ -44,23 +66,38 @@ public class ProductsClass {
         ProductsName = productsName;
     }
 
-    public String getProductsPrice() {
+    public String getProductsUser() {
+        return ProductsUser;
+    }
+
+    public void setProductsUser(String productsUser) {
+        ProductsUser = productsUser;
+    }
+
+    public String getUserImage() {
+        return UserImage;
+    }
+
+    public void setUserImage(String userImage) {
+        UserImage = userImage;
+    }
+
+    public int getProductsPrice() {
         return ProductsPrice;
     }
 
-    public void setProductsPrice(String productsPrice) {
+    public void setProductsPrice(int productsPrice) {
         ProductsPrice = productsPrice;
     }
 
-    public String getProductsQuantity() {
+    public int getProductsQuantity() {
         return ProductsQuantity;
     }
 
-    public void setProductsQuantity(String productsQuantity) {
+    public void setProductsQuantity(int productsQuantity) {
         ProductsQuantity = productsQuantity;
     }
 
-    public ProductsClass(){}
-
-
+    public ProductsClass() {
+    }
 }

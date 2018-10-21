@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,17 +32,19 @@ import net.leon.myfypproject2.UserAccount.UserSetup;
 import net.leon.myfypproject2.UserInterface.Imagepost;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class CameraActivity extends AppCompatActivity {
-    private static final String APPLICATION_ID = "KHLlp8sXwUZob0Vx0o3JDw";
+    private static final String APPLICATION_ID = "DWIdt8ySJaT8OSdKV3DUdA";
     private FirebaseAuth mAuth;
     private DatabaseReference LiveStreamRef,UserRef;
-    private String Current_User;
+    private String Current_User,postKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        postKey = getIntent().getExtras().get("LiveTitle").toString();
         mPreviewSurface = (SurfaceView) findViewById(R.id.PreviewSurfaceView);
         mBroadcaster = new Broadcaster(this, APPLICATION_ID, mBroadcasterObserver);
         mBroadcastButton = (Button)findViewById(R.id.BroadcastButton);
@@ -71,11 +74,16 @@ public class CameraActivity extends AppCompatActivity {
                     String userprofilepicture = dataSnapshot.child("ProfilePicture").getValue().toString();
                     String username = dataSnapshot.child("username").getValue().toString();
                     String Status = "Streaming";
+                    Random rand = new Random();
+
+
                     HashMap livestream = new HashMap();
                     livestream.put("PostImage", userprofilepicture);
                     livestream.put("Fullname", userfullname);
                     livestream.put("Username", username);
                     livestream.put("Status", Status);
+                    livestream.put("LiveTitle", postKey);
+                    livestream.put("LiveID", Current_User);
                     LiveStreamRef.updateChildren(livestream)
                             .addOnCompleteListener(new OnCompleteListener() {
                                 @Override
@@ -140,6 +148,7 @@ public class CameraActivity extends AppCompatActivity {
         }
         @Override
         public void onCameraError(CameraError cameraError) {
+
         }
         @Override
         public void onChatMessage(String s) {
