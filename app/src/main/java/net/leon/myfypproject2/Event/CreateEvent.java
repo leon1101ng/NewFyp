@@ -214,9 +214,12 @@ public class CreateEvent extends AppCompatActivity {
             Toast.makeText(this, "Please Select Event End Date",Toast.LENGTH_SHORT).show();
         }else if(endt.equals("Select Time")){
             Toast.makeText(this, "Please Select Event End Time",Toast.LENGTH_SHORT).show();
+        }else if(startt.equals(endt)){
+            Toast.makeText(this, "The Start Time Cannot Save Wth End Time",Toast.LENGTH_SHORT).show();
         }else if(location.equals("Select Location")){
             Toast.makeText(this, "Please Select Event Location",Toast.LENGTH_SHORT).show();
-        }else {
+        }
+        else {
 
             Calendar caldate = Calendar.getInstance();
             SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
@@ -270,7 +273,7 @@ public class CreateEvent extends AppCompatActivity {
                     Eventmap.put("Event_Location", location);
                     Eventmap.put("Event_Payment",paymentV);
                     Eventmap.put("Event_Price",price);
-                    EventRef.child(CurrentUser + eventposname).updateChildren(Eventmap).addOnCompleteListener(new OnCompleteListener() {
+                    EventRef.child( "E"+ eventposname).updateChildren(Eventmap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){

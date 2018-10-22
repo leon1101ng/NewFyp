@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fanclubmsg"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:title="Message"
+
+        />
+
+    <item
+        android:id="@+id/fanclubuser"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:title="User"
+        />
+
+
+</menu>

@@ -29,11 +29,13 @@ import net.leon.myfypproject2.R;
 import net.leon.myfypproject2.UserInterface.UserInterface;
 import net.leon.myfypproject2.VipSubscription.VipMenu;
 
+import java.util.HashMap;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FanClubMainMenu extends AppCompatActivity {
     private RecyclerView Fanclubcreatedlist;
-    private DatabaseReference FanclubcreatedRef, UserRef;
+    private DatabaseReference FanclubcreatedRef, UserRef, FanclubUserRef;
     private FirebaseAuth mAuth;
     private CircleImageView back,ToCreateClub;
     private String Current_user;
@@ -51,6 +53,7 @@ public class FanClubMainMenu extends AppCompatActivity {
         Current_user = mAuth.getCurrentUser().getUid();
         FanclubcreatedRef = FirebaseDatabase.getInstance().getReference().child("Fan Club");
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        FanclubUserRef = FirebaseDatabase.getInstance().getReference().child("FanClubUser");
 
         Fanclubcreatedlist =(RecyclerView)findViewById(R.id.Fanclubcreatedlist);
         Fanclubcreatedlist.setHasFixedSize(true);
@@ -80,7 +83,7 @@ public class FanClubMainMenu extends AppCompatActivity {
 
     private void CheckUser() {
 
-        UserRef.child(Current_user).addValueEventListener(new ValueEventListener() {
+        UserRef.child(Current_user).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -128,9 +131,32 @@ public class FanClubMainMenu extends AppCompatActivity {
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent fanclubchat = new Intent(FanClubMainMenu.this, FanClubChat.class);
-                                fanclubchat.putExtra("ClubName", ClubName);
-                                startActivity(fanclubchat);
+                                UserRef.child(Current_user).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.exists()){
+                                            String username = dataSnapshot.child("username").getValue().toString();
+                                            String userimage = dataSnapshot.child("ProfilePicture").getValue().toString();
+                                            int uservip = dataSnapshot.child("Vip").getValue(Integer.class);
+                                            HashMap Fanclubuser = new HashMap();
+
+
+                                            FanclubUserRef.child(ClubName).child(Current_user).child("Username").setValue(username).toString();
+                                            FanclubUserRef.child(ClubName).child(Current_user).child("UserImage").setValue(userimage).toString();
+                                            FanclubUserRef.child(ClubName).child(Current_user).child("Vip").setValue(uservip).toString();
+                                            FanclubUserRef.child(ClubName).child(Current_user).child("UserID").setValue(Current_user).toString();
+                                            Intent fanclubchat = new Intent(FanClubMainMenu.this, FanClubChat.class);
+                                            fanclubchat.putExtra("ClubName", ClubName);
+                                            startActivity(fanclubchat);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
 
                             }
                         });

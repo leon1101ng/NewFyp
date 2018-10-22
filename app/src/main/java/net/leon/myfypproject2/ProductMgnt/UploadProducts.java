@@ -261,7 +261,7 @@ public class UploadProducts extends AppCompatActivity {
                     productsdb.put("ProductsPrice", productsprice);
                     productsdb.put("ProductsQuantity", productsqntt);
                     productsdb.put("ProductsID", Postrandomname);
-                    ProductsDbRef.child(Current_users + Postrandomname).updateChildren(productsdb)
+                    ProductsDbRef.child("P" + Postrandomname).updateChildren(productsdb)
                             .addOnCompleteListener(new OnCompleteListener() {
 
                                 @Override

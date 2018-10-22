@@ -199,7 +199,7 @@ public class Imagepost extends AppCompatActivity {
                     ImagepostsMap.put("Fullname", userfullname);
                     ImagepostsMap.put("Username", username);
                     ImagepostsMap.put("ImagePostLocation", location);
-                    ImagePostRef.child(current_user_id + Postrandomname).updateChildren(ImagepostsMap)
+                    ImagePostRef.child("I" + Postrandomname).updateChildren(ImagepostsMap)
                         .addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {

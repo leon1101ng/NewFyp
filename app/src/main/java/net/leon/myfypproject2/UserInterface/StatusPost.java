@@ -116,7 +116,7 @@ public class StatusPost extends AppCompatActivity {
                 Statuspost.put("ProfilePicture", userprofilepicture);
                 Statuspost.put("UserID", CurrentUser);
                 Statuspost.put("Username", username);
-                UserStatusPostRef.child(CurrentUser + Postrandomname).updateChildren(Statuspost)
+                UserStatusPostRef.child("S"  + Postrandomname).updateChildren(Statuspost)
                         .addOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {

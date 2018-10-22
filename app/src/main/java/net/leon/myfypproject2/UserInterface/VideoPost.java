@@ -184,7 +184,7 @@ public class VideoPost extends AppCompatActivity {
                     VideoPost.put("VideoUrl", Downloadlink);
                     VideoPost.put("VideoCaption", videocap);
                     VideoPost.put("VideoLocation", location);
-                    VideoPostRef.child(Current_User + Postrandomname).updateChildren(VideoPost).addOnCompleteListener(new OnCompleteListener() {
+                    VideoPostRef.child("V" + Postrandomname).updateChildren(VideoPost).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){

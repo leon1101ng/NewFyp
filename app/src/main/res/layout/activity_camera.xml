@@ -23,4 +23,33 @@
         android:background="@drawable/layer1"
         android:text="Live Now" />
 
+    <TextView
+        android:id="@+id/CloseLiveTV"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/layer1"
+        android:text="X"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/LiveComment1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/CloseLiveTV"
+        android:layout_marginEnd="61dp"
+        android:background="@drawable/comment" />
+
+    <RelativeLayout
+        android:id="@+id/RLCameraCm"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"></RelativeLayout>
+
 </RelativeLayout>

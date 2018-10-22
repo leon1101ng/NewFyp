@@ -167,7 +167,8 @@ public class CreateClub extends AppCompatActivity {
                 fanclubdb.put("ClubName", club_name);
                 fanclubdb.put("ClubTopic", club_topic);
                 fanclubdb.put("ClubCreator", Username);
-                ClubRef.child(Current_user + Postrandomname).updateChildren(fanclubdb)
+                fanclubdb.put("UserID", Current_user);
+                ClubRef.child( "C"+Postrandomname).updateChildren(fanclubdb)
                         .addOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {

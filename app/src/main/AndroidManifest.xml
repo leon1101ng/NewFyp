@@ -98,23 +98,40 @@
         <activity
             android:name=".Event.CreateEvent"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ProductMgnt.UploadProducts" />
-        <activity android:name=".FanClub.CreateClub" />
-        <activity android:name=".FanClub.FanClubMainMenu" />
-        <activity android:name=".FanClub.FanClubChat" />
-        <activity android:name=".ProductMgnt.MyProductsView" />
-        <activity android:name=".ProductMgnt.ProductsDetails" />
-        <activity android:name=".UserInterface.EditUserBios" />
-        <activity android:name=".Purchase_in_app_credit.PurchaseCredit" />
-        <activity android:name=".Purchase_in_app_credit.Payment" />
-        <activity android:name=".UserInterface.ViewUserProfile" />
-        <activity android:name=".VipSubscription.VipMenu" />
-        <activity android:name=".LiveStream.CameraActivity" />
-        <activity android:name=".LiveStream.PlayStreamVideo" />
-        <activity android:name=".CompanyModule.CompanyMenu" />
-        <activity android:name=".ProductMgnt.AddCartProducts" />
-        <activity android:name=".ProductMgnt.UserCart" />
-        <activity android:name=".Message.MessageUI"></activity>
+        <activity android:name=".ProductMgnt.UploadProducts"
+            android:screenOrientation="portrait" />
+        <activity android:name=".FanClub.CreateClub"
+            android:screenOrientation="portrait" />
+        <activity android:name=".FanClub.FanClubMainMenu"
+            android:screenOrientation="portrait" />
+        <activity android:name=".FanClub.FanClubChat"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ProductMgnt.MyProductsView"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ProductMgnt.ProductsDetails"
+            android:screenOrientation="portrait" />
+        <activity android:name=".UserInterface.EditUserBios"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Purchase_in_app_credit.PurchaseCredit"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Purchase_in_app_credit.Payment"
+            android:screenOrientation="portrait" />
+        <activity android:name=".UserInterface.ViewUserProfile"
+            android:screenOrientation="portrait" />
+        <activity android:name=".VipSubscription.VipMenu"
+            android:screenOrientation="portrait" />
+        <activity android:name=".LiveStream.CameraActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".LiveStream.PlayStreamVideo"
+            android:screenOrientation="portrait" />
+        <activity android:name=".CompanyModule.CompanyMenu"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ProductMgnt.AddCartProducts"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ProductMgnt.UserCart"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Message.MessageUI"
+            android:screenOrientation="portrait" ></activity>
     </application>
 
 </manifest>

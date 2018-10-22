@@ -57,12 +57,14 @@
            android:layout_height="match_parent"
            android:orientation="horizontal"
            android:gravity="center">
+
            <TextView
+               android:id="@+id/totalppljoin"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:gravity="center"
-               android:textStyle="bold"
-               android:text="0/"/>
+               android:text="0/"
+               android:textStyle="bold" />
 
            <TextView
                android:id="@+id/EventNoPplView"

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import net.leon.myfypproject2.Comment.CameraComment;
+import net.leon.myfypproject2.Comment.LiveComment;
 import net.leon.myfypproject2.R;
 import net.leon.myfypproject2.UserAccount.UserSetup;
 import net.leon.myfypproject2.UserInterface.Imagepost;
@@ -34,11 +37,15 @@ import net.leon.myfypproject2.UserInterface.Imagepost;
 import java.util.HashMap;
 import java.util.Random;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class CameraActivity extends AppCompatActivity {
     private static final String APPLICATION_ID = "DWIdt8ySJaT8OSdKV3DUdA";
     private FirebaseAuth mAuth;
-    private DatabaseReference LiveStreamRef,UserRef;
+    private DatabaseReference LiveStreamRef,UserRef,LiveStreamRef1;
     private String Current_User,postKey;
+    private CircleImageView LiveComment;
+    private String postKey1,liveID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +58,32 @@ public class CameraActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         Current_User = mAuth.getCurrentUser().getUid();
         LiveStreamRef = FirebaseDatabase.getInstance().getReference().child("LiveStream").child(Current_User);
+        LiveStreamRef1 = FirebaseDatabase.getInstance().getReference().child("LiveStream").child(postKey);
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        LiveComment = (CircleImageView)findViewById(R.id.LiveComment1);
+        LiveComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LiveStreamRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            if(dataSnapshot.hasChild("LiveID")) {
+                                liveID = dataSnapshot.child("LiveID").getValue().toString();
+                                OpenCommentFrag(liveID);
+                            }}
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
         mBroadcastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +95,16 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
         mBroadcaster.setRotation(getWindowManager().getDefaultDisplay().getRotation());
+    }
+
+    private void OpenCommentFrag(String liveID) {
+        Fragment selectedfragment = new Fragment();
+        selectedfragment = new CameraComment();
+        Bundle bundle = new Bundle();
+        bundle.putString("liveID", liveID);
+        selectedfragment.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.RLCameraCm, selectedfragment).addToBackStack(null).commit();
     }
 
     private void storeData() {

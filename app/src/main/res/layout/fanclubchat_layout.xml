@@ -12,6 +12,9 @@
             android:id="@+id/FCChat_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#EE1752"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textStyle="bold"
             android:text="Username"/>
 
         <TextView
