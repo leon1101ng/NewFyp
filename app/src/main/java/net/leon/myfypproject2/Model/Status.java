@@ -1,7 +1,23 @@
 package net.leon.myfypproject2.Model;
 
 public class Status {
-    private String Fullname,LocationStatusView,ProfilePicture,Status,TagStatusView,UserID,Username;
+    private String Fullname;
+    private String LocationStatusView;
+    private String ProfilePicture;
+    private String Status;
+    private String TagStatusView;
+    private String UserID;
+    private String Username;
+
+    public String getTimeDate() {
+        return TimeDate;
+    }
+
+    public void setTimeDate(String timeDate) {
+        TimeDate = timeDate;
+    }
+
+    private String TimeDate;
 
     public String getFullname() {
         return Fullname;
@@ -59,7 +75,7 @@ public class Status {
         Username = username;
     }
 
-    public Status(String fullname, String locationStatusView, String profilePicture, String status, String tagStatusView, String userID, String username) {
+    public Status(String fullname, String locationStatusView, String profilePicture, String status, String tagStatusView, String userID, String username, String timeDate) {
         Fullname = fullname;
         LocationStatusView = locationStatusView;
         ProfilePicture = profilePicture;
@@ -67,6 +83,7 @@ public class Status {
         TagStatusView = tagStatusView;
         UserID = userID;
         Username = username;
+        TimeDate = timeDate;
     }
 
     public Status() {

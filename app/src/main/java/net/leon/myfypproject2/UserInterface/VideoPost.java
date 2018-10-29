@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -34,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.R;
 
@@ -47,6 +49,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class VideoPost extends AppCompatActivity {
     private CircleImageView HomeBtn;
     final static int REQUEST_TAKE_GALLERY_VIDEO = 100;
+    final static int REQUEST_VIDEO_CAPTURE = 1;
     String selectedVideoPath;
     private Uri VideoURI;
     private VideoView videoView;
@@ -57,6 +60,7 @@ public class VideoPost extends AppCompatActivity {
     private EditText videocaption;
     private int PLACE_PICKER_REQUEST = 2;
     private ProgressDialog loadingupload;
+    private ImageView opencamera,opencameragalley;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +74,26 @@ public class VideoPost extends AppCompatActivity {
         BottomNavigationView vbnv = (BottomNavigationView) findViewById(R.id.Videopost_Nav);
         vbnv.setOnNavigationItemSelectedListener(navlistener);
         loadingupload = new ProgressDialog(this);
+        opencamera = (ImageView)findViewById(R.id.opencamera);
+        opencameragalley = (ImageView)findViewById(R.id.opencameragalley);
+        opencameragalley.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                VideoGallery();
 
+            }
+        });
+        opencamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakeVideoIntent();
+            }
+        });
         videoView = (VideoView)findViewById(R.id.AddVideo);
         videoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VideoGallery();
+
             }
         });
         videocaption = (EditText) findViewById(R.id.video_caption);
@@ -83,7 +101,7 @@ public class VideoPost extends AppCompatActivity {
         HomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              VideoGallery();
+                onBackPressed();
             }
         });
         mAuth = FirebaseAuth.getInstance();
@@ -98,6 +116,12 @@ public class VideoPost extends AppCompatActivity {
                 mp.setLooping(true);
             }
         });
+    }
+    private void dispatchTakeVideoIntent() {
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -127,9 +151,9 @@ public class VideoPost extends AppCompatActivity {
     private void ValidationVideoPost() {
         videocap = videocaption.getText().toString();
         if(VideoURI == null){
-            Toast.makeText(this,"Please Select Your Video To Upload." ,Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this,"Please Select Your Video To Upload.",FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
         }else if(TextUtils.isEmpty(videocap)){
-            Toast.makeText(this,"Please Enter Your Video Caption", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this,"Please Enter Your Video Caption",FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
         }else {
             loadingupload.setTitle("Posting Video");
             loadingupload.setMessage("Please Wait!");
@@ -154,12 +178,11 @@ public class VideoPost extends AppCompatActivity {
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                     if(task.isSuccessful()){
                         Downloadlink = task.getResult().getDownloadUrl().toString();
-                        Toast.makeText(VideoPost.this,"Video Has Been Uploaded...", Toast.LENGTH_SHORT).show();
-
+                        FancyToast.makeText(VideoPost.this,"Video Has Been Uploaded...",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
                         SavingVideoPostInfo();
                     }else {
                         String message = task.getException().getMessage();
-                        Toast.makeText(VideoPost.this,"Failed To Upload Image "+ message, Toast.LENGTH_SHORT).show();
+                        FancyToast.makeText(VideoPost.this,"Failed To Upload Video "+ message,FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
 
                     }
                 }
@@ -188,12 +211,12 @@ public class VideoPost extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(VideoPost.this,"Video Has Been Uploaded... ", Toast.LENGTH_SHORT).show();
+                                FancyToast.makeText(VideoPost.this,"Video Has Been Uploaded... ",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
                                 loadingupload.dismiss();
                                 BackToHome();
                             }else {
                                 String message = task.getException().getMessage();
-                                Toast.makeText(VideoPost.this,"Failed To Upload Image " + message, Toast.LENGTH_SHORT).show();
+                                FancyToast.makeText(VideoPost.this,"Failed To Upload Video "+ message,FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
                                 loadingupload.dismiss();
                             }
 
@@ -245,11 +268,16 @@ public class VideoPost extends AppCompatActivity {
         }
 
         if(requestCode == PLACE_PICKER_REQUEST){
-            if(resultCode ==RESULT_OK){
+            if(resultCode == RESULT_OK){
                 Place place = PlacePicker.getPlace(VideoPost.this, data);
                 location = "" + (place.getAddress());
 
             }
+        }
+        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK && data != null) {
+            Uri videoUri = data.getData();
+            videoView.setVideoURI(videoUri);
+            videoView.start();
         }
 
 

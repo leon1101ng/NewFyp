@@ -51,7 +51,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintVertical_bias="0.02" />
+        app:layout_constraintVertical_bias="0.02" />\
+
+    <ImageView
+        android:id="@+id/opencamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/AddVideo"
+        android:layout_alignStart="@+id/AddVideo"
+        android:background="@drawable/video_camera" />
+
+    <ImageView
+        android:id="@+id/opencameragalley"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/AddVideo"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="21dp"
+        android:background="@drawable/video_camera" />
 
     <RelativeLayout
         android:id="@+id/relLayout"

@@ -2,14 +2,15 @@ package net.leon.myfypproject2.VipSubscription;
 
 import android.content.DialogInterface;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.library.banner.BannerLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,12 +19,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
-import net.leon.myfypproject2.FanClub.FanClubMainMenu;
+import net.leon.myfypproject2.Adapter.WebBannerAdapter;
 import net.leon.myfypproject2.R;
-import net.leon.myfypproject2.UserAccount.UserSetup;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,6 +40,22 @@ public class VipMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vip_menu);
+
+        BannerLayout bannerVertical =  findViewById(R.id.recycler_ver);
+        List<String> list1= new ArrayList<>();
+        list1.add("https://s.bigly.io/blog_main/1525337063-Ov7lB2tMkVhV3Ew.png");
+        list1.add("http://www.weareallstardust.com.au/blog/wp-content/uploads/2013/09/fanclub-title.jpg");
+        list1.add("https://barrymoltz.com/wp-content/uploads/2018/04/momswhosell.jpg");
+
+        WebBannerAdapter WebBannerAdapter2 =new WebBannerAdapter(this,list1);
+        WebBannerAdapter2.setOnBannerItemClickListener(new BannerLayout.OnBannerItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+        });
+
+        bannerVertical.setAdapter(WebBannerAdapter2);
 
         mAuth = FirebaseAuth.getInstance();
         Current_user = mAuth.getCurrentUser().getUid();
@@ -105,6 +124,7 @@ public class VipMenu extends AppCompatActivity {
                                 int credit =  dataSnapshot.child("InAppCredit").getValue(Integer.class);
                                 int EndCredit = 0;
                                 if(credit < VipPrice){
+                                    FancyToast.makeText(VipMenu.this,"Insufficient Credit",FancyToast.LENGTH_LONG,FancyToast.WARNING,true).show();
                                     Toast.makeText(VipMenu.this,"Insufficient Credit", Toast.LENGTH_SHORT).show();
                                 }else {
                                     EndCredit = credit - VipPrice;
@@ -113,7 +133,7 @@ public class VipMenu extends AppCompatActivity {
                             }
 
                         }else {
-                            Toast.makeText(VipMenu.this,"You Are Already A VIP", Toast.LENGTH_SHORT).show();
+                            FancyToast.makeText(VipMenu.this,"You Are Already A VIP",FancyToast.LENGTH_LONG,FancyToast.DEFAULT,true).show();
                         }
                     }
 
@@ -141,10 +161,11 @@ public class VipMenu extends AppCompatActivity {
             public void onComplete(@NonNull Task task) {
                 if(task.isSuccessful()){
                     BackToVipMenu();
-                    Toast.makeText(VipMenu.this, "Your Are Vip now", Toast.LENGTH_SHORT).show();
+                    FancyToast.makeText(VipMenu.this,"Your Are Vip now",FancyToast.LENGTH_LONG,FancyToast.DEFAULT,true).show();
                 }else {
                     String message = task.getException().getMessage();
-                    Toast.makeText(VipMenu.this,"Failed To Purchase"+message,Toast.LENGTH_SHORT).show();
+                    FancyToast.makeText(VipMenu.this,"Failed To Purchase"+message,FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
+
 
                 }
             }

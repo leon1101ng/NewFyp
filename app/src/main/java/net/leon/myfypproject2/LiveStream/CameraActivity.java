@@ -1,19 +1,19 @@
 package net.leon.myfypproject2.LiveStream;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.bambuser.broadcaster.BroadcastStatus;
 import com.bambuser.broadcaster.Broadcaster;
@@ -27,12 +27,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.Comment.CameraComment;
-import net.leon.myfypproject2.Comment.LiveComment;
+import net.leon.myfypproject2.MainActivity;
 import net.leon.myfypproject2.R;
-import net.leon.myfypproject2.UserAccount.UserSetup;
-import net.leon.myfypproject2.UserInterface.Imagepost;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -42,9 +41,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CameraActivity extends AppCompatActivity {
     private static final String APPLICATION_ID = "DWIdt8ySJaT8OSdKV3DUdA";
     private FirebaseAuth mAuth;
-    private DatabaseReference LiveStreamRef,UserRef,LiveStreamRef1;
+    private DatabaseReference LiveStreamRef,UserRef,LiveStreamRef1,LiveStreamCommentref;
     private String Current_User,postKey;
     private CircleImageView LiveComment;
+    private TextView Closelive;
     private String postKey1,liveID;
 
     @Override
@@ -95,6 +95,17 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
         mBroadcaster.setRotation(getWindowManager().getDefaultDisplay().getRotation());
+        Closelive = findViewById(R.id.CloseLiveTV);
+        Closelive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LiveStreamCommentref = FirebaseDatabase.getInstance().getReference().child("LiveStream").child(liveID).child("comment");
+                Intent i = new Intent(CameraActivity.this, MainActivity.class);
+                LiveStreamCommentref.removeValue();
+
+                startActivity(i);
+            }
+        });
     }
 
     private void OpenCommentFrag(String liveID) {
@@ -131,10 +142,12 @@ public class CameraActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(CameraActivity.this,"Start Streaming ", Toast.LENGTH_SHORT).show();
+
+                                        FancyToast.makeText(CameraActivity.this,"Start Streaming ", FancyToast.LENGTH_LONG,FancyToast.CONFUSING,R.drawable.ic_stream).show();
                                     }else {
                                         String message = task.getException().getMessage();
-                                        Toast.makeText(CameraActivity.this,"Failed To Start Streaming " + message, Toast.LENGTH_SHORT).show();
+                                        FancyToast.makeText(CameraActivity.this,"Failed To Start Streaming " + message,FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
+
                                     }
                                 }
                             });
@@ -178,7 +191,7 @@ public class CameraActivity extends AppCompatActivity {
                 ChangeStatus();
             }
 
-            mBroadcastButton.setText(broadcastStatus == BroadcastStatus.IDLE ? "Broadcast" : "Disconnect");
+            mBroadcastButton.setText(broadcastStatus == BroadcastStatus.IDLE ? "Broadcast" : "Stop Live");
             Log.i("myfypproject2", "Received status change: " + broadcastStatus);
         }
         @Override
@@ -219,10 +232,11 @@ public class CameraActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(CameraActivity.this,"End Streaming ", Toast.LENGTH_SHORT).show();
+                            FancyToast.makeText(CameraActivity.this,"End Streaming ", FancyToast.LENGTH_LONG,FancyToast.CONFUSING,R.drawable.ic_stream).show();
+
                         }else {
                             String message = task.getException().getMessage();
-                            Toast.makeText(CameraActivity.this,"Failed To End Streaming " + message, Toast.LENGTH_SHORT).show();
+                            FancyToast.makeText(CameraActivity.this,"Failed To End Streaming " + message,FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
                         }
                     }
                 });

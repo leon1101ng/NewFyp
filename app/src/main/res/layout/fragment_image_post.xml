@@ -3,21 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="20dp"
     android:background="#FAFAFA"
+    android:elevation="20dp"
     tools:context=".ProfileFragment.ImagePostFragment">
 
     <RelativeLayout
         android:id="@+id/imagepost_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
 
         >
 
         <FrameLayout
             android:id="@+id/imagepost_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/Image_post_list"

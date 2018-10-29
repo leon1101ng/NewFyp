@@ -1,15 +1,15 @@
 package net.leon.myfypproject2.ProfileFragment;
 
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.recyclerview.extensions.ListAdapter;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,18 +21,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.Model.Status;
-import net.leon.myfypproject2.Model.Video;
 import net.leon.myfypproject2.R;
-import net.leon.myfypproject2.UserInterface.Imagepost;
 import net.leon.myfypproject2.UserInterface.StatusPost;
 
 /**
@@ -114,12 +111,48 @@ public class PostFragment extends Fragment {
         Query  userstatuspost = StatusPostRef.orderByChild("UserID").startAt(CurrentUser).endAt(CurrentUser + "\uf8ff");
         FirebaseRecyclerAdapter<Status,StatusPostHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Status, StatusPostHolder>(
                 Status.class,
-                R.layout.statuslayout,
+                R.layout.user_allstatuspost_layout,
                 StatusPostHolder.class,
                 userstatuspost) {
             @Override
             protected void populateViewHolder(StatusPostHolder viewHolder, Status model, int position) {
+                final String postkey = getRef(position).getKey();
                 viewHolder.setStatus(model.getStatus());
+                viewHolder.setTimeDate(model.getTimeDate());
+
+                viewHolder.deletestatus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlertDialog.Builder builder;
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1){
+                            builder = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
+                        } else {
+                            builder = new AlertDialog.Builder(getContext());
+                        }
+
+                        builder.setTitle("Your Status Posted")
+                                .setMessage("Do you want delete this Status ? ")
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        StatusPostRef.child(postkey).removeValue();
+                                        FancyToast.makeText(getContext(),"This Status Has Been deleted !", FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                                    }
+                                })
+                                .show();
+
+
+                    }
+                });
             }
         };
         statuspostlist.setAdapter(firebaseRecyclerAdapter);
@@ -128,15 +161,22 @@ public class PostFragment extends Fragment {
     }
     public static class StatusPostHolder extends RecyclerView.ViewHolder{
         View mView;
+        private ImageView deletestatus;
         public StatusPostHolder(View itemView){
             super(itemView);
+
             mView = itemView;
+            deletestatus = (ImageView)mView.findViewById(R.id.deletestatus);
         }
 
         public void setStatus(String status){
-            TextView Status = (TextView)mView.findViewById(R.id.statusText);
+            TextView Status = (TextView)mView.findViewById(R.id.UserStatusText);
             Status.setText(status);
 
+        }
+        public void setTimeDate(String timeDate) {
+            TextView timed = (TextView)mView.findViewById(R.id.UserStatusTimeDate);
+            timed.setText(timeDate);
         }
     }
 }

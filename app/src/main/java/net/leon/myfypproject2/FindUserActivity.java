@@ -2,8 +2,8 @@ package net.leon.myfypproject2;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -22,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.Model.UserClass;
 import net.leon.myfypproject2.UserInterface.ViewUserProfile;
@@ -66,7 +66,7 @@ public class FindUserActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String inputUsername = searchUser.getText().toString();
                 if(TextUtils.isEmpty(inputUsername)) {
-                    Toast.makeText(FindUserActivity.this, "Please Enter A Usernaame", Toast.LENGTH_SHORT).show();
+                    FancyToast.makeText(FindUserActivity.this,"Please Enter A Username",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
                 }else {
                     AllUserRef.child(currentUser).addValueEventListener(new ValueEventListener() {
                         @Override
@@ -75,7 +75,8 @@ public class FindUserActivity extends AppCompatActivity {
                                 if (dataSnapshot.hasChild("username")) {
                                     String usern = dataSnapshot.child("username").getValue().toString();
                                     if (inputUsername.equals(usern)) {
-                                        Toast.makeText(FindUserActivity.this,"Cant find yourself", Toast.LENGTH_SHORT).show();
+                                        FancyToast.makeText(FindUserActivity.this,"Cant find yourself", FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
+
                                     }else {
                                         SearchOtherUser(inputUsername);
                                     }
@@ -96,7 +97,7 @@ public class FindUserActivity extends AppCompatActivity {
     }
 
             private void SearchOtherUser(String inputUsername) {
-                Toast.makeText(this, "Searching", Toast.LENGTH_LONG).show();
+                FancyToast.makeText(this,"Searching User",FancyToast.LENGTH_LONG,FancyToast.CONFUSING,false).show();
 
                 Query searchuserquery = AllUserRef.orderByChild("username")
                         .startAt(inputUsername).endAt(inputUsername + "\uf8ff");

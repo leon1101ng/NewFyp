@@ -2,9 +2,9 @@ package net.leon.myfypproject2.UserAccount;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +17,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.MainActivity;
-import net.leon.myfypproject2.MainMenu;
 import net.leon.myfypproject2.R;
 
 public class Login extends AppCompatActivity {
@@ -71,9 +71,9 @@ public class Login extends AppCompatActivity {
         String password = LoginPassword.getText().toString();
 
         if(TextUtils.isEmpty(email)){
-            Toast.makeText(this,"Please Enter Your Email!", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this,"Please Enter Your Email!",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
         }else if (TextUtils.isEmpty(password)){
-            Toast.makeText(this,"Please Enter Your Password!", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this,"Please Enter Your Password!",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
         }else {
             loadingbar.setTitle("Login In");
             loadingbar.setMessage("Please Wait!");
@@ -85,11 +85,13 @@ public class Login extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 inMainMenus();
+                                FancyToast.makeText(Login.this,"Login Successfully!",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+
                                 Toast.makeText(Login.this,"Login Successfully!", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
                             }else {
                                 String message = task.getException().getMessage();
-                                Toast.makeText(Login.this,"Login Failed :"+ message, Toast.LENGTH_SHORT).show();
+                                FancyToast.makeText(Login.this,"Login Failed :"+ message,FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
                                 loadingbar.dismiss();
                             }
                         }

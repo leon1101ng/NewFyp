@@ -1,8 +1,10 @@
 package net.leon.myfypproject2.UserInterface;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -33,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.MainActivity;
 import net.leon.myfypproject2.ProfileFragment.BioFragment;
@@ -54,6 +57,7 @@ public class Imagepost extends AppCompatActivity {
     private ImageView selectimage;
     private EditText imagecaption;
     final static int Gallery_Pick = 1;
+    private static final int REQUEST_CAPTURE_IMAGE = 100;
     private Uri uriImage;
     private StorageReference ImagesPost;
     private String CurrentDate,CurrentTime,Postrandomname,blank;
@@ -64,6 +68,7 @@ public class Imagepost extends AppCompatActivity {
     private String imagecap;
     private int PLACE_PICKER_REQUEST = 2;
     private String location;
+    private ImageView takepicture;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +102,13 @@ public class Imagepost extends AppCompatActivity {
         });
         BottomNavigationView bnv = (BottomNavigationView) findViewById(R.id.Imagepost_nav);
         bnv.setOnNavigationItemSelectedListener(navlistener);
+        takepicture = (ImageView)findViewById(R.id.takepicture);
+        takepicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openCameraIntent();
+            }
+        });
     }
 
     private void PhotoGallery() {
@@ -104,6 +116,16 @@ public class Imagepost extends AppCompatActivity {
         gallery.setAction(Intent.ACTION_GET_CONTENT);
         gallery.setType("image/*");
         startActivityForResult(gallery,Gallery_Pick);
+    }
+
+    private void openCameraIntent() {
+        Intent pictureIntent = new Intent(
+                MediaStore.ACTION_IMAGE_CAPTURE
+        );
+        if(pictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(pictureIntent,
+                    REQUEST_CAPTURE_IMAGE);
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -146,9 +168,9 @@ public class Imagepost extends AppCompatActivity {
         imagecap = imagecaption.getText().toString();
 
         if(uriImage == null){
-            Toast.makeText(this,"Please Select Your Image." ,Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this,"Please Select Your Image.",FancyToast.LENGTH_LONG,FancyToast.WARNING,true).show();
         }else if(TextUtils.isEmpty(imagecap)){
-            Toast.makeText(this,"Please Enter Your Image Caption", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this,"Please Enter Your Image Caption",FancyToast.LENGTH_LONG,FancyToast.WARNING,true).show();
         }else{
             Calendar caldate = Calendar.getInstance();
             SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
@@ -168,11 +190,11 @@ public class Imagepost extends AppCompatActivity {
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                     if(task.isSuccessful()){
                         Downloadlink = task.getResult().getDownloadUrl().toString();
-                        Toast.makeText(Imagepost.this,"Image Post Has Been Uploaded...", Toast.LENGTH_SHORT).show();
+                        FancyToast.makeText(Imagepost.this,"Image Post Has Been Uploaded...", FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
                         SavingImagePostInfo();
                     }else {
                         String message = task.getException().getMessage();
-                        Toast.makeText(Imagepost.this,"Failed To Upload Image Post"+ message, Toast.LENGTH_SHORT).show();
+                        FancyToast.makeText(Imagepost.this,"Failed To Upload Image Post"+ message,FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
                     }
                 }
             });
@@ -204,11 +226,11 @@ public class Imagepost extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(Imagepost.this,"Image Post Has Been Uploaded... ", Toast.LENGTH_SHORT).show();
+                                FancyToast.makeText(Imagepost.this,"Image Post Has Been Uploaded...", FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
                                 BackToHome();
                             }else {
                                 String message = task.getException().getMessage();
-                                Toast.makeText(Imagepost.this,"Failed To Upload Image Post " + message, Toast.LENGTH_SHORT).show();
+                                FancyToast.makeText(Imagepost.this,"Failed To Upload Image Post"+ message,FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
                             }
                         }
                     });
@@ -250,6 +272,14 @@ public class Imagepost extends AppCompatActivity {
             selectimage.setImageURI(uriImage);
         }
 
+
+        if (requestCode == REQUEST_CAPTURE_IMAGE &&
+                resultCode == RESULT_OK) {
+            if (data != null && data.getExtras() != null) {
+                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                selectimage.setImageBitmap(imageBitmap);
+            }
+        }
 
 
     }

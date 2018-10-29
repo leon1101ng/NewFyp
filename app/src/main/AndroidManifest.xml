@@ -12,6 +12,12 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="true" />
@@ -44,6 +50,7 @@
         <activity
             android:name=".MainActivity"
             android:label="The Starry"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,12 +60,15 @@
         </activity>
         <activity
             android:name=".SplashScreen"
-            android:label="@string/title_activity_splash_screen"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UserAccount.Register" />
+            android:screenOrientation="portrait"
+            android:supportsRtl="true" />
+        <activity
+            android:name=".UserAccount.Register"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UserAccount.Login"
-            android:label="The Starry">
+            android:label="The Starry"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -66,22 +76,42 @@
             </intent-filter>
             >
         </activity>
-        <activity android:name=".UserAccount.UserSetup" />
+        <activity
+            android:name=".UserAccount.UserSetup"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".UserInterface.UserInterface"
             android:screenOrientation="portrait" />
-        <activity android:name=".UserInterface.Imagepost" />
-        <activity android:name=".UserInterface.StatusPost" />
-        <activity android:name=".UserInterface.VideoPost" />
-        <activity android:name=".MainMenu" />
-        <activity android:name=".DailyNews" />
-        <activity android:name=".Comment.ImageComment" />
-        <activity android:name=".FindUserActivity" />
-        <activity android:name=".Event.EventMenu" />
-        <activity android:name=".MapsActivity" />
+        <activity
+            android:name=".UserInterface.Imagepost"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserInterface.StatusPost"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserInterface.VideoPost"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DailyNews"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Comment.ImageComment"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FindUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Event.EventMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MapsActivity"
+            android:screenOrientation="portrait" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -98,40 +128,64 @@
         <activity
             android:name=".Event.CreateEvent"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ProductMgnt.UploadProducts"
+        <activity
+            android:name=".ProductMgnt.UploadProducts"
             android:screenOrientation="portrait" />
-        <activity android:name=".FanClub.CreateClub"
+        <activity
+            android:name=".FanClub.CreateClub"
             android:screenOrientation="portrait" />
-        <activity android:name=".FanClub.FanClubMainMenu"
+        <activity
+            android:name=".FanClub.FanClubMainMenu"
             android:screenOrientation="portrait" />
-        <activity android:name=".FanClub.FanClubChat"
+        <activity
+            android:name=".FanClub.FanClubChat"
             android:screenOrientation="portrait" />
-        <activity android:name=".ProductMgnt.MyProductsView"
+        <activity
+            android:name=".ProductMgnt.MyProductsView"
             android:screenOrientation="portrait" />
-        <activity android:name=".ProductMgnt.ProductsDetails"
+        <activity
+            android:name=".ProductMgnt.ProductsDetails"
             android:screenOrientation="portrait" />
-        <activity android:name=".UserInterface.EditUserBios"
+        <activity
+            android:name=".UserInterface.EditUserBios"
             android:screenOrientation="portrait" />
-        <activity android:name=".Purchase_in_app_credit.PurchaseCredit"
+        <activity
+            android:name=".Purchase_in_app_credit.PurchaseCredit"
             android:screenOrientation="portrait" />
-        <activity android:name=".Purchase_in_app_credit.Payment"
+        <activity
+            android:name=".Purchase_in_app_credit.Payment"
             android:screenOrientation="portrait" />
-        <activity android:name=".UserInterface.ViewUserProfile"
+        <activity
+            android:name=".UserInterface.ViewUserProfile"
             android:screenOrientation="portrait" />
-        <activity android:name=".VipSubscription.VipMenu"
+        <activity
+            android:name=".VipSubscription.VipMenu"
             android:screenOrientation="portrait" />
-        <activity android:name=".LiveStream.CameraActivity"
+        <activity
+            android:name=".LiveStream.CameraActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".LiveStream.PlayStreamVideo"
+        <activity
+            android:name=".LiveStream.PlayStreamVideo"
             android:screenOrientation="portrait" />
-        <activity android:name=".CompanyModule.CompanyMenu"
+        <activity
+            android:name=".CompanyModule.CompanyMenu"
             android:screenOrientation="portrait" />
-        <activity android:name=".ProductMgnt.AddCartProducts"
+        <activity
+            android:name=".ProductMgnt.AddCartProducts"
             android:screenOrientation="portrait" />
-        <activity android:name=".ProductMgnt.UserCart"
+        <activity
+            android:name=".ProductMgnt.UserCart"
             android:screenOrientation="portrait" />
-        <activity android:name=".Message.MessageUI"
-            android:screenOrientation="portrait" ></activity>
+        <activity
+            android:name=".Message.MessageUI"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ProductMgnt.ConcertTicket" />
+        <activity
+            android:name=".Infinite_card"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".CelebritySchedule.ManageSchedule" />
+        <activity android:name=".CelebritySchedule.AddActivitySchedule" />
+        <activity android:name=".CelebritySchedule.ScheduleList"></activity>
     </application>
 
 </manifest>

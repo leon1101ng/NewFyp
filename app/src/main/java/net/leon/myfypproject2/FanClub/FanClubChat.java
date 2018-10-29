@@ -1,5 +1,6 @@
 package net.leon.myfypproject2.FanClub;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
@@ -38,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import net.leon.myfypproject2.FanPost;
+import net.leon.myfypproject2.MainActivity;
 import net.leon.myfypproject2.Model.FanClubChatClass;
 import net.leon.myfypproject2.ProfileFragment.BioFragment;
 import net.leon.myfypproject2.R;
@@ -52,7 +54,7 @@ public class FanClubChat extends AppCompatActivity {
     private EditText fcchattext;
     private TextView postfcchat,fanclubtopicView;
     private RecyclerView FanClubChatlist;
-    private DatabaseReference UserRef, FanClubRef, FanClubRef1, FanClubUserRef;
+    private DatabaseReference UserRef, FanClubRef, FanClubRef1, FanClubUserRef, FanClubUserRef1;
     private FirebaseAuth mAuth;
     private CircleImageView BackToMenu;
     private ImageView fanclubimageView;
@@ -74,6 +76,7 @@ public class FanClubChat extends AppCompatActivity {
         FanClubRef1 = FirebaseDatabase.getInstance().getReference().child("Fan Club").child(postKey);
         fanclubtopicView = (TextView)findViewById(R.id.fanclubtopicView);
         FanClubUserRef = FirebaseDatabase.getInstance().getReference().child("FanClubUser").child(postKey).child(Current_user);
+        FanClubUserRef1 = FirebaseDatabase.getInstance().getReference().child("FanClubUser").child(postKey);
         fanclubimageView = (ImageView)findViewById(R.id.fanclubimageView);
 
         BottomNavigationView bnv = (BottomNavigationView) findViewById(R.id.fanUserBNV);
@@ -83,8 +86,10 @@ public class FanClubChat extends AppCompatActivity {
         BackToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
-                FanClubUserRef.removeValue();
+                Intent i = new Intent(FanClubChat.this, MainActivity.class);
+                startActivity(i);
+                finish();
+
 
             }
         });
@@ -145,6 +150,31 @@ public class FanClubChat extends AppCompatActivity {
             }
         });
 
+        UserChecking();
+
+    }
+
+    private void UserChecking() {
+        FanClubUserRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.hasChild(Current_user)){
+                    KickUser();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void KickUser() {
+        Intent setuppage = new Intent(FanClubChat.this, FanClubMainMenu.class);
+        Toast.makeText(FanClubChat.this,"You Has Been Kick By Host", Toast.LENGTH_SHORT).show();
+        startActivity(setuppage);
+        finish();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener = new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -12,7 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import net.leon.myfypproject2.FanPost;
 import net.leon.myfypproject2.Model.FanMessage;
 import net.leon.myfypproject2.R;
 
@@ -121,11 +120,11 @@ public class FanMessageFragment extends Fragment {
 
     public static class FanMessage1Holder extends RecyclerView.ViewHolder{
         View mView;
-        private CircleImageView deletebtn;
+        private ImageView deletebtn;
         public FanMessage1Holder(View itemView){
             super(itemView);
             mView = itemView;
-            deletebtn = (CircleImageView)mView.findViewById(R.id.deletepost);
+            deletebtn = (ImageView)mView.findViewById(R.id.deletepost);
     }
 
 

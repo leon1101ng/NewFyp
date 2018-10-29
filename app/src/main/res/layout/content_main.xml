@@ -9,34 +9,58 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <com.example.library.banner.BannerLayout
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:autoPlaying="true"
+        app:centerScale="1.3"
+        app:itemSpace="20"
+        app:moveSpeed="1.8" />
+
 
     <RelativeLayout
         android:id="@+id/drawer_layout3"
         android:layout_width="match_parent"
-        android:layout_height="547dp">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/recycler"
+        android:layout_above="@+id/RelBN">
+
 
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_container1"
+    <RelativeLayout
+        android:id="@+id/RelBN"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:background="#ffffff">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@drawable/shadow" />
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/nav_btn"
+        <FrameLayout
+            android:id="@+id/fragment_container1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:menu="@menu/nav_menu" />
-    </FrameLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="bottom">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@drawable/shadow" />
+
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/nav_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:menu="@menu/nav_menu" />
+
+        </FrameLayout>
+    </RelativeLayout>
 
 
 

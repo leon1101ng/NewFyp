@@ -3,16 +3,15 @@ package net.leon.myfypproject2.ProductMgnt;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -27,11 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.MainActivity;
 import net.leon.myfypproject2.R;
-import net.leon.myfypproject2.UserInterface.Imagepost;
-import net.leon.myfypproject2.UserInterface.UserInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -261,6 +259,7 @@ public class UploadProducts extends AppCompatActivity {
                     productsdb.put("ProductsPrice", productsprice);
                     productsdb.put("ProductsQuantity", productsqntt);
                     productsdb.put("ProductsID", Postrandomname);
+                    productsdb.put("ProductsUserID", Current_users);
                     ProductsDbRef.child("P" + Postrandomname).updateChildren(productsdb)
                             .addOnCompleteListener(new OnCompleteListener() {
 
@@ -269,14 +268,13 @@ public class UploadProducts extends AppCompatActivity {
 
                                     if (task.isSuccessful()) {
 
-
-                                        Toast.makeText(UploadProducts.this, "Products Has Been Uploaded ", Toast.LENGTH_SHORT).show();
+                                        FancyToast.makeText(UploadProducts.this,"Products Has Been Uploaded ",FancyToast.LENGTH_LONG, FancyToast.SUCCESS,true).show();
                                         BackToHome();
 
                                     } else {
 
                                         String message = task.getException().getMessage();
-                                        Toast.makeText(UploadProducts.this, "Failed To Upload Products " + message, Toast.LENGTH_SHORT).show();
+                                        FancyToast.makeText(UploadProducts.this,"Failed To Upload Products " + message,FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
 
 
                                     }

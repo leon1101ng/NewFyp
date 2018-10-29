@@ -29,6 +29,12 @@
                 android:layout_gravity="center"
                 android:text="Comments"/>
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/BackToMenu"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_back1" />
+
         </android.support.v7.widget.Toolbar>
 
 
@@ -52,7 +58,7 @@
 
         <EditText
             android:id="@+id/input_cm"
-            android:layout_width="340dp"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"

@@ -7,8 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,9 +23,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
+import com.example.library.banner.BannerLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,32 +32,35 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
 
+import net.leon.myfypproject2.Adapter.WebBannerAdapter;
+import net.leon.myfypproject2.CelebritySchedule.ManageSchedule;
+import net.leon.myfypproject2.CelebritySchedule.ScheduleList;
 import net.leon.myfypproject2.Event.EventMenu;
 import net.leon.myfypproject2.FanClub.FanClubMainMenu;
 import net.leon.myfypproject2.Function.VIewVideo;
 import net.leon.myfypproject2.Function.ViewImage;
-import net.leon.myfypproject2.LiveStream.CameraActivity;
-import net.leon.myfypproject2.ProductMgnt.MyProductsView;
 import net.leon.myfypproject2.Function.ViewProduct;
 import net.leon.myfypproject2.Function.ViewStream;
 import net.leon.myfypproject2.Function.homefragment;
-import net.leon.myfypproject2.ProductMgnt.UploadProducts;
+import net.leon.myfypproject2.LiveStream.CameraActivity;
+import net.leon.myfypproject2.ProductMgnt.MyProductsView;
 import net.leon.myfypproject2.ProductMgnt.UserCart;
-import net.leon.myfypproject2.Purchase_in_app_credit.PurchaseCredit;
 import net.leon.myfypproject2.UserAccount.Login;
 import net.leon.myfypproject2.UserAccount.UserSetup;
 import net.leon.myfypproject2.UserInterface.Imagepost;
 import net.leon.myfypproject2.UserInterface.StatusPost;
-import net.leon.myfypproject2.UserInterface.UserInterface;
 import net.leon.myfypproject2.UserInterface.VideoPost;
-import net.leon.myfypproject2.VipSubscription.VipMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener   {
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef;
     private Button ProfileEdit,UserInterface;
@@ -78,6 +80,19 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        BannerLayout recyclerBanner =  findViewById(R.id.recycler);
+        List<String> list = new ArrayList<>();
+        list.add("https://partyflock.nl/images/party/351031_1000x544_469818/K-Pop-and-KHipHop.jpg");
+        list.add("http://blog.trazy.com/wp-content/uploads/2016/12/seoul-music-awards-2018.jpg");
+        list.add("https://s-media-cache-ak0.pinimg.com/originals/89/2e/0b/892e0bf0220f805349cb26910de2df8d.jpg");
+        list.add("https://www.c-k-jpopnews.fr/wp-content/uploads/ckjpopnews_mnet-asian-music-awards.jpg");
+        list.add("http://theseoulstory.com/wp-content/uploads/2018/06/ww1.jpg");
+        list.add("https://1.bp.blogspot.com/-DJ_uszjaCwM/VtxQJSyNe_I/AAAAAAAAAUk/2FhTEcagl5U/s1600/LOGO%2BLOG.jpg");
+        WebBannerAdapter webBannerAdapter=new WebBannerAdapter(this,list);
+
+        recyclerBanner.setAdapter(webBannerAdapter);
+
 
 
 
@@ -135,7 +150,7 @@ public class MainActivity extends AppCompatActivity
                         String profileimg = dataSnapshot.child("ProfilePicture").getValue().toString();
                         Picasso.get().load(profileimg).placeholder(R.drawable.userprofile).into(NavProfileImg);
                     }else {
-                        Toast.makeText(MainActivity.this, "Profile name do not exists", Toast.LENGTH_SHORT).show();
+                        FancyToast.makeText(MainActivity.this,"Profile name do not exists",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
                     }
 
 
@@ -162,28 +177,28 @@ public class MainActivity extends AppCompatActivity
         stream.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(MainActivity.this, "Live Stream", Toast.LENGTH_SHORT).show();
+                FancyToast.makeText(MainActivity.this,"Live Stream",FancyToast.LENGTH_LONG,FancyToast.DEFAULT,true).show();
                 return true;
             }
         });
         imagepost.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(MainActivity.this, "Post Image", Toast.LENGTH_SHORT).show();
+                FancyToast.makeText(MainActivity.this,"Post Image",FancyToast.LENGTH_LONG,FancyToast.DEFAULT,true).show();
                 return true;
             }
         });
         videopost.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(MainActivity.this, "Post Video", Toast.LENGTH_SHORT).show();
+                FancyToast.makeText(MainActivity.this,"Post Video",FancyToast.LENGTH_LONG,FancyToast.DEFAULT,true).show();
                 return true;
             }
         });
         statuspost.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(MainActivity.this, "Post Status", Toast.LENGTH_SHORT).show();
+                FancyToast.makeText(MainActivity.this,"Post Status",FancyToast.LENGTH_LONG,FancyToast.DEFAULT,true).show();
                 return true;
             }
         });
@@ -358,26 +373,72 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_message) {
 
-        } else if(id == R.id.nav_addcart){
-            Intent i = new Intent( MainActivity.this , UserCart.class);
+        } else if (id == R.id.nav_celebrityschedule){
+            Intent i = new Intent(MainActivity.this, ScheduleList.class);
             startActivity(i);
 
-        }
+        }else if (id == R.id.nav_schedule){
 
+
+            UsersRef.child(currentUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+
+                        if(dataSnapshot.hasChild("Type")){
+                            String type = "Celebrity";
+                            String usertype = dataSnapshot.child("Type").getValue().toString();
+                            if(usertype.equals(type)){
+                                Intent i = new Intent(MainActivity.this, ManageSchedule.class);
+                                startActivity(i);
+                            }else {
+                                FancyToast.makeText(MainActivity.this,"Only Celebrity Can Manage Schedule",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+
+        }else if(id == R.id.nav_addcart){
+            Intent i = new Intent( MainActivity.this , UserCart.class);
+            startActivity(i);
+        }
                 else if (id == R.id.nav_vipsubscription){
-            Intent i = new Intent( MainActivity.this , PurchaseCredit.class);
+            Intent i = new Intent( MainActivity.this , Infinite_card.class);
             startActivity(i);
 
         }else if (id == R.id.nav_profile) {
-            Intent i = new Intent(MainActivity.this, UserInterface.class);
+            Intent i = new Intent(MainActivity.this, net.leon.myfypproject2.UserInterface.UserInterface.class);
             startActivity(i);
 
         } else if (id == R.id.Logout) {
             Logout();
 
         }else if (id == R.id.nav_uploadproducts){
-            Intent i = new Intent( MainActivity.this , UploadProducts.class);
-            startActivity(i);
+            UsersRef.child(currentUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+
+                        if(dataSnapshot.hasChild("Vip")){
+                            int vip = 1;
+                            int UserVip =  dataSnapshot.child("Vip").getValue(Integer.class);
+                            if(UserVip == vip){
+                                Intent i = new Intent( MainActivity.this , MyProductsView.class);
+                                startActivity(i);
+                            }else {
+                                FancyToast.makeText(MainActivity.this,"Only Vip Can Manage Products",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -428,7 +489,7 @@ public class MainActivity extends AppCompatActivity
                    EditText livetitle  = (EditText)myDialog2.findViewById(R.id.LiveTitle);
                     String livetext = livetitle.getText().toString();;
                     if(TextUtils.isEmpty(livetext)){
-                        Toast.makeText(MainActivity.this, "Please Enter Live Title", Toast.LENGTH_SHORT).show();
+                        FancyToast.makeText(MainActivity.this,"Please Enter Live Title",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
                     }else {
                         Intent i = new Intent(MainActivity.this, CameraActivity.class);
                         i.putExtra("LiveTitle", livetext);

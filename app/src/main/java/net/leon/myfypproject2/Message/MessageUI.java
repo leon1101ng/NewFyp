@@ -66,6 +66,12 @@ public class MessageUI extends AppCompatActivity {
 
         UserImage = (CircleImageView)findViewById(R.id.ChatUserImage);
         BackBtn = (CircleImageView)findViewById(R.id.ToUserProfile);
+        BackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         Username = (TextView)findViewById(R.id.chatusername);
         messagetext = (EditText)findViewById(R.id.message_text);
         sendMessage = (ImageView)findViewById(R.id.sendmessage);

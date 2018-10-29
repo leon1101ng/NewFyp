@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.Event.CreateEvent;
 import net.leon.myfypproject2.R;
@@ -43,7 +44,7 @@ public class StatusPost extends AppCompatActivity {
     private int PLACE_PICKER_REQUEST = 1;
     private DatabaseReference UserStatusPostRef, UserRef;
     private FirebaseAuth mAuth;
-    private String CurrentUser,CurrentDate, CurrentTime, Postrandomname,Statustext,Tagview,Locationview;
+    private String CurrentUser,CurrentDate, CurrentTime, Postrandomname,Statustext,Tagview,Locationview,CurrentDate1, CurrentTime1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,15 +84,19 @@ public class StatusPost extends AppCompatActivity {
         Tagview = TagView.getText().toString();
         Locationview = LocationView.getText().toString();
         if(TextUtils.isEmpty(Statustext)){
-            Toast.makeText(this,"Please Text To proceed Status Post", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this,"Please Text To proceed Status Post",FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
         }else
         {
             Calendar caldate = Calendar.getInstance();
             SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
+            SimpleDateFormat currentdate1 = new SimpleDateFormat("dd-MMM");
+            CurrentDate1 = currentdate1.format(caldate.getTime());
             CurrentDate = currentdate.format(caldate.getTime());
 
             Calendar caltime = Calendar.getInstance();
             SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat currenttime1 = new SimpleDateFormat("HH:mm");
+            CurrentTime1 = currenttime1.format(caltime.getTime());
             CurrentTime = currenttime.format(caltime.getTime());
             Random rand = new Random();
 
@@ -116,16 +121,17 @@ public class StatusPost extends AppCompatActivity {
                 Statuspost.put("ProfilePicture", userprofilepicture);
                 Statuspost.put("UserID", CurrentUser);
                 Statuspost.put("Username", username);
+                Statuspost.put("TimeDate", CurrentTime1 + " " + CurrentDate1);
                 UserStatusPostRef.child("S"  + Postrandomname).updateChildren(Statuspost)
                         .addOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(StatusPost.this,"Image Post Has Been Uploaded... ", Toast.LENGTH_SHORT).show();
+                                    FancyToast.makeText(StatusPost.this,"Image Post Has Been Uploaded... ",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
                                     BackToHome();
                                 }else {
                                     String message = task.getException().getMessage();
-                                    Toast.makeText(StatusPost.this,"Failed To Upload Image Post " + message, Toast.LENGTH_SHORT).show();
+                                    FancyToast.makeText(StatusPost.this,"Failed To Upload Image Post " + message,FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
                                 }
                             }
                         });

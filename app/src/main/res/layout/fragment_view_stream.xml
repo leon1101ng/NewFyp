@@ -12,13 +12,13 @@
         android:id="@+id/stream_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="3dp"
         >
 
         <FrameLayout
             android:id="@+id/stream_container2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/layer1">
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/all_stream_list2"

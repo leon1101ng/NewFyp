@@ -1,8 +1,9 @@
 package net.leon.myfypproject2.ProductMgnt;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +27,7 @@ public class MyProductsView extends AppCompatActivity {
     private RecyclerView myProducts_list;
     private FirebaseAuth mAuth;
     private DatabaseReference ProductsRef;
-    private CircleImageView backbtn;
+    private CircleImageView backbtn, touploadproducts;
     String current_users;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class MyProductsView extends AppCompatActivity {
         setContentView(R.layout.activity_my_products_view);
 
         myProducts_list = (RecyclerView)findViewById(R.id.MyProductView);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
@@ -52,12 +54,20 @@ public class MyProductsView extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        touploadproducts = (CircleImageView)findViewById(R.id.ToUploadProduct);
+        touploadproducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MyProductsView.this, UploadProducts.class);
+                startActivity(i);
+            }
+        });
 
 
     }
 
     private void DisplayAllMyProducts() {
-        Query MyProduct = ProductsRef.orderByChild("UserID").startAt(current_users).endAt(current_users + "\uf8ff");
+        Query MyProduct = ProductsRef.orderByChild("ProductsUserID").startAt(current_users).endAt(current_users + "\uf8ff");
         FirebaseRecyclerAdapter<ProductsClass,MyProductListViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ProductsClass, MyProductListViewHolder>(
                 ProductsClass.class,
                 R.layout.my_product_list,
@@ -66,8 +76,17 @@ public class MyProductsView extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(MyProductListViewHolder viewHolder, ProductsClass model, int position) {
+                final String postkey = getRef(position).getKey();
                 viewHolder.setProductsImage(getApplication(),model.getProductsImage());
                 viewHolder.setProductsName(model.getProductsName());
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(MyProductsView.this, ProductsDetails.class);
+                        i.putExtra("PostKey", postkey);
+                        startActivity(i);
+                    }
+                });
 
             }
         };

@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -107,7 +108,7 @@ public class EditUserBios extends AppCompatActivity {
                         String profileimg = dataSnapshot.child("ProfilePicture").getValue().toString();
                         Picasso.get().load(profileimg).placeholder(R.drawable.userprofile).into(Profile_photo);
                     }else {
-                        Toast.makeText(EditUserBios.this, "Profile name do not exists", Toast.LENGTH_SHORT).show();
+                        FancyToast.makeText(EditUserBios.this,"Profile name do not exists",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
                     }
 
 
@@ -238,14 +239,13 @@ public class EditUserBios extends AppCompatActivity {
 
 
         if(TextUtils.isEmpty(UserDisplayName)){
-            Toast.makeText(this, "Please Enter Display Name ", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(UserAge) ){
-            Toast.makeText(this, "Please Enter Your Age ", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(UserGender) ){
-            Toast.makeText(this, "Please Select Your Gender ", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this,"Please Enter Display Name ",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
+        } else if (TextUtils.isEmpty(UserAge) ) {
+            FancyToast.makeText(this, "Please Enter Your Age ", FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
+        }else if (TextUtils.isEmpty(UserGender) ){
+            FancyToast.makeText(this,"Please Select Your Gender ",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
         }else if (TextUtils.isEmpty(AboutUser) ){
-            Toast.makeText(this, "Please Enter Your Details ", Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this,"Please Enter Your Details ",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
         }else {
             UpdateUserProfile();
 
@@ -273,11 +273,11 @@ public class EditUserBios extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(EditUserBios.this,"Edit User Profile has Been Done ", Toast.LENGTH_SHORT).show();
+                                        FancyToast.makeText(EditUserBios.this,"Edit User Profile has Been Done ",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
                                         BackUserInterface();
                                     }else {
                                         String message = task.getException().getMessage();
-                                        Toast.makeText(EditUserBios.this,"Failed To Edit Profile " + message, Toast.LENGTH_SHORT).show();
+                                        FancyToast.makeText(EditUserBios.this,"Failed To Edit Profile " + message,FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
                                     }
                                 }
                             });
@@ -296,6 +296,6 @@ public class EditUserBios extends AppCompatActivity {
     private void BackUserInterface() {
         Intent i = new Intent(EditUserBios.this, UserInterface.class);
         startActivity(i);
-    finish();
+        finish();
     }
 }

@@ -59,94 +59,105 @@
             android:src="@drawable/profile" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/NameToShow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="50dp"
+                android:fontFamily="sans-serif-smallcaps"
                 android:text="Name To Show"
-                android:textSize="20sp"
-                android:fontFamily="monospace"
-                android:textStyle="bold"
-                />
+                android:textSize="23sp"
+                android:layout_marginBottom="5dp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_marginLeft="22dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status"/>
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="Status" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" | "/>
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text=" | " />
 
                 <TextView
                     android:id="@+id/AgeView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-smallcaps"
                     android:text="Age" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" | "/>
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text=" | " />
 
                 <TextView
                     android:id="@+id/GenderView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-smallcaps"
                     android:text="Gender" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="80dp"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="80dp">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@drawable/dollar2"/>
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/dollar2" />
 
                     <TextView
                         android:id="@+id/UserMoney"
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
-                        android:text="100000"
                         android:layout_marginTop="7dp"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="16sp"/>
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:text="100000"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="7dp"
-                        android:text=" | "/>
+                        android:fontFamily="sans-serif-smallcaps"
+                        android:text=" | " />
 
                     <TextView
                         android:id="@+id/vipstatus"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="7dp"
+                        android:fontFamily="sans-serif-smallcaps"
                         android:text="Vip"
                         android:textSize="16sp" />
                 </LinearLayout>
-
-
 
 
             </LinearLayout>

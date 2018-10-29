@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':library', ':fancytoastlib', ':orion-preview-library', ':infinite-cards', ':grav', ':calender-library'
 include ':libbambuser'

@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import net.leon.myfypproject2.Model.LiveStreamComment;
@@ -39,6 +40,7 @@ public class CameraComment extends Fragment {
     private EditText livecomment;
     private TextView PostLiveComment;
     private RecyclerView comment_recycleview1;
+    private int countPosts = 0;
 
 
     public CameraComment() {
@@ -94,45 +96,72 @@ public class CameraComment extends Fragment {
     }
 
     private void StoreChatComment(String userName) {
+
         livestreamcomment = livecomment.getText().toString();
 
-        Calendar caldate = Calendar.getInstance();
-        SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
-        final String CurrentDate = currentdate.format(caldate.getTime());
+        LiveStreamCommentref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists())
+                {
+                    countPosts = (int) dataSnapshot.getChildrenCount();
 
-        Calendar caltime = Calendar.getInstance();
-        SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
-        final String CurrentTime = currenttime.format(caltime.getTime());
+                }else {
+                    countPosts = 0;
 
-        final String RandomKey = CurrentUser + CurrentDate + CurrentTime;
+                }
 
-        HashMap commentMap = new HashMap();
-        commentMap.put("Uid", CurrentUser);
-        commentMap.put("Comment", livestreamcomment);
-        commentMap.put("Date", CurrentDate);
-        commentMap.put("Time", CurrentTime);
-        commentMap.put("Username", userName);
-        LiveStreamCommentref.child(RandomKey).updateChildren(commentMap)
-                .addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
 
-                        } else {
+                Calendar caldate = Calendar.getInstance();
+                SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
+                final String CurrentDate = currentdate.format(caldate.getTime());
 
-                        }
-                    }
-                });
+                Calendar caltime = Calendar.getInstance();
+                SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
+                final String CurrentTime = currenttime.format(caltime.getTime());
+
+                final String RandomKey =   CurrentTime + CurrentDate ;
+
+                HashMap commentMap = new HashMap();
+                commentMap.put("Uid", CurrentUser);
+                commentMap.put("Comment", livestreamcomment);
+                commentMap.put("Date", CurrentDate);
+                commentMap.put("Time", CurrentTime);
+                commentMap.put("Username", userName);
+                commentMap.put("counter", countPosts);
+                LiveStreamCommentref.child(RandomKey).updateChildren(commentMap)
+                        .addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                if (task.isSuccessful()) {
+
+
+                                } else {
+
+                                }
+                            }
+                        });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        Query Descendsort = LiveStreamCommentref.orderByChild("counter");
+
         FirebaseRecyclerAdapter<LiveStreamComment, LiveComment.LiveStreamCommentViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<LiveStreamComment, LiveComment.LiveStreamCommentViewHolder>(
                 LiveStreamComment.class,
                 R.layout.livecommentlayout,
                 LiveComment.LiveStreamCommentViewHolder.class,
-                LiveStreamCommentref
+                Descendsort
         ) {
             @Override
             protected void populateViewHolder(LiveComment.LiveStreamCommentViewHolder viewHolder, LiveStreamComment model, int position) {

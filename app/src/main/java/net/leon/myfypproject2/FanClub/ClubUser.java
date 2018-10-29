@@ -3,6 +3,7 @@ package net.leon.myfypproject2.FanClub;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,10 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import net.leon.myfypproject2.MainActivity;
 import net.leon.myfypproject2.Model.FanClubUser;
 import net.leon.myfypproject2.R;
-import net.leon.myfypproject2.UserAccount.UserSetup;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.droidsonroids.gif.GifImageView;
@@ -34,15 +33,19 @@ import pl.droidsonroids.gif.GifImageView;
  * A simple {@link Fragment} subclass.
  */
 public class ClubUser extends Fragment {
+    private SharedPreferences sharedPref ;
     private String CurrentUser,i,clubcreatorID;
     private DatabaseReference fanClubUserRef,FanClubRef;
     private FirebaseAuth mAuth;
     private RecyclerView fanclubuser_list;
+    private String current_user_id;
+
 
 
     public ClubUser() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -57,15 +60,17 @@ public class ClubUser extends Fragment {
         }
 
         fanclubuser_list = (RecyclerView)view.findViewById(R.id.fanclubuser_list);
+        fanClubUserRef = FirebaseDatabase.getInstance().getReference().child("FanClubUser").child(i);
+        FanClubRef = FirebaseDatabase.getInstance().getReference().child("Fan Club").child(i);
+        mAuth = FirebaseAuth.getInstance();
+        CurrentUser = mAuth.getCurrentUser().getUid();
+        current_user_id = mAuth.getCurrentUser().getUid();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         fanclubuser_list.setLayoutManager(linearLayoutManager);
 
-        fanClubUserRef = FirebaseDatabase.getInstance().getReference().child("FanClubUser").child(i);
-        FanClubRef = FirebaseDatabase.getInstance().getReference().child("Fan Club").child(i);
-        mAuth = FirebaseAuth.getInstance();
-        CurrentUser = mAuth.getCurrentUser().getUid();
+
 
         FanClubRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -80,12 +85,13 @@ public class ClubUser extends Fragment {
 
             }
         });
-        UserChecking();
+
         return view;
 
     }
+
+
     private void UserChecking() {
-        final String current_user_id = mAuth.getCurrentUser().getUid();
 
         fanClubUserRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -103,10 +109,16 @@ public class ClubUser extends Fragment {
     }
 
     private void UserSetup() {
-        Intent setuppage = new Intent(getContext(), FanClubMainMenu.class);
-        Toast.makeText(getContext(),"You Has Been Kick By Host", Toast.LENGTH_SHORT).show();
-        startActivity(setuppage);
+        onAttach();
 
+
+
+    }
+
+    private void onAttach() {
+        Intent setuppage = new Intent(getActivity(), FanClubMainMenu.class);
+        Toast.makeText(getActivity(),"You Has Been Kick By Host", Toast.LENGTH_SHORT).show();
+        startActivity(setuppage);
     }
 
 

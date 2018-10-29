@@ -1,9 +1,25 @@
 package net.leon.myfypproject2.Model;
 
 public class ProductsClass {
-    private String ProductsCategorys,ProductsDescription,ProductsImage,ProductsImage2,ProductsImage3,ProductsName,ProductsUser,UserImage;
+    private String ProductsCategorys,ProductsDescription,ProductsImage,ProductsImage2,ProductsImage3,ProductsName,ProductsUser,UserImage,ProductsUserID,ProductsID;
 
-    public ProductsClass(String productsCategorys, String productsDescription, String productsImage, String productsImage2, String productsImage3, String productsName, String productsUser, String userImage, int productsPrice, int productsQuantity) {
+    public String getProductsID() {
+        return ProductsID;
+    }
+
+    public void setProductsID(String productsID) {
+        ProductsID = productsID;
+    }
+
+    public String getProductsUserID() {
+        return ProductsUserID;
+    }
+
+    public void setProductsUserID(String productsUserID) {
+        ProductsUserID = productsUserID;
+    }
+
+    public ProductsClass(String productsCategorys, String productsDescription, String productsImage, String productsImage2, String productsImage3, String productsName, String productsUser, String userImage, String productsUserID, String productsID, int productsPrice, int productsQuantity) {
         ProductsCategorys = productsCategorys;
         ProductsDescription = productsDescription;
         ProductsImage = productsImage;
@@ -12,6 +28,8 @@ public class ProductsClass {
         ProductsName = productsName;
         ProductsUser = productsUser;
         UserImage = userImage;
+        ProductsUserID = productsUserID;
+        ProductsID = productsID;
         ProductsPrice = productsPrice;
         ProductsQuantity = productsQuantity;
     }

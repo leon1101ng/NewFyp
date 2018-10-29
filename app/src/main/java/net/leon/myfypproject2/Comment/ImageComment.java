@@ -1,8 +1,8 @@
 package net.leon.myfypproject2.Comment;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.Model.ImageCommentClass;
 import net.leon.myfypproject2.R;
@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ImageComment extends AppCompatActivity {
 
     private TextView postComment;
@@ -36,6 +38,7 @@ public class ImageComment extends AppCompatActivity {
     private RecyclerView commentviewlist;
     private DatabaseReference userRef,ImagePostRef;
     private FirebaseAuth mAuth;
+    private CircleImageView backtomenu;
 
     String postKey,currentUserID;
     @Override
@@ -55,6 +58,13 @@ public class ImageComment extends AppCompatActivity {
         postComment = (TextView)findViewById(R.id.postComment);
         inputcm = (EditText)findViewById(R.id.input_cm);
         commentviewlist = (RecyclerView)findViewById(R.id.comment_recycleview);
+        backtomenu = (CircleImageView)findViewById(R.id.BackToMenu);
+        backtomenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
@@ -104,6 +114,8 @@ public class ImageComment extends AppCompatActivity {
         commentviewlist.setAdapter(firebaseRecyclerAdapter);
     }
 
+
+
     public static class ImageCommentViewHolder extends RecyclerView.ViewHolder{
         View mView;
         public ImageCommentViewHolder(View itemView){
@@ -132,7 +144,7 @@ public class ImageComment extends AppCompatActivity {
 
 
         if(TextUtils.isEmpty(comment)){
-            Toast.makeText(this,"Please Enter Text To Comment..." ,Toast.LENGTH_SHORT).show();
+            FancyToast.makeText(this,"Please Enter Text To Comment...",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
         }else {
             Calendar caldate = Calendar.getInstance();
             SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
@@ -142,7 +154,7 @@ public class ImageComment extends AppCompatActivity {
             SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
             final String CurrentTime = currenttime.format(caltime.getTime());
 
-            final String RandomKey = currentUserID+CurrentDate + CurrentTime;
+            final String RandomKey = CurrentDate + CurrentTime;
 
             HashMap commentMap = new HashMap();
             commentMap.put("Uid",currentUserID);
@@ -155,9 +167,10 @@ public class ImageComment extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(ImageComment.this,"Done Comment..." ,Toast.LENGTH_SHORT).show();
+                                FancyToast.makeText(ImageComment.this,"Done Comment...",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
                             }else {
-                                Toast.makeText(ImageComment.this,"Failed To Comment" ,Toast.LENGTH_SHORT).show();
+                                FancyToast.makeText(ImageComment.this,"Failed To Comment",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
+
                             }
                         }
                     });

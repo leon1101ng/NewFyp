@@ -1,25 +1,20 @@
 package net.leon.myfypproject2.Function;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -29,13 +24,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import net.leon.myfypproject2.Comment.ImageComment;
-import net.leon.myfypproject2.MainActivity;
-import net.leon.myfypproject2.Model.Following;
-import net.leon.myfypproject2.R;
 import net.leon.myfypproject2.Model.UserPostsImage;
+import net.leon.myfypproject2.R;
 import net.leon.myfypproject2.UserInterface.UserInterface;
 import net.leon.myfypproject2.UserInterface.ViewUserProfile;
 
@@ -162,6 +154,7 @@ public class ViewImage extends Fragment {
                         LikePostRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+
                                 if(CheckLike.equals(true)){
                                     if(dataSnapshot.child(postkey).hasChild(current_UserID)){
                                         LikePostRef.child(postkey).child(current_UserID).removeValue();

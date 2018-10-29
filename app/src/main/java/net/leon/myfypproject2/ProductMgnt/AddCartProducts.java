@@ -1,16 +1,14 @@
 package net.leon.myfypproject2.ProductMgnt;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,8 +18,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.R;
 
@@ -34,14 +32,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddCartProducts extends AppCompatActivity {
 
-    private DatabaseReference ProductsViewRef,AddCartRef ;
+    private DatabaseReference ProductsViewRef,AddCartRef,ProductsRatingRef ;
     private static final String TAG = "AddCartProducts";
     private FirebaseAuth mAuth;
     private String current_UserID,postKey,CurrentDate,CurrentTime,Postrandomname;
     private TextView productname,productprice,productcategory,productquantity,username,productdesc,mTitle;
     private ImageView productimage;
-    private CircleImageView productuser,back,addcart;
-    private int mCountAddcart=0,totalcart;
+    private CircleImageView productuser,back,addcart,chooseseat;
+    private int mCountAddcart=0,totalcart=0;
+    private float ratingStar;
+    private RatingBar mRating;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,14 @@ public class AddCartProducts extends AppCompatActivity {
         productdesc = (TextView)findViewById(R.id.ProductDescDetail);
         productimage = (ImageView)findViewById(R.id.ProductImageDetail);
         productuser = (CircleImageView)findViewById(R.id.ProductUserImage);
+        chooseseat = (CircleImageView)findViewById(R.id.Choose_Seats);
+        chooseseat.setVisibility(View.INVISIBLE);
+        mRating = (RatingBar)findViewById(R.id.ProductRatingView);
+
+
+
+
+
         back = (CircleImageView)findViewById(R.id.BackToMenu);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,35 +76,53 @@ public class AddCartProducts extends AppCompatActivity {
 
         postKey = getIntent().getExtras().get("PostKey").toString();
         mAuth = FirebaseAuth.getInstance();
+
+        chooseseat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(AddCartProducts.this, ConcertTicket.class);
+                i.putExtra("PostKey", postKey);
+                startActivity(i);
+            }
+        });
         current_UserID = mAuth.getCurrentUser().getUid();
         ProductsViewRef = FirebaseDatabase.getInstance().getReference().child("Products").child(postKey);
         AddCartRef = FirebaseDatabase.getInstance().getReference().child("Cart").child(current_UserID);
-        getCartCount();
+        ProductsRatingRef = FirebaseDatabase.getInstance().getReference().child("ProductRating").child(postKey);
 
-        addcart = (CircleImageView)findViewById(R.id.AddToCart);
-        addcart.setOnClickListener(new View.OnClickListener() {
+        ProductsViewRef.child("Rating").child(current_UserID).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    mRating.setIsIndicator(true);
 
-                StoreCart();
+                }else {
+                    mRating.setIsIndicator(false);
+                    mRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                        @Override
+                        public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                            ratingStar = mRating.getRating();
+                            ProductsViewRef.child("Rating").child(current_UserID).child("Rating").setValue(ratingStar).toString();
+                            FancyToast.makeText(AddCartProducts.this,"You Have Rate This Products " + ratingStar,FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
-
-        
-
-
-    }
-    private void getCartCount(){
-        AddCartRef.addValueEventListener(new ValueEventListener() {
+        ProductsViewRef.child("Rating").child(current_UserID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
-                    Log.d(TAG, "onDataChange: found following user:" + singleSnapshot.getValue());
-                    mCountAddcart++;
+                if(dataSnapshot.exists()){
+                    int userrating = dataSnapshot.child("Rating").getValue(Integer.class);
+                    FancyToast.makeText(AddCartProducts.this,"You Have Rate This Products " + userrating +" Star",FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
                 }
 
-                totalcart = mCountAddcart;
 
 
             }
@@ -105,98 +132,178 @@ public class AddCartProducts extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void StoreCart() {
-        if(totalcart < 5 ) {
-            ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        String productquantt = dataSnapshot.child("ProductsQuantity").getValue().toString();
-                        int prdqtt = Integer.parseInt(productquantt);
-
-                        if (prdqtt != 0) {
-                            final int cartno = 1;
-                            Calendar caldate = Calendar.getInstance();
-                            SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
-                            CurrentDate = currentdate.format(caldate.getTime());
-
-                            Calendar caltime = Calendar.getInstance();
-                            SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
-                            CurrentTime = currenttime.format(caltime.getTime());
-                            Random rand = new Random();
-
-                            int n = rand.nextInt(50) + 1;
-                            Postrandomname = CurrentDate + CurrentTime + n;
-                            ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.exists()) {
-                                        String prdid = dataSnapshot.child("ProductsID").getValue().toString();
-                                        String prdprice = dataSnapshot.child("ProductsPrice").getValue().toString();
-                                        int prdprice1 = Integer.parseInt(prdprice);
-                                        String prdimage = dataSnapshot.child("ProductsImage").getValue().toString();
-                                        String prdname = dataSnapshot.child("ProductsName").getValue().toString();
-                                        String prdqt = dataSnapshot.child("ProductsQuantity").getValue().toString();
-                                        int prdqt1 = Integer.parseInt(prdqt);
-                                        int newquantity = prdqt1 - 1;
-                                        HashMap cart = new HashMap();
-                                        cart.put("ProductID", prdid);
-                                        cart.put("ProductName", prdname);
-                                        cart.put("ProductImage", prdimage);
-                                        cart.put("ProductQuantity", cartno);
-                                        cart.put("ProductPrice", prdprice1);
-                                        AddCartRef.child(Postrandomname).updateChildren(cart)
-                                                .addOnCompleteListener(new OnCompleteListener() {
-
-                                                    @Override
-                                                    public void onComplete(@NonNull Task task) {
-
-                                                        if (task.isSuccessful()) {
-
-
-                                                            Toast.makeText(AddCartProducts.this, "Products Has Been Add To Cart ", Toast.LENGTH_SHORT).show();
-
-                                                        } else {
-
-                                                            String message = task.getException().getMessage();
-                                                            Toast.makeText(AddCartProducts.this, "Failed To Add Cart Products " + message, Toast.LENGTH_SHORT).show();
-
-
-                                                        }
-                                                    }
-                                                });
-                                        ProductsViewRef.child("ProductsQuantity").setValue(newquantity);
 
 
 
-                                    }
 
-                                }
+        ProductsViewRef.child("Rating").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int total = 0,
+                count = 0;
+                for (DataSnapshot dataSnapshot1: dataSnapshot.getChildren()) {
+                    int rating = dataSnapshot1.child("Rating").getValue(Integer.class);
+                    count = count + 1;
+                    total = (total + rating )/count;
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+                }
+                mRating.setRating(total);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                throw databaseError.toException(); // don't ignore errors
+            }
+        });
 
-                                }
-                            });
 
-                        } else {
-                            Toast.makeText(AddCartProducts.this, "The Products Is Out Of Stocks", Toast.LENGTH_SHORT).show();
+
+        addcart = (CircleImageView)findViewById(R.id.AddToCart);
+        addcart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            String ProductsUserID = dataSnapshot.child("ProductsUserID").getValue().toString();
+                            if(ProductsUserID.equals(current_UserID)){
+                                FancyToast.makeText(AddCartProducts.this,"You Cant Add Cart Your Own Item ",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
+
+                            }else {
+
+                                StoreCart();
+                            }
+
                         }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
                     }
+                });
+
+
+            }
+        });
+
+
+        
+
+
+    }
+    private void StoreCart() {
+
+        AddCartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    mCountAddcart = (int) dataSnapshot.getChildrenCount();
+
+                }else {
+                    mCountAddcart=0;
                 }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                if(mCountAddcart < 1){
+                    ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                String productquantt = dataSnapshot.child("ProductsQuantity").getValue().toString();
+                                int prdqtt = Integer.parseInt(productquantt);
+
+                                if (prdqtt != 0) {
+                                    final int cartno = 1;
+                                    Calendar caldate = Calendar.getInstance();
+                                    SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
+                                    CurrentDate = currentdate.format(caldate.getTime());
+
+                                    Calendar caltime = Calendar.getInstance();
+                                    SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
+                                    CurrentTime = currenttime.format(caltime.getTime());
+                                    Random rand = new Random();
+
+                                    int n = rand.nextInt(50) + 1;
+                                    Postrandomname = CurrentDate + CurrentTime + n;
+
+                                    ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
+                                                String prdid = dataSnapshot.child("ProductsID").getValue().toString();
+                                                String prdprice = dataSnapshot.child("ProductsPrice").getValue().toString();
+                                                int prdprice1 = Integer.parseInt(prdprice);
+                                                String prdimage = dataSnapshot.child("ProductsImage").getValue().toString();
+                                                String prdname = dataSnapshot.child("ProductsName").getValue().toString();
+                                                String prdqt = dataSnapshot.child("ProductsQuantity").getValue().toString();
+                                                String prduserid = dataSnapshot.child("ProductsUserID").getValue().toString();
+                                                int prdqt1 = Integer.parseInt(prdqt);
+                                                int newquantity = prdqt1 - 1;
+                                                HashMap cart = new HashMap();
+                                                cart.put("ProductID", prdid);
+                                                cart.put("ProductName", prdname);
+                                                cart.put("ProductImage", prdimage);
+                                                cart.put("ProductQuantity", cartno);
+                                                cart.put("ProductPrice", prdprice1);
+                                                cart.put("ProductsUserID", prduserid);
+                                                AddCartRef.child(Postrandomname).updateChildren(cart)
+                                                        .addOnCompleteListener(new OnCompleteListener() {
+
+                                                            @Override
+                                                            public void onComplete(@NonNull Task task) {
+
+                                                                if (task.isSuccessful()) {
+                                                                    FancyToast.makeText(AddCartProducts.this,"Products Has Been Add To Cart", FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
+
+                                                                } else {
+                                                                    String message = task.getException().getMessage();
+                                                                    FancyToast.makeText(AddCartProducts.this,"Failed To Add Cart Products " + message, FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
+
+
+                                                                }
+                                                            }
+                                                        });
+                                                ProductsViewRef.child("ProductsQuantity").setValue(newquantity);
+
+
+
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                } else {
+                                    FancyToast.makeText(AddCartProducts.this,"The Products Is Out Of Stocks",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                                }
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }else {
+                    FancyToast.makeText(AddCartProducts.this,"This Item Already Add to Your Cart",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
 
                 }
-            });
-        }else {
-            Toast.makeText(AddCartProducts.this, "Only Can Add 5 Item To Cart", Toast.LENGTH_SHORT).show();
-        }
 
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -219,16 +326,21 @@ public class AddCartProducts extends AppCompatActivity {
                     String prduser = dataSnapshot.child("ProductsUser").getValue().toString();
                     String prduserimg = dataSnapshot.child("UserImage").getValue().toString();
 
+                    String ticketcategory = "Ticket";
+                    if(prdcate.equals(ticketcategory)){
+                        chooseseat.setVisibility(View.VISIBLE);
+                    }
+
 
                     mTitle.setText(prdname);
-                    Glide.with(AddCartProducts.this).load(prdimage).into(productimage);
+                    Glide.with(getApplicationContext()).load(prdimage).into(productimage);
                     productcategory.setText(prdcate);
                     productdesc.setText(prddesc);
                     productprice.setText(prdprice);
                     productquantity.setText(prdquantity);
                     username.setText(prduser);
                     productname.setText(prdcate);
-                    Glide.with(AddCartProducts.this).load(prduserimg).into(productuser);
+                    Glide.with(getApplicationContext()).load(prduserimg).into(productuser);
 
                     productimage.setOnClickListener(new View.OnClickListener() {
                         @Override

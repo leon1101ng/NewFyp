@@ -51,7 +51,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/userMessageList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="557dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/appBarLayout"></android.support.v7.widget.RecyclerView>
 
@@ -65,7 +65,7 @@
 
         <EditText
             android:id="@+id/message_text"
-            android:layout_width="340dp"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"

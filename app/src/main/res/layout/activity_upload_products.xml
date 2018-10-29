@@ -101,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="253dp"
+        android:layout_marginBottom="153dp"
         android:background="#ffffff"
         android:ems="10"
         android:hint="Price"
@@ -115,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="203dp"
+        android:layout_marginBottom="108dp"
         android:background="#ffffff"
         android:ems="10"
         android:hint="Products Quantity"
@@ -129,15 +129,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="303dp" />
+        android:layout_marginBottom="209dp" />
 
     <TextView
         android:id="@+id/ProductsCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="288dp"
+        android:layout_marginBottom="243dp"
         android:padding="8dp"
         android:text="Products Category" />
 
@@ -146,8 +146,8 @@
         android:layout_width="351dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="78dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="34dp"
         android:background="@drawable/registerbutton"
         android:text="Upload" />
 

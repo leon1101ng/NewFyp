@@ -1,29 +1,29 @@
 package net.leon.myfypproject2.LiveStream;
 
 import android.content.Intent;
-import android.graphics.Camera;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bambuser.broadcaster.BroadcastPlayer;
 import com.bambuser.broadcaster.PlayerState;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import net.leon.myfypproject2.Comment.LiveComment;
-import net.leon.myfypproject2.Function.ViewImage;
 import net.leon.myfypproject2.MainActivity;
 import net.leon.myfypproject2.R;
 
@@ -31,6 +31,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
@@ -44,7 +47,10 @@ public class PlayStreamVideo extends AppCompatActivity {
     private static final String APPLICATION_ID = "DWIdt8ySJaT8OSdKV3DUdA";
     private static final String API_KEY = "8cyhigsjrj0m6hl9tzxguib2r";
     private String LiveChannelID,liveID;
-    private DatabaseReference LiveStreamref,LiveStreamCommentref;
+    private DatabaseReference LiveStreamref,LiveStreamCommentref,UserRef;
+    private FirebaseAuth mAuth;
+    private String CurrentUser, i, livestreamcomment,CurrentDate,CurrentTime,RandomKey;
+    private long countPosts = 0;
 
 
 
@@ -96,7 +102,20 @@ public class PlayStreamVideo extends AppCompatActivity {
         setContentView(R.layout.activity_play_stream_video);
         postKey1 = getIntent().getExtras().get("PostKey").toString();
         LiveStreamref = FirebaseDatabase.getInstance().getReference().child("LiveStream").child(postKey1);
+        LiveStreamCommentref = FirebaseDatabase.getInstance().getReference().child("LiveStream").child(postKey1).child("comment");
+        UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
         LiveComment = (CircleImageView)findViewById(R.id.LiveComment);
+        mAuth = FirebaseAuth.getInstance();
+        CurrentUser = mAuth.getCurrentUser().getUid();
+
+        Calendar caldate = Calendar.getInstance();
+        SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
+        CurrentDate = currentdate.format(caldate.getTime());
+
+        Calendar caltime = Calendar.getInstance();
+        SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
+        CurrentTime = currenttime.format(caltime.getTime());
+        RandomKey = CurrentTime + CurrentDate ;
         LiveComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,6 +139,24 @@ public class PlayStreamVideo extends AppCompatActivity {
 
             }
         });
+        UserRef.child(CurrentUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    String userName = dataSnapshot.child("username").getValue().toString();
+                    UserJoinStream(userName);
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
 
 
 
@@ -134,10 +171,9 @@ public class PlayStreamVideo extends AppCompatActivity {
         Closelive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LiveStreamCommentref = FirebaseDatabase.getInstance().getReference().child("LiveStream").child(liveID).child("comment");
                 Intent i = new Intent(PlayStreamVideo.this, MainActivity.class);
                 startActivity(i);
-                LiveStreamCommentref.removeValue();
+                FancyToast.makeText(PlayStreamVideo.this,"You Had Left The Live Stream !", FancyToast.LENGTH_LONG,FancyToast.SUCCESS,true).show();
                 finish();
             }
         });
@@ -146,6 +182,49 @@ public class PlayStreamVideo extends AppCompatActivity {
 
 
 
+
+
+
+    }
+
+    private void UserJoinStream(String userName) {
+
+        LiveStreamCommentref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    countPosts = dataSnapshot.getChildrenCount();
+
+                }else {
+                    countPosts = 0;
+
+                }
+                HashMap commentMap = new HashMap();
+                commentMap.put("Uid",CurrentUser);
+                commentMap.put("Comment","Has Join Your Stream");
+                commentMap.put("Date",CurrentDate);
+                commentMap.put("Time",CurrentTime);
+                commentMap.put("Username",userName);
+                commentMap.put("counter", countPosts);
+                LiveStreamCommentref.child(RandomKey).updateChildren(commentMap)
+                        .addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                if(task.isSuccessful()){
+
+                                }else {
+
+                                }
+                            }
+                        });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
 

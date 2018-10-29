@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,10 +36,11 @@ import java.util.HashMap;
 public class LiveComment extends Fragment {
     private DatabaseReference LiveStreamCommentref, UserRef,LiveStreamCommentref1;
     private FirebaseAuth mAuth;
-    private String CurrentUser, i, livestreamcomment;
+    private String CurrentUser, i, livestreamcomment,userName,CurrentDate,CurrentTime,RandomKey;
     private EditText livecomment;
     private TextView PostLiveComment;
     private RecyclerView comment_recycleview;
+    private long countPosts = 0;
 
 
 
@@ -61,6 +61,10 @@ public class LiveComment extends Fragment {
         }
 
         LiveStreamCommentref = FirebaseDatabase.getInstance().getReference().child("LiveStream").child(i).child("comment");
+
+
+
+
         LiveStreamCommentref1 = FirebaseDatabase.getInstance().getReference().child("LiveStream").child("comment");
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
         mAuth = FirebaseAuth.getInstance();
@@ -73,68 +77,97 @@ public class LiveComment extends Fragment {
         linearLayoutManager.setStackFromEnd(false);
         comment_recycleview.setLayoutManager(linearLayoutManager);
 
-        PostLiveComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UserRef.child(CurrentUser).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()){
-                            String userName = dataSnapshot.child("username").getValue().toString();
-
-                            StoreChatComment(userName);
-                            livecomment.setText("");
-                        }
-                    } @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        });
-        return view;
-    }
-
-    private void StoreChatComment(String userName) {
-        livestreamcomment = livecomment.getText().toString();
-
         Calendar caldate = Calendar.getInstance();
         SimpleDateFormat currentdate = new SimpleDateFormat("dd-MMMM-yyyy");
-        final String CurrentDate = currentdate.format(caldate.getTime());
+        CurrentDate = currentdate.format(caldate.getTime());
 
         Calendar caltime = Calendar.getInstance();
         SimpleDateFormat currenttime = new SimpleDateFormat("HH:mm:ss");
-        final String CurrentTime = currenttime.format(caltime.getTime());
+        CurrentTime = currenttime.format(caltime.getTime());
 
-        final String RandomKey = CurrentUser+CurrentDate + CurrentTime;
+        UserRef.child(CurrentUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    userName = dataSnapshot.child("username").getValue().toString();
 
-        HashMap commentMap = new HashMap();
-        commentMap.put("Uid",CurrentUser);
-        commentMap.put("Comment",livestreamcomment);
-        commentMap.put("Date",CurrentDate);
-        commentMap.put("Time",CurrentTime);
-        commentMap.put("Username",userName);
-        LiveStreamCommentref.child(RandomKey).updateChildren(commentMap)
-                .addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if(task.isSuccessful()){
+                }
+            } @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                        }else {
+            }
+        });
 
-                        }
-                    }
-                });
+
+        PostLiveComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StoreChatComment();
+
+            }
+        });
+
+
+        RandomKey = CurrentTime + CurrentDate;
+
+
+
+        return view;
+    }
+
+    private void StoreChatComment() {
+        livestreamcomment = livecomment.getText().toString();
+
+        LiveStreamCommentref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    countPosts = dataSnapshot.getChildrenCount();
+
+                }else {
+                    countPosts = 0;
+
+                }
+                HashMap commentMap = new HashMap();
+                commentMap.put("Uid",CurrentUser);
+                commentMap.put("Comment",livestreamcomment);
+                commentMap.put("Date",CurrentDate);
+                commentMap.put("Time",CurrentTime);
+                commentMap.put("Username",userName);
+                commentMap.put("counter", countPosts);
+                LiveStreamCommentref.child(RandomKey).updateChildren(commentMap)
+                        .addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                if(task.isSuccessful()){
+
+                                }else {
+
+                                }
+                            }
+                        });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        Query Descendsort = LiveStreamCommentref.orderByChild("counter");
         FirebaseRecyclerAdapter<LiveStreamComment,LiveStreamCommentViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<LiveStreamComment, LiveStreamCommentViewHolder>(
                 LiveStreamComment.class,
                 R.layout.livecommentlayout,
                 LiveStreamCommentViewHolder.class,
-                LiveStreamCommentref
+                Descendsort
         ) {
             @Override
             protected void populateViewHolder(LiveStreamCommentViewHolder viewHolder, LiveStreamComment model, int position) {

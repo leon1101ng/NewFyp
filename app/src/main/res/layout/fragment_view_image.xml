@@ -11,14 +11,14 @@
     <RelativeLayout
         android:id="@+id/imagepost_layout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="wrap_content"
+        android:padding="3dp">
 
         <FrameLayout
             android:id="@+id/imagepost_container2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/layer1">
+            >
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/Image_post_list2"

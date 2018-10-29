@@ -1,7 +1,15 @@
 package net.leon.myfypproject2.Model;
 
 public class Cart {
-    private String ProductID,ProductImage,ProductName;
+    private String ProductID,ProductImage,ProductName,ProductsUserID;
+
+    public String getProductsUserID() {
+        return ProductsUserID;
+    }
+
+    public void setProductsUserID(String productsUserID) {
+        ProductsUserID = productsUserID;
+    }
 
     public String getProductID() {
         return ProductID;
@@ -43,10 +51,11 @@ public class Cart {
         ProductQuantity = productQuantity;
     }
 
-    public Cart(String productID, String productImage, String productName, int productPrice, int productQuantity) {
+    public Cart(String productID, String productImage, String productName, String productsUserID, int productPrice, int productQuantity) {
         ProductID = productID;
         ProductImage = productImage;
         ProductName = productName;
+        ProductsUserID = productsUserID;
         ProductPrice = productPrice;
         ProductQuantity = productQuantity;
     }

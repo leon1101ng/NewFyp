@@ -9,7 +9,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/calender-library" />
+            <option value="$PROJECT_DIR$/fancytoastlib" />
+            <option value="$PROJECT_DIR$/grav" />
+            <option value="$PROJECT_DIR$/infinite-cards" />
             <option value="$PROJECT_DIR$/libbambuser" />
+            <option value="$PROJECT_DIR$/library" />
+            <option value="$PROJECT_DIR$/orion-preview-library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

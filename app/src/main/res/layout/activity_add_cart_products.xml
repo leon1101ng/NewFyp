@@ -41,6 +41,14 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/ic_cart1" />
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/Choose_Seats"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_ticket" />
+
 
         </android.support.v7.widget.Toolbar>
 
@@ -66,10 +74,10 @@
                 <ImageView
                     android:id="@+id/ProductImageDetail"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="306dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="40dp" />
+                    android:layout_marginTop="50dp" />
 
 
                 <TextView
@@ -102,7 +110,9 @@
                     android:layout_marginLeft="10dp"
                     android:isIndicator="false"
                     android:numStars="5"
-                    android:rating="5" />
+                    android:stepSize="1"
+
+                     />
 
                 <ImageView
                     android:layout_width="match_parent"
