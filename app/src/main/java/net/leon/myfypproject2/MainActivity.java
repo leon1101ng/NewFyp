@@ -1,6 +1,7 @@
 package net.leon.myfypproject2;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -14,6 +15,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -21,10 +24,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.library.banner.BannerLayout;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +52,8 @@ import net.leon.myfypproject2.Function.ViewProduct;
 import net.leon.myfypproject2.Function.ViewStream;
 import net.leon.myfypproject2.Function.homefragment;
 import net.leon.myfypproject2.LiveStream.CameraActivity;
+import net.leon.myfypproject2.Model.Status;
+import net.leon.myfypproject2.Model.UserClass;
 import net.leon.myfypproject2.ProductMgnt.MyProductsView;
 import net.leon.myfypproject2.ProductMgnt.UserCart;
 import net.leon.myfypproject2.UserAccount.Login;
@@ -53,6 +61,7 @@ import net.leon.myfypproject2.UserAccount.UserSetup;
 import net.leon.myfypproject2.UserInterface.Imagepost;
 import net.leon.myfypproject2.UserInterface.StatusPost;
 import net.leon.myfypproject2.UserInterface.VideoPost;
+import net.leon.myfypproject2.UserInterface.ViewUserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,12 +71,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener   {
     private FirebaseAuth mAuth;
-    private DatabaseReference UsersRef;
+    private DatabaseReference UsersRef, StatusRef,LikePostRef;
+    private RecyclerView AllUserList,AllstatusList;
     private Button ProfileEdit,UserInterface;
     private CircleImageView NavProfileImg;
     private TextView NavProfileUsername,NavProfilename;
     private BottomNavigationView bnv;
     private Dialog myDialog,myDialog2;
+    Boolean CheckLike = false;
 
 
 
@@ -100,6 +111,8 @@ public class MainActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        StatusRef = FirebaseDatabase.getInstance().getReference().child("Post").child("Status_Posts");
+        LikePostRef = FirebaseDatabase.getInstance().getReference().child("StatusLikes");
 
         bnv = (BottomNavigationView) findViewById(R.id.nav_btn);
         bnv.setOnNavigationItemSelectedListener(navlistener);
@@ -115,6 +128,12 @@ public class MainActivity extends AppCompatActivity
         bnv.getMenu().findItem(R.id.stream).setChecked(true);
         myDialog = new Dialog(MainActivity.this);
          myDialog2 = new Dialog(MainActivity.this);
+        AllUserList = (RecyclerView)findViewById(R.id.AllUserList);
+        AllUserList.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        AllUserList.setLayoutManager(linearLayoutManager);
+        Dispaly_All_User();
 
 
 
@@ -132,6 +151,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        AllstatusList = (RecyclerView)findViewById(R.id.AllstatusList);
+        AllstatusList.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        linearLayoutManager1.setReverseLayout(true);
+        linearLayoutManager1.setStackFromEnd(true);
+        AllstatusList.setLayoutManager(linearLayoutManager1);
+        Display_All_Status();
+
 
         UsersRef.child(currentUserID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -142,8 +169,8 @@ public class MainActivity extends AppCompatActivity
                         String name = dataSnapshot.child("Fullname").getValue().toString();
                         NavProfilename.setText(name);
                     }
-                    if(dataSnapshot.hasChild("username")){
-                        String username = dataSnapshot.child("username").getValue().toString();
+                    if(dataSnapshot.hasChild("Type")){
+                        String username = dataSnapshot.child("Type").getValue().toString();
                         NavProfileUsername.setText(username);
                     }
                     if(dataSnapshot.hasChild("ProfilePicture")){
@@ -166,6 +193,200 @@ public class MainActivity extends AppCompatActivity
         
 
 
+    }
+    private void Dispaly_All_User() {
+        FirebaseRecyclerAdapter<UserClass,UserListViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<UserClass,UserListViewHolder>(
+                UserClass.class,
+                R.layout.user_list_layout,
+                UserListViewHolder.class,
+                UsersRef
+        ) {
+            @Override
+            protected void populateViewHolder(UserListViewHolder viewHolder, UserClass model, int position) {
+                final String userid = model.getUserID();
+                viewHolder.setProfilePicture(getApplication(),model.getProfilePicture());
+                viewHolder.setUsername(model.getUsername());
+
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (userid.equals(currentUserID)) {
+                            Intent i = new Intent(MainActivity.this, net.leon.myfypproject2.UserInterface.UserInterface.class);
+                            startActivity(i);
+                        }else {
+                            goViewUserProfile();
+
+                        }
+                    }
+
+                    private void goViewUserProfile() {
+                        Intent i = new Intent(MainActivity.this, ViewUserProfile.class);
+                        i.putExtra("UserID", userid);
+                        startActivity(i);
+                    }
+                });
+            }
+
+        };
+        AllUserList.setAdapter(firebaseRecyclerAdapter);
+
+    }
+
+    public static class UserListViewHolder extends RecyclerView.ViewHolder{
+        View mView;
+        private CircleImageView UserListImage;
+        public UserListViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+            UserListImage = (CircleImageView)mView.findViewById(R.id.UserListImage);
+
+
+        }
+
+        public void setProfilePicture(Context ctx, String profilePicture) {
+            Glide.with(ctx).load(profilePicture).into(UserListImage);
+        }
+
+        public void setUsername(String username){
+            TextView UserListUsername = (TextView)mView.findViewById(R.id.UserListUsername);
+            UserListUsername.setText(username);
+        }
+
+
+    }
+
+
+    private void Display_All_Status() {
+        FirebaseRecyclerAdapter<Status,StatusListViewHolder>firebaseRecyclerAdapter1 = new FirebaseRecyclerAdapter<Status, StatusListViewHolder>(
+                Status.class,
+                R.layout.all_status_post,
+                StatusListViewHolder.class,
+                StatusRef
+
+        ) {
+            @Override
+            protected void populateViewHolder(StatusListViewHolder viewHolder, Status model, int position) {
+                final String postkey = getRef(position).getKey();
+                viewHolder.setFullname(model.getFullname());
+                viewHolder.setLocationStatusView(model.getLocationStatusView());
+                viewHolder.setProfilePicture(getApplication(), model.getProfilePicture());
+                viewHolder.setTimeDate(model.getTimeDate());
+                viewHolder.setStatus(model.getStatus());
+
+                viewHolder.setLikeButtonStatus1(postkey);
+
+                viewHolder.statuslike.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        CheckLike = true;
+
+                        LikePostRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                if(CheckLike.equals(true)){
+                                    if(dataSnapshot.child(postkey).hasChild(currentUserID)){
+                                        LikePostRef.child(postkey).child(currentUserID).removeValue();
+                                        CheckLike = false;
+                                    }else {
+                                        LikePostRef.child(postkey).child(currentUserID).setValue(true);
+                                        CheckLike = false;
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+                });
+
+
+            }
+        };
+        AllstatusList.setAdapter(firebaseRecyclerAdapter1);
+    }
+
+
+    public static class StatusListViewHolder extends RecyclerView.ViewHolder{
+        View mView;
+        public ImageButton statuslike;
+        DatabaseReference LikesRef;
+        int Count_postlikes;
+        private TextView totalno_statuslikes;
+        String currentuserid;
+        public StatusListViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+            currentuserid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            LikesRef = FirebaseDatabase.getInstance().getReference().child("StatusLikes");
+            statuslike = (ImageButton)mView.findViewById(R.id.statuslike);
+            totalno_statuslikes = (TextView)mView.findViewById(R.id.totalno_statuslikes);
+
+        }
+
+        public void setTimeDate(String timeDate) {
+            TextView allstatusposttimedate = (TextView)mView.findViewById(R.id.allstatusposttimedate);
+            allstatusposttimedate.setText(timeDate);
+
+        }
+
+        public void setFullname(String fullname) {
+            TextView allstatuspostusername = (TextView)mView.findViewById(R.id.allstatuspostusername);
+            allstatuspostusername.setText(fullname);
+
+        }
+
+        public void setLocationStatusView(String locationStatusView) {
+            TextView allstatuspostlocation = (TextView)mView.findViewById(R.id.allstatuspostlocation);
+            allstatuspostlocation.setText(locationStatusView);
+
+        }
+
+
+
+        public void setProfilePicture(Context ctx ,String profilePicture) {
+            CircleImageView allstatuspostuserprofile = (CircleImageView)mView.findViewById(R.id.allstatuspostuserprofile);
+            Glide.with(ctx).load(profilePicture).into(allstatuspostuserprofile);
+
+
+        }
+
+
+        public void setStatus(String status) {
+            TextView allstatuspostimagedesp = (TextView)mView.findViewById(R.id.allstatuspostimagedesp);
+            allstatuspostimagedesp.setText(status);
+
+        }
+
+
+        public void setLikeButtonStatus1(String postkey) {
+            LikesRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.child(postkey).hasChild(currentuserid)){
+                        Count_postlikes = (int) dataSnapshot.child(postkey).getChildrenCount();
+                        statuslike.setImageResource(R.drawable.liked);
+                        totalno_statuslikes.setText(Integer.toString(Count_postlikes) + "Likes");
+
+
+                    }else {
+                        Count_postlikes = (int) dataSnapshot.child(postkey).getChildrenCount();
+                        statuslike.setImageResource(R.drawable.like);
+                        totalno_statuslikes.setText(Integer.toString(Count_postlikes) + "Likes");
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+
+                }
+            });
+        }
     }
     public void ShowPopup(MenuItem item){
         ImageView stream,imagepost,videopost,statuspost;
@@ -391,6 +612,7 @@ public class MainActivity extends AppCompatActivity
                             if(usertype.equals(type)){
                                 Intent i = new Intent(MainActivity.this, ManageSchedule.class);
                                 startActivity(i);
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                             }else {
                                 FancyToast.makeText(MainActivity.this,"Only Celebrity Can Manage Schedule",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
                             }
@@ -405,10 +627,8 @@ public class MainActivity extends AppCompatActivity
         }else if(id == R.id.nav_addcart){
             Intent i = new Intent( MainActivity.this , UserCart.class);
             startActivity(i);
-        }
-                else if (id == R.id.nav_vipsubscription){
-            Intent i = new Intent( MainActivity.this , Infinite_card.class);
-            startActivity(i);
+
+
 
         }else if (id == R.id.nav_profile) {
             Intent i = new Intent(MainActivity.this, net.leon.myfypproject2.UserInterface.UserInterface.class);

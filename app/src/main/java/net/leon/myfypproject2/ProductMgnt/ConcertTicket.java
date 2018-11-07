@@ -3,19 +3,17 @@ package net.leon.myfypproject2.ProductMgnt;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import net.leon.myfypproject2.R;
@@ -141,11 +139,7 @@ public class ConcertTicket extends AppCompatActivity {
                                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialogInterface, final int i) {
-                                                FancyToast.makeText(ConcertTicket.this,"Booked Seats", FancyToast.LENGTH_LONG, FancyToast.SUCCESS,true).show();
-                                                                ProductsViewRef.child(i1).child(CurrentUser).setValue(true);
-                                                                ProductsViewRef.child(i1).child("Status").setValue("Booked");
-                                                                ProductsViewRef.child("TicketUser").setValue(CurrentUser);
-                                                CheckLike = false;
+                                                                checkUser1(i1);
                                                             }
                                                         })
                                                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -176,6 +170,35 @@ public class ConcertTicket extends AppCompatActivity {
 
 
 
+            }
+
+            private void checkUser1(String i1) {
+                ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists())
+                        {
+                            String user = dataSnapshot.child("TicketUser").getValue().toString();
+                            if(user.equals(CurrentUser)){
+                                FancyToast.makeText(ConcertTicket.this,"You Only Can Choose 1 Place", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            }
+                        }else {
+                            FancyToast.makeText(ConcertTicket.this, "Booked Seats", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+                            ProductsViewRef.child(i1).child(CurrentUser).setValue(true);
+                            ProductsViewRef.child(i1).child("Status").setValue("Booked");
+                            ProductsViewRef.child("TicketUser").setValue(CurrentUser);
+                            CheckLike = false;
+                        }
+
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
@@ -209,7 +232,7 @@ public class ConcertTicket extends AppCompatActivity {
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, final int i) {
-                                                checkUser(i2);
+                                                checkUser2(i2);
 
 
                                         }
@@ -276,10 +299,7 @@ public class ConcertTicket extends AppCompatActivity {
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, final int i) {
-                                                FancyToast.makeText(ConcertTicket.this,"Booked Seats", FancyToast.LENGTH_LONG, FancyToast.SUCCESS,true).show();
-                                                ProductsViewRef.child(i3).child(CurrentUser).setValue(true);
-                                                ProductsViewRef.child(i3).child("Status").setValue("Booked");
-                                                CheckLike = false;
+                                                checkUser3(i3);
                                             }
                                         })
                                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -310,6 +330,35 @@ public class ConcertTicket extends AppCompatActivity {
 
 
 
+            }
+
+            private void checkUser3(String i3) {
+                ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists())
+                        {
+                            String user = dataSnapshot.child("TicketUser").getValue().toString();
+                            if(user.equals(CurrentUser)){
+                                FancyToast.makeText(ConcertTicket.this,"You Only Can Choose 1 Place", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            }
+                        }else {
+                            FancyToast.makeText(ConcertTicket.this, "Booked Seats", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+                            ProductsViewRef.child(i3).child(CurrentUser).setValue(true);
+                            ProductsViewRef.child(i3).child("Status").setValue("Booked");
+                            ProductsViewRef.child("TicketUser").setValue(CurrentUser);
+                            CheckLike = false;
+                        }
+
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
@@ -344,10 +393,7 @@ public class ConcertTicket extends AppCompatActivity {
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, final int i) {
-                                                FancyToast.makeText(ConcertTicket.this,"Booked Seats", FancyToast.LENGTH_LONG, FancyToast.SUCCESS,true).show();
-                                                ProductsViewRef.child(i4).child(CurrentUser).setValue(true);
-                                                ProductsViewRef.child(i4).child("Status").setValue("Booked");
-                                                CheckLike = false;
+                                               checkUser4(i4);
                                             }
                                         })
                                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -361,6 +407,35 @@ public class ConcertTicket extends AppCompatActivity {
 
                             }
                         }
+                    }
+
+                    private void checkUser4(String i4) {
+                        ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists())
+                                {
+                                    String user = dataSnapshot.child("TicketUser").getValue().toString();
+                                    if(user.equals(CurrentUser)){
+                                        FancyToast.makeText(ConcertTicket.this,"You Only Can Choose 1 Place", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                                    }
+                                }else {
+                                    FancyToast.makeText(ConcertTicket.this, "Booked Seats", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+                                    ProductsViewRef.child(i4).child(CurrentUser).setValue(true);
+                                    ProductsViewRef.child(i4).child("Status").setValue("Booked");
+                                    ProductsViewRef.child("TicketUser").setValue(CurrentUser);
+                                    CheckLike = false;
+                                }
+
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
                     }
 
                     @Override
@@ -412,10 +487,7 @@ public class ConcertTicket extends AppCompatActivity {
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, final int i) {
-                                                FancyToast.makeText(ConcertTicket.this,"Booked Seats", FancyToast.LENGTH_LONG, FancyToast.SUCCESS,true).show();
-                                                ProductsViewRef.child(i5).child(CurrentUser).setValue(true);
-                                                ProductsViewRef.child(i5).child("Status").setValue("Booked");
-                                                CheckLike = false;
+                                                checkUser5(i5);
                                             }
                                         })
                                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -429,6 +501,35 @@ public class ConcertTicket extends AppCompatActivity {
 
                             }
                         }
+                    }
+
+                    private void checkUser5(String i5) {
+                        ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists())
+                                {
+                                    String user = dataSnapshot.child("TicketUser").getValue().toString();
+                                    if(user.equals(CurrentUser)){
+                                        FancyToast.makeText(ConcertTicket.this,"You Only Can Choose 1 Place", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                                    }
+                                }else {
+                                    FancyToast.makeText(ConcertTicket.this, "Booked Seats", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+                                    ProductsViewRef.child(i5).child(CurrentUser).setValue(true);
+                                    ProductsViewRef.child(i5).child("Status").setValue("Booked");
+                                    ProductsViewRef.child("TicketUser").setValue(CurrentUser);
+                                    CheckLike = false;
+                                }
+
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
                     }
 
                     @Override
@@ -453,7 +554,7 @@ public class ConcertTicket extends AppCompatActivity {
 
     }
 
-    private void checkUser(final String i2) {
+    private void checkUser2(final String i2) {
 
         ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -464,19 +565,12 @@ public class ConcertTicket extends AppCompatActivity {
                     if(user.equals(CurrentUser)){
                         FancyToast.makeText(ConcertTicket.this,"You Only Can Choose 1 Place", FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
                     }
-
-
-
-
                 }else {
                     FancyToast.makeText(ConcertTicket.this, "Booked Seats", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
                     ProductsViewRef.child(i2).child(CurrentUser).setValue(true);
                     ProductsViewRef.child(i2).child("Status").setValue("Booked");
                     ProductsViewRef.child("TicketUser").setValue(CurrentUser);
                     CheckLike = false;
-
-
-
                 }
 
 

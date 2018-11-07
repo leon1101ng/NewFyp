@@ -7,25 +7,32 @@
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_width="120dp"
     android:layout_height="190dp"
-    android:layout_margin="2dp"
+
     cardview:cardCornerRadius="4dp"
     >
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="2dp"
-    >
+
+
 
     <ImageView
         android:id="@+id/Image_post"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:background="#2d2d2d"/>
+        android:background="#2d2d2d"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+
+        android:scaleType="centerCrop" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/deleteimage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cancel_button" />
 
 
-</LinearLayout>
+
+
+
 
 </android.support.v7.widget.CardView>

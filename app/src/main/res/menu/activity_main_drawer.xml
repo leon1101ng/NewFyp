@@ -33,10 +33,7 @@
             android:id="@+id/nav_message"
             android:icon="@drawable/ic_conversation"
             android:title="Message" />
-        <item
-            android:id="@+id/nav_vipsubscription"
-            android:icon="@drawable/ic_wallet"
-            android:title="Topup Credit" />
+
 
         <item
             android:id="@+id/nav_addcart"
@@ -48,11 +45,7 @@
             android:id="@+id/nav_uploadproducts"
             android:icon="@drawable/ic_sale1"
             android:title="My Products" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools"
-            />
+
         <item
             android:id="@+id/Logout"
             android:icon="@drawable/ic_exit1"

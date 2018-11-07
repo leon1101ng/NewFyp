@@ -38,6 +38,6 @@
         android:id="@+id/Profilevideo"
         android:checkable="false"
         android:enabled="true"
-        android:icon="@drawable/ic_video_player"
+        android:icon="@drawable/ic_video_player2"
         android:title="Video" />
 </menu>

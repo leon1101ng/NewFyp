@@ -80,9 +80,31 @@ public class AddCartProducts extends AppCompatActivity {
         chooseseat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(AddCartProducts.this, ConcertTicket.class);
-                i.putExtra("PostKey", postKey);
-                startActivity(i);
+
+                ProductsViewRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            String ProductsUserID = dataSnapshot.child("ProductsUserID").getValue().toString();
+                            if(ProductsUserID.equals(current_UserID)){
+                                FancyToast.makeText(AddCartProducts.this,"You Cant Add Cart Your Own Item ",FancyToast.LENGTH_LONG,FancyToast.ERROR,true).show();
+
+                            }else {
+
+                                Intent i = new Intent(AddCartProducts.this, ConcertTicket.class);
+                                i.putExtra("PostKey", postKey);
+                                startActivity(i);
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
         current_UserID = mAuth.getCurrentUser().getUid();

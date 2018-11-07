@@ -22,6 +22,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            // In your application you might want to copy all files in the standard assets folder
+            assets.srcDirs += ['../../assets', '../../License']
+        }
+    }
     buildToolsVersion '27.0.3'
 }
 
@@ -41,6 +47,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:11.8.0'
     implementation 'com.google.firebase:firebase-storage:11.8.0'
     implementation 'com.google.firebase:firebase-messaging:11.8.0'
+    implementation 'com.google.android.gms:play-services-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-core:11.8.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -63,6 +71,14 @@ dependencies {
     implementation 'com.bakerj:infinite-cards:1.0.3'
     implementation project(':infinite-cards')
     implementation project(':calender-library')
+    implementation 'com.github.florent37:hollyviewpager:1.0.1'
+    implementation 'com.github.ksoichiro:android-observablescrollview:1.5.2'
+
+    implementation 'io.github.yavski:fab-speed-dial:1.0.6'
+    implementation project(':abbyy-rtr-sdk-1.0')
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+
+
 }
 
 

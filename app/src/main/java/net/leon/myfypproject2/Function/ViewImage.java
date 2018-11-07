@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import net.leon.myfypproject2.Comment.ImageComment;
 import net.leon.myfypproject2.Model.UserPostsImage;
 import net.leon.myfypproject2.R;
+import net.leon.myfypproject2.UserInterface.ImageDetail;
 import net.leon.myfypproject2.UserInterface.UserInterface;
 import net.leon.myfypproject2.UserInterface.ViewUserProfile;
 
@@ -117,6 +118,16 @@ public class ViewImage extends Fragment {
 
 
                 viewHolder.setLikeButtonStatus(postkey);
+
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(getContext(), ImageDetail.class);
+                        i.putExtra("PostKey", postkey);
+                        startActivity(i);
+
+                    }
+                });
 
                 viewHolder.username.setOnClickListener(new View.OnClickListener() {
                     @Override

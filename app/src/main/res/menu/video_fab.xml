@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/Post_Video"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_video_player3"
+        android:title="Post Video"
+        />
+
+    <item
+        android:id="@+id/Manage_Video"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_video_player4"
+        android:title="Manage Video" />
+    <item
+        android:id="@+id/View_Video"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_video_player2"
+        android:title="View Video" />
+
+</menu>

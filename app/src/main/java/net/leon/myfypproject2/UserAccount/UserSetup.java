@@ -3,10 +3,9 @@ package net.leon.myfypproject2.UserAccount;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.provider.ContactsContract;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -39,14 +38,14 @@ public class UserSetup extends AppCompatActivity {
 
     private EditText setupusernama,setupname,setupcountry;
     private Button setupsubmit;
-    private CircleImageView userprofile;
+    private CircleImageView userprofile, backtomenu;
     private ProgressDialog loadingprofile;
     private Uri ImageUrl;
 
     private FirebaseAuth mAuth;
     private DatabaseReference userref;
     private StorageReference UserImage;
-    String currentUserID;
+    String currentUserID, postKey;
     final static int Gallery_Pick = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +60,13 @@ public class UserSetup extends AppCompatActivity {
         UserImage = FirebaseStorage.getInstance().getReference().child("Profile Images");
         currentUserID = mAuth.getCurrentUser().getUid();
         userref = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+        backtomenu = (CircleImageView)findViewById(R.id.BackToMenu);
+        backtomenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         setupsubmit = (Button)findViewById(R.id.Setupsubmit);
 
         userref.addValueEventListener(new ValueEventListener() {
@@ -189,6 +195,7 @@ public class UserSetup extends AppCompatActivity {
             userMap.put("InAppCredit", Balance);
             userMap.put("Vip", vip);
             userMap.put("UserID",currentUserID);
+            userMap.put("Type",  "User");
             userref.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {

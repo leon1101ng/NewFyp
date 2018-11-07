@@ -1,23 +1,23 @@
 package net.leon.myfypproject2.UserInterface;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -61,6 +61,7 @@ public class VideoPost extends AppCompatActivity {
     private int PLACE_PICKER_REQUEST = 2;
     private ProgressDialog loadingupload;
     private ImageView opencamera,opencameragalley;
+    private Dialog myDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +71,7 @@ public class VideoPost extends AppCompatActivity {
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText("Add Video");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        myDialog = new Dialog(this);
 
         BottomNavigationView vbnv = (BottomNavigationView) findViewById(R.id.Videopost_Nav);
         vbnv.setOnNavigationItemSelectedListener(navlistener);
@@ -114,6 +116,7 @@ public class VideoPost extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.setLooping(true);
+                ChooseWay();
             }
         });
     }
@@ -123,15 +126,36 @@ public class VideoPost extends AppCompatActivity {
             startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
         }
     }
+    private void ChooseWay() {
+        LinearLayout camera,gallery;
+        myDialog.setContentView(R.layout.cameradialogbox);
+        camera = (LinearLayout)myDialog.findViewById(R.id.ChooseCameraLy);
+        gallery = (LinearLayout)myDialog.findViewById(R.id.ChooseLibraryLy);
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakeVideoIntent();
+            }
+        });
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                VideoGallery();
+
+            }
+        });
+
+        myDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        myDialog.show();
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
             switch (item.getItemId()) {
-                case R.id.Tag_People:
-
-                    break;
                 case R.id.Add_location:
                     PickLocation();
 
@@ -265,6 +289,7 @@ public class VideoPost extends AppCompatActivity {
             VideoURI= data.getData();
             videoView.setVideoURI(VideoURI);
             videoView.start();
+            myDialog.dismiss();
         }
 
         if(requestCode == PLACE_PICKER_REQUEST){
@@ -278,6 +303,7 @@ public class VideoPost extends AppCompatActivity {
             Uri videoUri = data.getData();
             videoView.setVideoURI(videoUri);
             videoView.start();
+            myDialog.dismiss();
         }
 
 

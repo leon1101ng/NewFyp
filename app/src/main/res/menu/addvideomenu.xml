@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/Tag_People"
-        android:checkable="false"
-        android:checked="false"
-        android:enabled="true"
-        android:icon="@drawable/ic_tagpeople"
-        android:title="Tag People"
-        />
 
     <item
         android:id="@+id/Add_location"

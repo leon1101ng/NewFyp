@@ -44,8 +44,8 @@ import okhttp3.Response;
 
 public class PlayStreamVideo extends AppCompatActivity {
 
-    private static final String APPLICATION_ID = "DWIdt8ySJaT8OSdKV3DUdA";
-    private static final String API_KEY = "8cyhigsjrj0m6hl9tzxguib2r";
+    private static final String APPLICATION_ID = "J5BMEsr3ahSc5jKWjMjdkA";
+    private static final String API_KEY = "0r5pzvdhgnhagf33zjnqdv11c";
     private String LiveChannelID,liveID;
     private DatabaseReference LiveStreamref,LiveStreamCommentref,UserRef;
     private FirebaseAuth mAuth;

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FAFAFA"
     android:elevation="20dp"
     tools:context=".ProfileFragment.ImagePostFragment">
@@ -10,7 +11,7 @@
     <RelativeLayout
         android:id="@+id/imagepost_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="10dp"
 
         >
@@ -18,13 +19,30 @@
         <FrameLayout
             android:id="@+id/imagepost_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/Image_post_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+
         </FrameLayout>
+
+        <io.github.yavski.fabspeeddial.FabSpeedDial
+            android:id="@+id/fabspeeddial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/imagepost_container"
+            android:layout_alignTop="@+id/imagepost_container"
+            android:layout_gravity="bottom|end"
+            app:fabGravity="bottom_end"
+            app:fabMenu="@menu/image_fab"
+            app:miniFabBackgroundTint="#ffffff"
+            app:miniFabDrawableTint="@color/colorPrimary"
+            app:miniFabTitleTextColor="@color/colorPrimary">
+
+        </io.github.yavski.fabspeeddial.FabSpeedDial>
 
 
     </RelativeLayout>

@@ -15,17 +15,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.library.banner.BannerLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import net.leon.myfypproject2.Comment.ImageComment;
-import net.leon.myfypproject2.LiveStream.CameraActivity;
+import net.leon.myfypproject2.Adapter.WebBannerAdapter;
 import net.leon.myfypproject2.LiveStream.PlayStreamVideo;
 import net.leon.myfypproject2.Model.LiveStream;
 import net.leon.myfypproject2.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +55,15 @@ public class ViewStream extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         CurrentID = mAuth.getCurrentUser().getUid();
        LiveStreamRef = FirebaseDatabase.getInstance().getReference().child("LiveStream");
+
+        BannerLayout recyclerBanner =  inflatedView.findViewById(R.id.recycler1);
+        List<String> list = new ArrayList<>();
+        list.add("http://www.stufftaiwan.com/wp-content/uploads/2018/03/cover-800x475.jpg");
+        list.add("https://startuplatte.com/wp-content/uploads/2016/05/Facebook-Live-Verified-Accounts-1080x663.jpg");
+        list.add("https://cdn2.ettoday.net/images/2274/d2274603.jpg");
+        list.add("https://www.justmcu.mcu.edu.tw/wp-content/uploads/2017/08/%E7%9B%B4%E6%92%AD%E5%BB%A3%E5%91%8A.png");
+        WebBannerAdapter webBannerAdapter=new WebBannerAdapter(getContext(),list);
+        recyclerBanner.setAdapter(webBannerAdapter);
 
         livestreamlist = (RecyclerView)inflatedView.findViewById(R.id.all_stream_list2);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());

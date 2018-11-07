@@ -183,9 +183,25 @@
         <activity
             android:name=".Infinite_card"
             android:theme="@style/AppTheme" />
-        <activity android:name=".CelebritySchedule.ManageSchedule" />
-        <activity android:name=".CelebritySchedule.AddActivitySchedule" />
-        <activity android:name=".CelebritySchedule.ScheduleList"></activity>
+        <activity
+            android:name=".CelebritySchedule.ManageSchedule"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CelebritySchedule.AddActivitySchedule"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CelebritySchedule.ScheduleList"
+            android:screenOrientation="portrait" />
+        <activity android:name=".UserAccount.VerifyCelebrity" />
+        <activity
+            android:name=".UserInterface.ViewImage"
+            android:screenOrientation="portrait" />
+        <activity android:name=".UserInterface.ImageDetail" />
+        <activity
+            android:name=".UserInterface.ViewVideo"
+            android:screenOrientation="portrait" />
+        <activity android:name=".UserInterface.VideoDetail" />
+        <activity android:name=".ProductMgnt.PurchaseHistory"></activity>
     </application>
 
 </manifest>

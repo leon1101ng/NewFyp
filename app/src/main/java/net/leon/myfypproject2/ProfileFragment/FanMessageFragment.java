@@ -78,6 +78,7 @@ public class FanMessageFragment extends Fragment {
                 viewHolder.setDate(model.getDate());
                 viewHolder.setMessage(model.getMessage());
 
+
                 viewHolder.deletebtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -114,6 +115,7 @@ public class FanMessageFragment extends Fragment {
             }
         };
         fanmsglist1.setAdapter(firebaseRecyclerAdapter);
+
     }
 
 

@@ -20,10 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import net.leon.myfypproject2.LiveStream.PlayStreamVideo;
 import net.leon.myfypproject2.Model.ProductsClass;
 import net.leon.myfypproject2.ProductMgnt.AddCartProducts;
-import net.leon.myfypproject2.ProductMgnt.MyProductsView;
 import net.leon.myfypproject2.R;
 
 /**
@@ -87,6 +85,8 @@ public class ViewProduct extends Fragment {
                         Intent i = new Intent(getActivity(), AddCartProducts.class);
                         i.putExtra("PostKey", postkey);
                         startActivity(i);
+
+
                     }
                 });
 

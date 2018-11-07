@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@mipmap/bg_main"
     android:layout_height="match_parent"
     tools:context=".UserAccount.UserSetup">
     <android.support.design.widget.AppBarLayout
@@ -51,7 +52,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="77dp"
-        android:src="@drawable/userprofile" />
+        android:src="@drawable/userprofile"
+        app:civ_border_color="#fff"
+        app:civ_border_width="3dp"/>
 
     <EditText
         android:id="@+id/Setupusername"
@@ -60,7 +63,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="248dp"
-        android:background="@drawable/inputid"
+        android:background="@drawable/layer12"
         android:drawableLeft="@drawable/ic_assignment_black_24dp"
         android:ems="10"
         android:fontFamily="cursive"
@@ -76,7 +79,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="194dp"
-        android:background="@drawable/inputid"
+        android:background="@drawable/layer12"
         android:drawableLeft="@drawable/ic_name"
         android:ems="10"
         android:fontFamily="cursive"
@@ -92,7 +95,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="138dp"
-        android:background="@drawable/inputid"
+        android:background="@drawable/layer12"
         android:drawableLeft="@drawable/ic_country"
         android:ems="10"
         android:fontFamily="cursive"
@@ -109,7 +112,7 @@
         android:layout_alignStart="@+id/Setupcountry"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="81dp"
-        android:background="@drawable/registerbutton"
+        android:background="@drawable/layer15"
         android:text="Submit"
         android:textColor="#000000"/>
 </RelativeLayout>

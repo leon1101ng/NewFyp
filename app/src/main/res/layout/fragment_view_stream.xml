@@ -15,16 +15,27 @@
         android:padding="3dp"
         >
 
-        <FrameLayout
-            android:id="@+id/stream_container2"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.example.library.banner.BannerLayout
+                android:id="@+id/recycler1"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                app:autoPlaying="true"
+                app:centerScale="1.3"
+                app:itemSpace="20"
+                app:moveSpeed="1.8" />
+
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/all_stream_list2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-        </FrameLayout>
+        </LinearLayout>
     </RelativeLayout>
 
 

@@ -1,7 +1,6 @@
 package net.leon.myfypproject2.ProductMgnt;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,9 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import orionpreview.applikeysolutions.animation.BlurAnimation;
-import orionpreview.applikeysolutions.animation.orionpreview.ScaleAnimation;
-import orionpreview.applikeysolutions.animation.orionpreview.TranslationAnimation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +31,9 @@ import net.leon.myfypproject2.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import orionpreview.applikeysolutions.animation.BlurAnimation;
+import orionpreview.applikeysolutions.animation.orionpreview.ScaleAnimation;
+import orionpreview.applikeysolutions.animation.orionpreview.TranslationAnimation;
 
 public class ProductsDetails extends AppCompatActivity {
 
@@ -64,11 +63,9 @@ public class ProductsDetails extends AppCompatActivity {
     private float screenWidth;
     private Bitmap blurredBitmap;
     private FirebaseAuth mAuth;
-    private String CurrentUser,postKey,ProductsImage;
+    private String CurrentUser,postKey,ProductsImage,ProductsImage2,ProductsImage3;
     private DatabaseReference ProductsRef;
     private ImageView backtoMyproduct;
-    private int resID;
-    private Context context;
     private Dialog myDialog2;
 
     @Override
@@ -82,6 +79,7 @@ public class ProductsDetails extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
 
         myDialog2 = new Dialog(ProductsDetails.this);
 
@@ -98,9 +96,10 @@ public class ProductsDetails extends AppCompatActivity {
                     String productscategory = dataSnapshot.child("ProductCategorys").getValue().toString();
                     String ProductsName = dataSnapshot.child("ProductsName").getValue().toString();
                     ProductsImage = dataSnapshot.child("ProductsImage").getValue().toString();
+                    ProductsImage2 = dataSnapshot.child("ProductsImage2").getValue().toString();
+                    ProductsImage3 = dataSnapshot.child("ProductsImage3").getValue().toString();
                     Picasso.get().load(ProductsImage).placeholder(R.drawable.sample_background).into(imgBackground);
 
-                    resID = getResources().getIdentifier(ProductsImage , "drawable-nodpi", getPackageName());
                     int productsPrice = dataSnapshot.child("ProductsPrice").getValue(Integer.class);
                     int ProductsQuantity = dataSnapshot.child("ProductsQuantity").getValue(Integer.class);
                     tvProductTitle.setText(ProductsName);
@@ -188,7 +187,6 @@ public class ProductsDetails extends AppCompatActivity {
     private void initAnimation() {
 
 
-
         tvProductTitle.post(() -> {
             increaseAnimationImage = new ScaleAnimation.ScaleAnimationBuilder(imgBackground, 1.5f, 1.5f).build();
             increaseAnimationText = new ScaleAnimation.ScaleAnimationBuilder(tvProductTitle, 2.25f, 2.25f).build();
@@ -215,7 +213,7 @@ public class ProductsDetails extends AppCompatActivity {
 
             blurAnimation = new BlurAnimation.BlurAnimationBuilder(0.4f, 7f).build();
 
-            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sample_background );
+            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sample_background);
             blurredBitmap = blurAnimation.blur(ProductsDetails.this, originalBitmap);
         });
     }

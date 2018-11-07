@@ -1,30 +1,21 @@
 package net.leon.myfypproject2.ProfileFragment;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenu;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
-import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -33,8 +24,12 @@ import com.google.firebase.database.Query;
 
 import net.leon.myfypproject2.Model.Video;
 import net.leon.myfypproject2.R;
-import net.leon.myfypproject2.UserInterface.StatusPost;
+import net.leon.myfypproject2.UserInterface.VideoDetail;
 import net.leon.myfypproject2.UserInterface.VideoPost;
+import net.leon.myfypproject2.UserInterface.ViewVideo;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import io.github.yavski.fabspeeddial.FabSpeedDial;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +39,7 @@ public class VideoFragment extends Fragment {
     private DatabaseReference VideoPostRef;
     private FirebaseAuth mAuth;
     private String current_UserID;
-    private VideoView video;
+    private FabSpeedDial fabSpeedDial;
 
     public VideoFragment() {
         // Required empty public constructor
@@ -65,6 +60,44 @@ public class VideoFragment extends Fragment {
         VideoPostRef = FirebaseDatabase.getInstance().getReference().child("Post").child("Video_Posts");
 
         View view = inflater.inflate(R.layout.fragment_video, container, false);
+
+        fabSpeedDial = (FabSpeedDial)view.findViewById(R.id.fabspeeddial1);
+        fabSpeedDial.setMenuListener(new FabSpeedDial.MenuListener() {
+            @Override
+            public boolean onPrepareMenu(NavigationMenu navigationMenu) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                int id = menuItem.getItemId();
+
+                if(id == R.id.Post_Video){
+                    Intent i = new Intent(getContext(), VideoPost.class);
+                    startActivity(i);
+
+                }else if (id == R.id.Manage_Video){
+                    String t = "1";
+                    Intent i = new Intent(getContext(), ViewVideo.class);
+                    i.putExtra("1", t);
+                    startActivity(i);
+
+                }else if (id == R.id.View_Video){
+                    String t = "2";
+                    Intent i = new Intent(getContext(), ViewVideo.class);
+                    i.putExtra("1", t);
+                    startActivity(i);
+
+                }
+                return true;
+
+            }
+
+            @Override
+            public void onMenuClosed() {
+
+            }
+        });
 
         videopostlist = (RecyclerView)view.findViewById(R.id.video_post_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -89,8 +122,18 @@ public class VideoFragment extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(VideoPostHolder viewHolder, Video model, int position) {
+                final String postkey = getRef(position).getKey();
                 Uri uri = Uri.parse(model.getVideoUrl());
                 viewHolder.setpostvideo(String.valueOf(uri));
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(getContext(), VideoDetail.class);
+                        i.putExtra("PostKey", postkey);
+                        startActivity(i);
+
+                    }
+                });
 
 
             }
@@ -98,13 +141,20 @@ public class VideoFragment extends Fragment {
         videopostlist.setAdapter(firebaseRecyclerAdapter);
     }
     public static class VideoPostHolder extends RecyclerView.ViewHolder{
-        View mView;
+        public View mView;
         private VideoView video;
+        public CircleImageView deletevideo;
+        public MediaController mediaC;
         public VideoPostHolder(View itemView){
             super(itemView);
             mView = itemView;
+            mediaC = new MediaController(mView.getContext());
             video = (VideoView)mView.findViewById(R.id.MyVideolist);
+            video.setMediaController(mediaC);
             video.start();
+
+            deletevideo = (CircleImageView)mView.findViewById(R.id.deletevideo);
+            deletevideo.setVisibility(View.INVISIBLE);
 
             video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -138,31 +188,6 @@ public class VideoFragment extends Fragment {
         getActivity().setTitle("");
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.addvideofragmenu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-
-        Drawable drawable = menu.findItem(R.id.add_video).getIcon();
-        if (drawable != null) {
-            drawable.mutate();
-            drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-        }
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.add_video:
-                Intent addimge = new Intent(getContext(), VideoPost.class);
-                startActivity(addimge);
-
-                return true;
-
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
 }

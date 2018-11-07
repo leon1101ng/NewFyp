@@ -1,2 +1,2 @@
-include ':app', ':library', ':fancytoastlib', ':orion-preview-library', ':infinite-cards', ':grav', ':calender-library'
+include ':app', ':library', ':fancytoastlib', ':orion-preview-library', ':infinite-cards', ':calender-library', ':abbyy-rtr-sdk-1.0'
 include ':libbambuser'

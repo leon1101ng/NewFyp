@@ -1,15 +1,14 @@
 package net.leon.myfypproject2.Event;
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -34,8 +33,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import net.leon.myfypproject2.FanClub.CreateClub;
-import net.leon.myfypproject2.Model.Event;
 import net.leon.myfypproject2.R;
 
 import java.text.SimpleDateFormat;
@@ -242,14 +239,14 @@ public class CreateEvent extends AppCompatActivity {
             case R.id.freeevent:
                 if(checked)
                     eventprice.setVisibility(View.INVISIBLE);
-                eventpricely.setVisibility(View.INVISIBLE);
-                paymentV = "Free";
+                    eventpricely.setVisibility(View.INVISIBLE);
+                    paymentV = "Free";
                 break;
             case R.id.paidevent:
                 if(checked)
                     eventprice.setVisibility(View.VISIBLE);
-                eventpricely.setVisibility(View.VISIBLE);
-                paymentV = "Paid";
+                    eventpricely.setVisibility(View.VISIBLE);
+                    paymentV = "Paid";
                 break;
 
         }

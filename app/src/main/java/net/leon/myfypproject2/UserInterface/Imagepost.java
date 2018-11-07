@@ -1,24 +1,22 @@
 package net.leon.myfypproject2.UserInterface;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -37,13 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-import net.leon.myfypproject2.MainActivity;
-import net.leon.myfypproject2.ProfileFragment.BioFragment;
-import net.leon.myfypproject2.ProfileFragment.ImagePostFragment;
-import net.leon.myfypproject2.ProfileFragment.PostFragment;
-import net.leon.myfypproject2.ProfileFragment.VideoFragment;
 import net.leon.myfypproject2.R;
-import net.leon.myfypproject2.UserAccount.Login;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -68,7 +60,7 @@ public class Imagepost extends AppCompatActivity {
     private String imagecap;
     private int PLACE_PICKER_REQUEST = 2;
     private String location;
-    private ImageView takepicture;
+    private Dialog myDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +73,7 @@ public class Imagepost extends AppCompatActivity {
         current_user_id = mAuth.getCurrentUser().getUid();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         ImagePostRef = FirebaseDatabase.getInstance().getReference().child("Post").child("Image_Posts");
+        myDialog = new Dialog(this);
 
 
         mTitle.setText("Add Image Post");
@@ -90,7 +83,7 @@ public class Imagepost extends AppCompatActivity {
         selectimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PhotoGallery();
+                ChooseWay();
             }
         });
         HomeBtn = (CircleImageView)findViewById(R.id.ImagePOSTHome);
@@ -102,13 +95,32 @@ public class Imagepost extends AppCompatActivity {
         });
         BottomNavigationView bnv = (BottomNavigationView) findViewById(R.id.Imagepost_nav);
         bnv.setOnNavigationItemSelectedListener(navlistener);
-        takepicture = (ImageView)findViewById(R.id.takepicture);
-        takepicture.setOnClickListener(new View.OnClickListener() {
+
+    }
+
+    private void ChooseWay() {
+        LinearLayout camera,gallery;
+        myDialog.setContentView(R.layout.cameradialogbox);
+        camera = (LinearLayout)myDialog.findViewById(R.id.ChooseCameraLy);
+        gallery = (LinearLayout)myDialog.findViewById(R.id.ChooseLibraryLy);
+
+        camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openCameraIntent();
             }
         });
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PhotoGallery();
+
+            }
+        });
+
+        myDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        myDialog.show();
     }
 
     private void PhotoGallery() {
@@ -133,9 +145,6 @@ public class Imagepost extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
             switch (item.getItemId()) {
-                case R.id.Tag_People:
-
-                    break;
                 case R.id.Add_location:
                     PickLocation();
 
@@ -270,6 +279,7 @@ public class Imagepost extends AppCompatActivity {
         if(requestCode==Gallery_Pick && resultCode==RESULT_OK && data!=null){
             uriImage = data.getData();
             selectimage.setImageURI(uriImage);
+            myDialog.dismiss();
         }
 
 
@@ -278,6 +288,7 @@ public class Imagepost extends AppCompatActivity {
             if (data != null && data.getExtras() != null) {
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                 selectimage.setImageBitmap(imageBitmap);
+                myDialog.dismiss();
             }
         }
 

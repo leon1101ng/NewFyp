@@ -3,6 +3,7 @@ package net.leon.myfypproject2.Model;
 public class Event {
     private String Event_Description,Event_EndDate,Event_EndTime,Event_Location,Event_Payment,Event_People,Event_Price,Event_StartDate,Event_StartTime,Event_Title,Username;
 
+
     public Event(){}
 
     public String getEvent_Description() {

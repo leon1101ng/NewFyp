@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
 
 import net.leon.myfypproject2.MainActivity;
@@ -31,7 +32,9 @@ import net.leon.myfypproject2.ProfileFragment.FanMessageFragment;
 import net.leon.myfypproject2.ProfileFragment.ImagePostFragment;
 import net.leon.myfypproject2.ProfileFragment.PostFragment;
 import net.leon.myfypproject2.ProfileFragment.VideoFragment;
+import net.leon.myfypproject2.Purchase_in_app_credit.PurchaseCredit;
 import net.leon.myfypproject2.R;
+import net.leon.myfypproject2.UserAccount.VerifyCelebrity;
 import net.leon.myfypproject2.VipSubscription.VipMenu;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -285,10 +288,12 @@ public class UserInterface extends AppCompatActivity {
 
 
     public void UserPagepopout(MenuItem item) {
-        TextView editprofit,buyvip;
+        TextView editprofit,buyvip,buycredit,verifycelebrity;
         myDialog.setContentView(R.layout.userinterfacedialog);
         editprofit = (TextView)myDialog.findViewById(R.id.editUserProfile);
         buyvip = (TextView)myDialog.findViewById(R.id.userPurchasVip);
+        buycredit = (TextView)myDialog.findViewById(R.id.userTopupCredit);
+        verifycelebrity = (TextView)myDialog.findViewById(R.id.CelebrityVerify);
 
         editprofit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,6 +309,42 @@ public class UserInterface extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        buycredit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(UserInterface.this, PurchaseCredit.class);
+                startActivity(i);
+            }
+        });
+        verifycelebrity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UsersRef.child(currentUser_ID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            String type = dataSnapshot.child("Type").getValue().toString();
+                            if(type.equals("Celebrity")){
+                                FancyToast.makeText(UserInterface.this,"You Are Already Celebrity !",FancyToast.LENGTH_LONG,FancyToast.INFO,true).show();
+                            }else {
+                                Intent i = new Intent(UserInterface.this, VerifyCelebrity.class);
+                                startActivity(i);
+
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
+
+
 
         myDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         myDialog.show();

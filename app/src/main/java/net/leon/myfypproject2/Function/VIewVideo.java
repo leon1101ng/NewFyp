@@ -2,6 +2,7 @@ package net.leon.myfypproject2.Function;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import net.leon.myfypproject2.Model.Video;
 import net.leon.myfypproject2.R;
+import net.leon.myfypproject2.UserInterface.VideoDetail;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -66,11 +68,22 @@ public class VIewVideo extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(VideoPostHolder1 viewHolder, Video model, int position) {
+                final String postkey = getRef(position).getKey();
                 Uri uri = Uri.parse(model.getVideoUrl());
                 viewHolder.setpostvideo(String.valueOf(uri));
                 viewHolder.setUserFullname(model.getUserFullname());
                 viewHolder.setUserPicture(getActivity(), model.getUserPicture());
                 viewHolder.setVideoCaption(model.getVideoCaption());
+
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(getContext(), VideoDetail.class);
+                        i.putExtra("PostKey", postkey);
+                        startActivity(i);
+
+                    }
+                });
 
 
             }

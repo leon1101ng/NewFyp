@@ -39,7 +39,7 @@ import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CameraActivity extends AppCompatActivity {
-    private static final String APPLICATION_ID = "DWIdt8ySJaT8OSdKV3DUdA";
+    private static final String APPLICATION_ID = "J5BMEsr3ahSc5jKWjMjdkA";
     private FirebaseAuth mAuth;
     private DatabaseReference LiveStreamRef,UserRef,LiveStreamRef1,LiveStreamCommentref;
     private String Current_User,postKey;

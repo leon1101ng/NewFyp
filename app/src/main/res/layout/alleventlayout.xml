@@ -32,15 +32,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Capital of Malaysia"/>
-
-            <TextView
-                android:id="@+id/EventTimeView"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#F92D65"
-                android:text="Wednesday, 17 October 2018"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/EventTimeView"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="70dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#F92D65"
+                    android:text="Wednesday, 17 October 2018"/>
+
+                <TextView
+                    android:id="@+id/eventlui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp5"
+                    android:text="Free" />
+
+
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/EventDescView"

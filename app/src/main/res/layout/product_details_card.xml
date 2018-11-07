@@ -37,9 +37,9 @@
                 android:background="@color/colorProductStateBackground"
                 android:fontFamily="sans-serif-light"
                 android:paddingBottom="2dp"
-                android:paddingTop="2dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:paddingTop="2dp"
                 android:text="@string/product_state"
                 android:textColor="@android:color/black"
                 android:textSize="12sp" />

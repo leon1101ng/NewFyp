@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/Post_Image"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_add_image"
+        android:title="Post Image"
+        />
+
+    <item
+        android:id="@+id/Manage_Image"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_image1"
+        android:title="Manage Image" />
+    <item
+        android:id="@+id/View_Image"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_image"
+        android:title="View Image" />
+</menu>
